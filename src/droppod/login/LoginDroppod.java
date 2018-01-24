@@ -7,7 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Properties;
-
+/*This is a test*/
 public class LoginDroppod {
     public static boolean validate(String name, String pass) {        
         boolean status = false;
