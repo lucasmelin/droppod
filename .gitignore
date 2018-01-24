@@ -48,3 +48,10 @@ local.properties
 
 # Code Recommenders
 .recommenders/
+
+build/classes/config\.properties
+src/config\.properties
+
+*.class
+
+WebContent/WEB-INF/lib/mysql-connector-java-5\.1\.45-bin\.jar
