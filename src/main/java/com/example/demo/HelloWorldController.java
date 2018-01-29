@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 @RestController
 public class HelloWorldController {
-
+	DroppodDAO dao = new DroppodDAO();
 	@RequestMapping(path="/hello/{name}",
 			method=RequestMethod.GET,
 			produces=MediaType.APPLICATION_JSON_VALUE)
@@ -21,6 +21,13 @@ public class HelloWorldController {
 		return new ResponseEntity("Hello "+name+"!",HttpStatus.OK);
 	}
 	
+	@RequestMapping(path="/add/{name}/{pass}",
+			method=RequestMethod.GET,
+			produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Object> add(@PathVariable String name, @PathVariable String pass){
+		int response = dao.add(name, pass);
+		return new ResponseEntity(response,HttpStatus.OK);
+	}
 //	@RequestMapping(value="/post",
 //			method=RequestMethod.POST)
 //	public ResponseEntity<Object> post(HttpServletRequest request){
