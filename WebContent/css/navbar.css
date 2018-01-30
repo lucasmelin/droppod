@@ -1,0 +1,8 @@
+
+.bg-mint {
+	background-color: #7eae65; /*Color of navbar*/
+	color: #fff; /*Color of navbar text*/
+}
+.navbar-dark .navbar-toggler {
+	border-color: rgba(255,255,255,.5); /*Color of toggler outline*/
+}
