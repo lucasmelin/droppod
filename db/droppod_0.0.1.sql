@@ -18,14 +18,71 @@ CREATE SCHEMA IF NOT EXISTS `droppod` DEFAULT CHARACTER SET utf8 ;
 USE `droppod` ;
 
 -- -----------------------------------------------------
+-- Table `droppod`.`countries`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `droppod`.`countries` (
+  `id` INT NOT NULL,
+  `name` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `droppod`.`cities`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `droppod`.`cities` (
+  `id` INT NOT NULL,
+  `name` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `droppod`.`languages`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `droppod`.`languages` (
+  `id` INT NOT NULL,
+  `name` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `droppod`.`users`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `droppod`.`users` (
   `id` INT NOT NULL,
   `username` VARCHAR(45) NOT NULL,
   `password` VARCHAR(45) NOT NULL,
+  `email` VARCHAR(45) NOT NULL,
+  `validated` TINYINT NOT NULL,
+  `profile_picture` BLOB NULL,
+  `country_id` INT NULL,
+  `city_id` INT NULL,
+  `language_id` INT NULL,
+  `night_mode_enabled` TINYINT NULL,
+  `active` TINYINT NULL,
+  `account_type_id` INT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `username_UNIQUE` (`username` ASC))
+  UNIQUE INDEX `username_UNIQUE` (`username` ASC),
+  INDEX `country_id_idx` (`country_id` ASC),
+  INDEX `city_id_idx` (`city_id` ASC),
+  INDEX `language_id_idx` (`language_id` ASC),
+  CONSTRAINT `country_id`
+    FOREIGN KEY (`country_id`)
+    REFERENCES `droppod`.`countries` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `city_id`
+    FOREIGN KEY (`city_id`)
+    REFERENCES `droppod`.`cities` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `language_id`
+    FOREIGN KEY (`language_id`)
+    REFERENCES `droppod`.`languages` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
@@ -133,6 +190,54 @@ CREATE TABLE IF NOT EXISTS `droppod`.`podcast_category` (
   CONSTRAINT `category_id`
     FOREIGN KEY (`category_id`)
     REFERENCES `droppod`.`categories` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `droppod`.`subscriptions`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `droppod`.`subscriptions` (
+  `id` INT NOT NULL,
+  `podcast_id` INT NOT NULL,
+  `user_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `podcast_id_idx` (`podcast_id` ASC),
+  INDEX `user_id_idx` (`user_id` ASC),
+  CONSTRAINT `podcast_id`
+    FOREIGN KEY (`podcast_id`)
+    REFERENCES `droppod`.`podcasts` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `user_id`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `droppod`.`users` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `droppod`.`friends`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `droppod`.`friends` (
+  `id` INT NOT NULL,
+  `user1_id` INT NOT NULL,
+  `user2_id` INT NOT NULL,
+  `user1_accepted` TINYINT NULL,
+  `user2_accepted` TINYINT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `user1_id_idx` (`user1_id` ASC),
+  INDEX `user2_id_idx` (`user2_id` ASC),
+  CONSTRAINT `user1_id`
+    FOREIGN KEY (`user1_id`)
+    REFERENCES `droppod`.`users` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `user2_id`
+    FOREIGN KEY (`user2_id`)
+    REFERENCES `droppod`.`users` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
