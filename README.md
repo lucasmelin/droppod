@@ -1,2 +1,2 @@
 # droppod
-A podcasting application built in JavaEE
+A podcasting application built in JavaEE.
