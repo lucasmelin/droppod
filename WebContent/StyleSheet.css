@@ -179,7 +179,7 @@ img {
 	 position: fixed;
 }
  input[name=search] {
- 	background-image: url('search.png');
+ 	background-image: url('./Assets/search.png');
     background-position: left;
     background-repeat: no-repeat;
  	background-position: 10px;
