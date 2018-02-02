@@ -13,6 +13,8 @@
 	<h4>
 		Hello,
 		<%=session.getAttribute("name")%></h4>
+		
+		<a href="/addPodcast">Add a Podcast</a>
 
 	<div class="album-art">
 		<img
