@@ -57,6 +57,6 @@ src/config\.properties
 WebContent/WEB-INF/lib/mysql-connector-java-5\.1\.45-bin\.jar
 
 # Local gradle files
-\.gradle
+.gradle
 
 build/libs/
