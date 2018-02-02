@@ -1,9 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
+<c:set var="language" value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}" scope="session" />
+
+<fmt:setLocale value="${language}" />
+<fmt:bundle basename="app">
+<html lang="${language}">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Welcome <%=session.getAttribute("name")%></title>
+<title><fmt:message key="welcome"/> <%=session.getAttribute("name")%></title>
 <link rel='stylesheet prefetch'
 	href='http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css'>
 <link rel="stylesheet" href="css/style.css">
@@ -11,10 +19,10 @@
 <body>
 	<h3>Login successful!!!</h3>
 	<h4>
-		Hello,
+		<fmt:message key="hello"/>,
 		<%=session.getAttribute("name")%></h4>
 		
-		<a href="/addPodcast">Add a Podcast</a>
+		<a href="./addPodcast"><fmt:message key="addpodcast"/></a>
 
 	<div class="album-art">
 		<img
@@ -53,4 +61,5 @@
 	src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
 <script src="js/welcome.js"></script>
 </body>
+</fmt:bundle>
 </html>

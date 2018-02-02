@@ -7,10 +7,13 @@
         <servlet-name>login</servlet-name>
         <servlet-class>droppod.servlets.LoginServlet</servlet-class>
     </servlet>
-    
     <servlet>
         <servlet-name>addPodcast</servlet-name>
         <servlet-class>droppod.servlets.AddPodcastServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>setLanguage</servlet-name>
+        <servlet-class>droppod.servlets.SetLanguageServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -21,6 +24,11 @@
     <servlet-mapping>
     	<servlet-name>addPodcast</servlet-name>
         <url-pattern>/addPodcastServlet</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+    	<servlet-name>setLanguage</servlet-name>
+        <url-pattern>/setLanguageServlet</url-pattern>
     </servlet-mapping>
 
     <welcome-file-list>
