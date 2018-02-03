@@ -68,17 +68,17 @@ CREATE TABLE IF NOT EXISTS `droppod`.`users` (
   INDEX `country_id_idx` (`country_id` ASC),
   INDEX `city_id_idx` (`city_id` ASC),
   INDEX `language_id_idx` (`language_id` ASC),
-  CONSTRAINT `country_id`
+  CONSTRAINT `fk_users_countries_country_id`
     FOREIGN KEY (`country_id`)
     REFERENCES `droppod`.`countries` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `city_id`
+  CONSTRAINT `fk_users_cities_city_id`
     FOREIGN KEY (`city_id`)
     REFERENCES `droppod`.`cities` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `language_id`
+  CONSTRAINT `fk_users_languages_language_id`
     FOREIGN KEY (`language_id`)
     REFERENCES `droppod`.`languages` (`id`)
     ON DELETE NO ACTION
@@ -116,7 +116,7 @@ CREATE TABLE IF NOT EXISTS `droppod`.`episodes` (
   `network_id` INT NULL,
   PRIMARY KEY (`id`),
   INDEX `podcast_id_idx` (`podcast_id` ASC),
-  CONSTRAINT `podcast_id`
+  CONSTRAINT `fk_episodes_podcasts_podcast_id`
     FOREIGN KEY (`podcast_id`)
     REFERENCES `droppod`.`podcasts` (`id`)
     ON DELETE NO ACTION
@@ -133,7 +133,7 @@ CREATE TABLE IF NOT EXISTS `droppod`.`playlists` (
   `name` VARCHAR(45) NULL,
   PRIMARY KEY (`id`),
   INDEX `user_id_idx` (`user_id` ASC),
-  CONSTRAINT `user_id`
+  CONSTRAINT `fk_playlists_users_user_id`
     FOREIGN KEY (`user_id`)
     REFERENCES `droppod`.`users` (`id`)
     ON DELETE NO ACTION
@@ -142,21 +142,21 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `droppod`.`playlists_epsiodes`
+-- Table `droppod`.`playlist_episodes`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `droppod`.`playlists_epsiodes` (
+CREATE TABLE IF NOT EXISTS `droppod`.`playlist_episodes` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `episode_id` INT NULL,
   `playlist_id` INT NULL,
   PRIMARY KEY (`id`),
   INDEX `episode_id_idx` (`episode_id` ASC),
   INDEX `playlist_id_idx` (`playlist_id` ASC),
-  CONSTRAINT `episode_id`
+  CONSTRAINT `fk_playlist_episodes_episodes_episode_id`
     FOREIGN KEY (`episode_id`)
     REFERENCES `droppod`.`episodes` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `playlist_id`
+  CONSTRAINT `fk_playlist_episodes_playlists_playlist_id`
     FOREIGN KEY (`playlist_id`)
     REFERENCES `droppod`.`playlists` (`id`)
     ON DELETE NO ACTION
@@ -175,21 +175,21 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `droppod`.`podcast_category`
+-- Table `droppod`.`podcast_categories`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `droppod`.`podcast_category` (
+CREATE TABLE IF NOT EXISTS `droppod`.`podcast_categories` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `podcast_id` INT NOT NULL,
   `category_id` INT NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `podcast_id_idx` (`podcast_id` ASC),
   INDEX `category_id_idx` (`category_id` ASC),
-  CONSTRAINT `podcast_id`
+  CONSTRAINT `fk_podcast_categories_podcasts_podcast_id`
     FOREIGN KEY (`podcast_id`)
     REFERENCES `droppod`.`podcasts` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `category_id`
+  CONSTRAINT `fk_podcast_categories_categories_category_id`
     FOREIGN KEY (`category_id`)
     REFERENCES `droppod`.`categories` (`id`)
     ON DELETE NO ACTION
@@ -207,12 +207,12 @@ CREATE TABLE IF NOT EXISTS `droppod`.`subscriptions` (
   PRIMARY KEY (`id`),
   INDEX `podcast_id_idx` (`podcast_id` ASC),
   INDEX `user_id_idx` (`user_id` ASC),
-  CONSTRAINT `podcast_id`
+  CONSTRAINT `fk_subscriptions_podcasts_podcast_id`
     FOREIGN KEY (`podcast_id`)
     REFERENCES `droppod`.`podcasts` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `user_id`
+  CONSTRAINT `fk_subscriptions_users_user_id`
     FOREIGN KEY (`user_id`)
     REFERENCES `droppod`.`users` (`id`)
     ON DELETE NO ACTION
@@ -232,12 +232,12 @@ CREATE TABLE IF NOT EXISTS `droppod`.`friends` (
   PRIMARY KEY (`id`),
   INDEX `user1_id_idx` (`user1_id` ASC),
   INDEX `user2_id_idx` (`user2_id` ASC),
-  CONSTRAINT `user1_id`
+  CONSTRAINT `fk_friends_users_user1_id`
     FOREIGN KEY (`user1_id`)
     REFERENCES `droppod`.`users` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `user2_id`
+  CONSTRAINT `fk_friends_users_user2_id`
     FOREIGN KEY (`user2_id`)
     REFERENCES `droppod`.`users` (`id`)
     ON DELETE NO ACTION
