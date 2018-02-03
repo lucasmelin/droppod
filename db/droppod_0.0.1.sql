@@ -21,7 +21,7 @@ USE `droppod` ;
 -- Table `droppod`.`countries`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `droppod`.`countries` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
@@ -31,7 +31,7 @@ ENGINE = InnoDB;
 -- Table `droppod`.`cities`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `droppod`.`cities` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
@@ -41,7 +41,7 @@ ENGINE = InnoDB;
 -- Table `droppod`.`languages`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `droppod`.`languages` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
@@ -51,7 +51,7 @@ ENGINE = InnoDB;
 -- Table `droppod`.`users`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `droppod`.`users` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `username` VARCHAR(45) NOT NULL,
   `password` VARCHAR(45) NOT NULL,
   `email` VARCHAR(45) NOT NULL,
@@ -90,13 +90,15 @@ ENGINE = InnoDB;
 -- Table `droppod`.`podcasts`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `droppod`.`podcasts` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   `description` MEDIUMTEXT NULL,
   `thumbnail` BLOB NULL,
   `url` VARCHAR(45) NOT NULL,
   `rating` INT NULL,
-  PRIMARY KEY (`id`))
+  `uri` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `uri_UNIQUE` (`uri` ASC))
 ENGINE = InnoDB;
 
 
@@ -104,7 +106,7 @@ ENGINE = InnoDB;
 -- Table `droppod`.`episodes`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `droppod`.`episodes` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   `url` VARCHAR(255) NOT NULL,
   `podcast_id` INT NOT NULL,
@@ -126,7 +128,7 @@ ENGINE = InnoDB;
 -- Table `droppod`.`playlists`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `droppod`.`playlists` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `user_id` INT NULL,
   `name` VARCHAR(45) NULL,
   PRIMARY KEY (`id`),
@@ -143,7 +145,7 @@ ENGINE = InnoDB;
 -- Table `droppod`.`playlists_epsiodes`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `droppod`.`playlists_epsiodes` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `episode_id` INT NULL,
   `playlist_id` INT NULL,
   PRIMARY KEY (`id`),
@@ -166,7 +168,7 @@ ENGINE = InnoDB;
 -- Table `droppod`.`categories`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `droppod`.`categories` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
@@ -176,7 +178,7 @@ ENGINE = InnoDB;
 -- Table `droppod`.`podcast_category`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `droppod`.`podcast_category` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `podcast_id` INT NOT NULL,
   `category_id` INT NOT NULL,
   PRIMARY KEY (`id`),
@@ -199,7 +201,7 @@ ENGINE = InnoDB;
 -- Table `droppod`.`subscriptions`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `droppod`.`subscriptions` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `podcast_id` INT NOT NULL,
   `user_id` INT NOT NULL,
   PRIMARY KEY (`id`),
@@ -222,7 +224,7 @@ ENGINE = InnoDB;
 -- Table `droppod`.`friends`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `droppod`.`friends` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `user1_id` INT NOT NULL,
   `user2_id` INT NOT NULL,
   `user1_accepted` TINYINT NULL,
