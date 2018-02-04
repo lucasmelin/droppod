@@ -28,7 +28,7 @@ select name, thumbnail_url, uuid from droppod.podcasts
 
 	<c:forEach var="row" items="${rs.rows}">
 		<div class="image" style="width:130px; height:130px;">
-			<a href="/test2.jsp?${row.uuid}">
+			<a href="${pageContext.request.contextPath}/podcastServlet?uuid=${row.uuid}">
 			<img src="${row.thumbnail_url}" alt="${row.name}" style="width: 100%; height: 100%; border-radius: 3px;">
 			</a>
 		</div>
