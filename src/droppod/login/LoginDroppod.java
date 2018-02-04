@@ -6,7 +6,12 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Properties;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
 
 public class LoginDroppod {
     public static boolean validate(String name, String pass) {        
@@ -25,12 +30,15 @@ public class LoginDroppod {
 			 * therefore, we return false. */
 			return false;
 		}
+        /*
         String url = "jdbc:mysql://localhost:3306/";
         String dbName = "droppod";
         String driver = "com.mysql.jdbc.Driver";
         String userName = prop.getProperty("dbuser");
         String password = prop.getProperty("dbpassword");
+        */
         try {
+            /*
             Class.forName(driver).newInstance();
             conn = DriverManager
                     .getConnection(url + dbName, userName, password);
@@ -42,6 +50,20 @@ public class LoginDroppod {
 
             rs = pst.executeQuery();
             status = rs.next();
+            */
+        	Context envContext = new InitialContext();
+            Context initContext  = (Context)envContext.lookup("java:/comp/env");
+            DataSource ds = (DataSource)initContext.lookup("jdbc/droppod");
+            //DataSource ds = (DataSource)envContext.lookup("java:/comp/env/jdbc/droppod");
+            Connection con = ds.getConnection();
+                         
+            pst = con
+            		.prepareStatement("select * from droppod.users where username=? and password=?");
+            pst.setString(1, name);
+            pst.setString(2, pass);
+            rs = pst.executeQuery();
+            status = rs.next();
+            
 
         } catch (Exception e) {
             System.out.println(e);
