@@ -92,3 +92,13 @@
     }, false);
   }
 })(this);
+
+
+
+$('#thumb').on({
+    'click': function(){
+        $('#droppod-audio').attr('src','http://media.blubrry.com/codingblocks/www.podtrac.com/pts/redirect.mp3/traffic.libsyn.com/codingblocks/coding-blocks-episode-73.mp3').load(function(){
+        	$('#droppod-audio').play();
+        });
+    }
+});

@@ -22,7 +22,12 @@ import com.rometools.rome.io.FeedException;
 import com.rometools.rome.io.SyndFeedInput;
 import com.rometools.rome.io.XmlReader;
 
-
+/**
+ * Parses a given URL to determine if it corresponds to a podcast. If so,
+ * podcast info is parsed and added to the database if it does not yet exist.
+ * @author Lucas
+ *
+ */
 public class AddPodcastServlet extends HttpServlet{
 
     private static final long serialVersionUID = 102831973239L;
@@ -33,8 +38,10 @@ public class AddPodcastServlet extends HttpServlet{
         response.setContentType("text/html");  
         PrintWriter out = response.getWriter();  
         
+        /* Get URL passed in from the form*/
         String podcastUrl = request.getParameter("podcasturl");  
         
+        /* Set the podcast url in the session */
         HttpSession session = request.getSession(false);
         if(session!=null)
         session.setAttribute("podcasturl", podcastUrl);

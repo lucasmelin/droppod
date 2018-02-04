@@ -26,7 +26,7 @@ public class LoginDroppod {
 			return false;
 		}
         String url = "jdbc:mysql://localhost:3306/";
-        String dbName = "form";
+        String dbName = "droppod";
         String driver = "com.mysql.jdbc.Driver";
         String userName = prop.getProperty("dbuser");
         String password = prop.getProperty("dbpassword");
@@ -36,7 +36,7 @@ public class LoginDroppod {
                     .getConnection(url + dbName, userName, password);
 
             pst = conn
-                    .prepareStatement("select * from login where user=? and password=?");
+                    .prepareStatement("select * from users where username=? and password=?");
             pst.setString(1, name);
             pst.setString(2, pass);
 
