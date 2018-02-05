@@ -93,12 +93,11 @@
   }
 })(this);
 
-
-
-$('#thumb').on({
-    'click': function(){
-        $('#droppod-audio').attr('src','http://media.blubrry.com/codingblocks/www.podtrac.com/pts/redirect.mp3/traffic.libsyn.com/codingblocks/coding-blocks-episode-73.mp3').load(function(){
-        	$('#droppod-audio').play();
-        });
-    }
-});
+// Trigger an episode change when the episode play button is clicked
+$('.episode-play-button').on({
+	'click': function(){
+		$('#droppod-audio').attr('src', $(this).val());
+		$('.droppod-play').trigger('click');
+		//$('#droppod-audio').get(0).play();
+	}
+})
