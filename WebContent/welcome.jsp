@@ -17,6 +17,8 @@ select name, thumbnail_url, uuid from droppod.podcasts
 <html lang="${language}">
 <html>
 <head>
+<!-- Bootstrap CSS --> 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> 
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title><fmt:message key="welcome"/> <%=session.getAttribute("name")%></title>
 <link rel='stylesheet prefetch'
@@ -28,14 +30,21 @@ select name, thumbnail_url, uuid from droppod.podcasts
 	<h4>
 		<fmt:message key="hello"/>,
 		<%=session.getAttribute("name")%></h4>
-
-	<c:forEach var="row" items="${rs.rows}">
-		<div class="image" style="width:130px; height:130px;">
+    <div class="container">
+    <div class="row">   
+	<c:forEach var="row" items="${rs.rows}" varStatus="loopStatus">
+	<c:if test="${loopStatus.index % 4 == 0}">
+	</div>
+	<div class="row">
+	</c:if>
+		<div class="image col" style="width:130px; height:100%;">
 			<a href="${pageContext.request.contextPath}/podcastServlet?uuid=${row.uuid}">
 			<img src="${row.thumbnail_url}" alt="${row.name}" style="width: 100%; height: 100%; border-radius: 3px;">
 			</a>
 		</div>
 	</c:forEach>
+	</div>
+	</div>
 	
 	<script
 	src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
