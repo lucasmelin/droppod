@@ -95,6 +95,9 @@ public class AddPodcastServlet extends HttpServlet{
          */
         Connection conn = null;
         PreparedStatement pst = null;
+        PreparedStatement pst2 = null;
+        PreparedStatement pst3 = null;
+        ResultSet rs = null;
         int success = 0;
 
         try {
@@ -113,6 +116,33 @@ public class AddPodcastServlet extends HttpServlet{
             pst.setString(4, podcastUri);
             pst.setString(5, podcastImageLink.toString());
             success = pst.executeUpdate();
+            
+            /* If the podcast was valid, add the episodes */
+            if (success == 1) {
+            	/* Get the podcast_id foreign key and place it in a variable for reuse */
+            	pst3 = con.prepareStatement("SELECT id FROM droppod.podcasts WHERE name=? LIMIT 1");
+            	pst3.setString(1, podcastTitle);
+            	rs = pst3.executeQuery();
+            	/* Advance the cursor */
+            	rs.next();
+            	int podcast_id = rs.getInt("id");
+            	
+            	
+            	/* Loop through each episode and add them to the db */
+            	pst2 = con
+            			.prepareStatement("INSERT INTO droppod.episodes (name, url, podcast_id, description, release_date)" + 
+            					"VALUES	(?, ?, ?, ?, ?)");
+            	
+            	for (SyndEntry ep : episodes) {
+            		pst2.setString(1, ep.getTitle());
+            		pst2.setString(2, ep.getEnclosures().get(0).getUrl());
+            		pst2.setInt(3, podcast_id);
+            		pst2.setString(4, ep.getDescription().getValue());
+            		pst2.setTimestamp(5, new java.sql.Timestamp(ep.getPublishedDate().getTime()));
+            		
+            		pst2.executeUpdate();
+            	}
+            }
 
         } catch (Exception e) {
             System.out.println(e);
