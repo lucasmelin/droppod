@@ -96,6 +96,8 @@
 // Trigger an episode change when the episode play button is clicked
 $('.episode-play-button').on({
 	'click': function(){
+		// Show the player if hidden
+		$('.droppod-player:hidden').show();
 		$('#droppod-audio').attr('src', $(this).val());
 		$('.droppod-play').trigger('click');
 		//$('#droppod-audio').get(0).play();

@@ -17,22 +17,22 @@ import droppod.models.EpisodeModel;
 
 public class ListenDroppod {
     public static List<EpisodeModel> getEpisodes(String uuid) {        
-        boolean status = false;
+
         Connection conn = null;
         PreparedStatement pst = null;
         ResultSet rs = null;
         List<EpisodeModel> rows = new ArrayList<EpisodeModel>();
         
-        String filename = "config.properties";
-        Properties prop = new Properties();
-        try {
-			prop.load(Thread.currentThread().getContextClassLoader().getResourceAsStream(filename));
-		} catch (IOException e1) {
-			e1.printStackTrace();
+        //String filename = "config.properties";
+        //Properties prop = new Properties();
+        //try {
+		//	prop.load(Thread.currentThread().getContextClassLoader().getResourceAsStream(filename));
+		//} catch (IOException e1) {
+		//	e1.printStackTrace();
 			/* Since we cant connnect to the db, we wont be able to authenticate
 			 * therefore, we return false. */
-			return rows;
-		}
+			//return rows;
+		//}
 
         try {
 

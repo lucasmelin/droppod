@@ -29,7 +29,8 @@
 		</div>
 </c:forEach>
 
-	<div class="droppod-player">
+	<!-- Initially defaults to hidden -->
+	<div class="droppod-player" style="display:none;">
 		<div class="droppod-player-controls">
 			<button class="droppod-play">
 				<i class="fa fa-play"></i><span>Play</span>
