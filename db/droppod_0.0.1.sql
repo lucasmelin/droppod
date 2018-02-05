@@ -5,6 +5,13 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
 -- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+-- -----------------------------------------------------
+-- Schema droppod
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
 -- Schema droppod
 -- -----------------------------------------------------
 CREATE SCHEMA IF NOT EXISTS `droppod` DEFAULT CHARACTER SET utf8 ;
@@ -59,7 +66,7 @@ CREATE TABLE IF NOT EXISTS `droppod`.`podcasts` (
   PRIMARY KEY (`id`),
   UNIQUE INDEX `uri_UNIQUE` (`uri` ASC))
 ENGINE = InnoDB
-AUTO_INCREMENT = 3
+AUTO_INCREMENT = 19
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -68,13 +75,14 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `droppod`.`episodes` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(45) NOT NULL,
+  `name` VARCHAR(255) NOT NULL,
   `url` VARCHAR(255) NOT NULL,
   `podcast_id` INT(11) NOT NULL,
   `description` MEDIUMTEXT NULL DEFAULT NULL,
   `thumbnail` BLOB NULL DEFAULT NULL,
   `release_date` DATETIME NULL DEFAULT NULL,
   `network_id` INT(11) NULL DEFAULT NULL,
+  `episode_number` INT(11) NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   INDEX `podcast_id_idx` (`podcast_id` ASC),
   CONSTRAINT `fk_episodes_podcasts_podcast_id`
@@ -83,6 +91,7 @@ CREATE TABLE IF NOT EXISTS `droppod`.`episodes` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
+AUTO_INCREMENT = 120
 DEFAULT CHARACTER SET = utf8;
 
 
