@@ -9,28 +9,33 @@
 <html lang="${language}">
 
 <head>
+<link rel="stylesheet" type="text/css" href="StyleSheet.css" />
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Login Application</title>
 </head>
 <body>
-    <form action="loginServlet" method="post">
-        <fieldset style="width: 300px">
-            <legend> Login to App </legend>
-            <table>
-                <tr>
-                    <td><fmt:message key="userid"/></td>
-                    <td><input type="text" name="username" required="required" /></td>
-                </tr>
-                <tr>
-                    <td><fmt:message key="password"/></td>
-                    <td><input type="password" name="userpass" required="required" /></td>
-                </tr>
-                <tr>
-                    <td><input type="submit" value="<fmt:message key="login"/>" /></td>
-                </tr>
-            </table>
-        </fieldset>
-    </form>
+<img src="./Assets/Logo.png" height="20%" style="display: block; margin-left: auto; margin-right: auto; margin-bottom: 5%; margin-top: 10%;">
+    <div id="sign-in">
+	    <form action="loginServlet" method="post">
+	        <fieldset style="width: 300px">
+	            <legend> Login to DropPod </legend>
+	            <table>
+	                <tr>
+	                    <td><fmt:message key="userid"/></td>
+	                    <td><input type="text" name="username" id="username" required="required" /></td>
+	                </tr>
+	                <tr>
+	                    <td><fmt:message key="password"/></td>
+	                    <td><input type="password" name="password" id="password" required="required" /></td>
+	                </tr>
+	                <tr>
+	                    <td>
+	                    <input type="submit" class="button" style="font-size: 14px; line-height:10px; width: 100%;" value="<fmt:message key="login"/>" /></td>
+	                </tr>
+	            </table>
+	        </fieldset>
+	    </form>
+    </div>
     <form>
     <select id="language" name="language" style="background-color: #003399; color: #f2f2f2" onchange="submit()">
       <option value="en" ${language == 'en' ? 'selected' : ''}>English</option>
