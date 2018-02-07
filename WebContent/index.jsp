@@ -41,8 +41,7 @@
       <option value="en" ${language == 'en' ? 'selected' : ''}>English</option>
       <option value="fr" ${language == 'fr' ? 'selected' : ''}>Francais</option>
     </select>
-</form>
-    
+	</form>
     
 </body>
 </fmt:bundle>

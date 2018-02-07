@@ -30,15 +30,15 @@ public class LoginDroppod {
 			 * therefore, we return false. */
 			return false;
 		}
-        /*
+       
         String url = "jdbc:mysql://localhost:3306/";
         String dbName = "droppod";
         String driver = "com.mysql.jdbc.Driver";
         String userName = prop.getProperty("dbuser");
         String password = prop.getProperty("dbpassword");
-        */
+        
         try {
-            /*
+            
             Class.forName(driver).newInstance();
             conn = DriverManager
                     .getConnection(url + dbName, userName, password);
@@ -50,7 +50,7 @@ public class LoginDroppod {
 
             rs = pst.executeQuery();
             status = rs.next();
-            */
+          
         	Context envContext = new InitialContext();
             Context initContext  = (Context)envContext.lookup("java:/comp/env");
             DataSource ds = (DataSource)initContext.lookup("jdbc/droppod");
