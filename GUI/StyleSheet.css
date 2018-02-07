@@ -16,7 +16,7 @@ h2 {
 }
 
 p {
-	padding: 20px;
+	padding-bottom: 3%;
 }
 
 img {
@@ -158,10 +158,11 @@ img {
 	background-color: #ececec;
 	border-radius: 10px;
 	width: 400px;
-	line-height: 90px;
+	/*line-height: 90px;*/
 	text-align: center;
-	padding-top: 40px;
-	padding-bottom: 30px;
+	padding-top: 2%;
+
+	/*padding-bottom: 30px;*/
 }
 
 .brightness {
@@ -177,8 +178,8 @@ img {
 	 padding-top:10px;
 	 top: 0%;
 	 position: fixed;
-}
- input[type="text"] {
+	 
+	  input[type="text"] {
  	background-image: url('search.png');
     background-position: left;
     background-repeat: no-repeat;
@@ -203,4 +204,5 @@ input[type="text"] {
     -moz-transition: all 0.3s ease 0s;
     -o-transition: all 0.3s ease 0s;
     transition: all 0.3s ease 0s;
+}
 }
