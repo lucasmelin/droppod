@@ -29,9 +29,17 @@
                maxTotal="100" maxIdle="30" maxWaitMillis="10000"
                username="root" password="cst8218" driverClassName="com.mysql.jdbc.Driver"
                url="jdbc:mysql://localhost:3306/javatest"/>
+<<<<<<< HEAD
                
                <ResourceLink name = "jdbc/mydb"
 			               	 global = "jdbc/mydb"
 			               	 type = "javax.sql.DataSource" />
 
 </Context>
+=======
+  <ResourceLink name="jdbc/mydb"
+             global="jdbc/mydb"
+              type="javax.sql.DataSource" />
+
+</Context>
+>>>>>>> 62826ca778ee70ec1f8ded0c7b7aab2d78abc66b

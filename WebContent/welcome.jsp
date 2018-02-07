@@ -1,9 +1,26 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
+<sql:query var="rs" dataSource="jdbc/droppod">
+select name, thumbnail_url, uuid from droppod.podcasts
+</sql:query>
+
+<c:set var="language"
+	value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}"
+	scope="session" />
+
+<fmt:setLocale value="${language}" />
+<fmt:bundle basename="app">
+<html lang="${language}">
 <html>
 <head>
+<!-- Bootstrap CSS --> 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> 
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Welcome <%=session.getAttribute("name")%></title>
+<title><fmt:message key="welcome"/> <%=session.getAttribute("name")%></title>
 <link rel='stylesheet prefetch'
 	href='http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css'>
 <link rel="stylesheet" href="css/style.css">
@@ -11,44 +28,27 @@
 <body>
 	<h3>Login successful!!!</h3>
 	<h4>
-		Hello,
+		<fmt:message key="hello"/>,
 		<%=session.getAttribute("name")%></h4>
-
-	<div class="album-art">
-		<img
-			src="http://static.megaphone.fm/podcasts/05f71746-a825-11e5-aeb5-a7a572df575e/image/uploads_2F1481751087092-ufv8g6eti0741gev-3f91a614fc49c85e19454c0c86b1b753_2FSHOW%2BART.png">
+    <div class="container">
+    <div class="row">   
+	<c:forEach var="row" items="${rs.rows}" varStatus="loopStatus">
+	<c:if test="${loopStatus.index % 4 == 0}">
 	</div>
-
-	<div class="droppod-player">
-		<div class="droppod-player-controls">
-			<button class="droppod-play">
-				<i class="fa fa-play"></i><span>Play</span>
-			</button>
-			<button class="droppod-pause">
-				<i class="fa fa-pause"></i><span>Pause</span>
-			</button>
-			<button class="droppod-rewind">
-				<i class="fa fa-fast-backward"></i><span>Rewind</span>
-			</button>
-			<button class="droppod-fast-forward">
-				<i class="fa fa-fast-forward"></i><span>FastForward</span>
-			</button>
-			<span class="droppod-currenttime droppod-time">00:00</span>
-			<progress class="droppod-progress" value="0"></progress>
-			<span class="droppod-duration droppod-time">00:00</span>
-			<button class="droppod-speed">1x</button>
-			<button class="droppod-mute">
-				<i class="fa fa-volume-up"></i><span>Mute/Unmute</span>
-			</button>
+	<div class="row">
+	</c:if>
+		<div class="image col" style="width:130px; height:100%;">
+			<a href="${pageContext.request.contextPath}/podcastServlet?uuid=${row.uuid}">
+			<img src="${row.thumbnail_url}" alt="${row.name}" style="width: 100%; height: 100%; border-radius: 3px;">
+			</a>
 		</div>
-		<audio src="http://traffic.megaphone.fm/GLT3407800731.mp3"></audio>
-		<a class="droppod-download"
-			href="http://traffic.megaphone.fm/GLT3407800731.mp3" download>Download
-			MP3</a>
+	</c:forEach>
+	</div>
 	</div>
 	
 	<script
 	src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
 <script src="js/welcome.js"></script>
 </body>
+</fmt:bundle>
 </html>
