@@ -32,7 +32,7 @@ public class SignUpServlet extends HttpServlet{
         if(session!=null)
         session.setAttribute("name", n);
 
-        if(UserDao.add(n,p,e)){ 
+        if(p.equals(p2) && UserDao.add(n,p,e)){ 
         	out.print("<p>User was added.</p>");
             RequestDispatcher rd=request.getRequestDispatcher("index.jsp");  
             rd.forward(request,response);  
