@@ -6,12 +6,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
+
 
 public class UserDao {
 public static boolean add(String name, String pass, String email){
-
-boolean status = false;
 Connection conn = null;
+boolean status = false;
 PreparedStatement pst = null;
 ResultSet rs = null;
 
@@ -22,10 +25,15 @@ String userName = "root";
 String password = "Zisvo_5M";
 int a = 0;
 try {
-	Class.forName(driver).newInstance();
-	conn = DriverManager.getConnection(url + dbName, userName, password);
+	
+	Context envContext = new InitialContext();
+    Context initContext  = (Context)envContext.lookup("java:/comp/env");
+    DataSource ds = (DataSource)initContext.lookup("jdbc/droppod");
+    //DataSource ds = (DataSource)envContext.lookup("java:/comp/env/jdbc/droppod");
+    conn = ds.getConnection();
+	
 
-	pst = conn.prepareStatement("insert into users"+"(username,password,email,validated) values"+"(?,?,?,?)");
+	pst = conn.prepareStatement("insert into droppod.users"+"(username,password,email,validated) values"+"(?,?,?,?)");
 	pst.setString(1, name);
 	pst.setString(2, pass);
 	pst.setString(3, email);
