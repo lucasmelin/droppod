@@ -12,17 +12,11 @@ import javax.sql.DataSource;
 
 
 public class UserDao {
-public static boolean add(String name, String pass, String email){
-Connection conn = null;
-boolean status = false;
-PreparedStatement pst = null;
-ResultSet rs = null;
+	public static boolean add(String name, String pass, String email){
+		Connection conn = null;
+		PreparedStatement pst = null;
+		ResultSet rs = null;
 
-String url = "jdbc:mysql://localhost:3306/";
-String dbName = "droppod";
-String driver = "com.mysql.jdbc.Driver";
-String userName = "root";
-String password = "Zisvo_5M";
 int a = 0;
 try {
 	

@@ -32,13 +32,11 @@ public class SignUpServlet extends HttpServlet{
         session.setAttribute("name", n);
 
         if(UserDao.add(n,p,e)){ 
-        	System.out.print("USER WAS ADDED");
         	out.print("<p>User was added.</p>");
             RequestDispatcher rd=request.getRequestDispatcher("index.jsp");  
             rd.forward(request,response);  
         }  
         else{  
-        	System.out.print("USER WASNT ADDED");
             out.print("<p style=\"color:red\">Sorry there was an error processing your request.</p>");  
             RequestDispatcher rd=request.getRequestDispatcher("index.jsp");  
             rd.include(request,response);  
