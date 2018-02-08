@@ -13,8 +13,9 @@
 </head>
 <body>
 <img src="DropPod_Crop.png" height="50%"style="display: block; margin-left: auto; margin-right: auto; margin-bottom: 1%; margin-top: 2%;">
-<form action="signupServlet" method="post">
+	
 	<div id="sign-in">
+		<form action="signupServlet" method="post">
 	        <fieldset style="width: 300px">
 	            <legend>Register an account</legend>
 	            <table>
@@ -34,11 +35,14 @@
 					<td>Repeat Password:</td>
 					<td><input type="password" name="repassword" id="repassword"></td>
 				</tr>
+				<tr>
+				
+				</tr>
 			</table>
 			<br>
-			<td><a href="https://www.google.ca/" class="button" style="font-size: 14px; line-height:10px;">Sign Up</a></td>
-			<br><br>
-		</div>
+			<td><input type="submit" class="button" style="font-size: 14px; line-height:10px; width: 100%;" value="Sign Up" /></td>
+			<br><br>		
 	    </form>
+	    </div>
 </body>
 </html>

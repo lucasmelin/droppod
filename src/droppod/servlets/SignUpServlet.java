@@ -26,6 +26,7 @@ public class SignUpServlet extends HttpServlet{
 		String n=request.getParameter("username");  
         String p=request.getParameter("password");
         String e=request.getParameter("email");
+        String p2=request.getParameter("repassword");
         
         HttpSession session = request.getSession(false);
         if(session!=null)
