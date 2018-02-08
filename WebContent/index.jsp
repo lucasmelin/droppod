@@ -10,21 +10,46 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="css/navbar.css">
 
-    <title>Droppod</title>
+    <title>DropPod</title>
   </head>
   <body>
-	<nav class="navbar navbar-expand-lg navbar-dark bg-mint">
-		<div class="container">
-			<a class="navbar-brand">Droppod</a>
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample07" aria-controls="navbarsExample07" aria-expanded="false" aria-label="Toggle navigation">
-          		<span class="navbar-toggler-icon"></span>
-        	</button>
-		</div>
-		
+	<nav class="navbar navbar-dark bg-mint sticky-top flex-md-nowrap p-0">
+		<a class="navbar-brand col-sm-3 col-md-2 mr-0">DropPod</a>
+    	<input class="form-control form-control-mint w-100" type="text" placeholder="Search" aria-label="Search">
+    	<ul class="navbar-nav px-3">
+	        <li class="nav-item text-nowrap">
+	        	<a class="nav-link" href="#">Sign out</a>
+	        </li>
+    	</ul>
 	</nav>
 
-	<div class="container">
-		
+	<div class="container-fluid">
+		<div class="row no-gutter">
+			<nav class="col-md-2 sidebar">
+				<div class="sidebar-sticky">
+					<ul class="nav flex-column">
+						<li class="nav-item">
+							<a class="nav-link active" href="#">
+								<span data-feather="home"></span>
+								Casts
+							</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#">
+								<span data-feather="home"></span>
+								Following
+							</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#">
+								<span data-feather="home"></span>
+								Popular
+							</a>
+						</li>
+					</ul>
+				</div>
+			</nav>
+		</div>
 	</div>
 	
     <!-- Optional JavaScript -->
@@ -32,33 +57,9 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+    <script>
+      feather.replace()
+    </script>
   </body>
 </html>
-<!--
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Login Application</title>
-</head>
-<body>
-    <form action="loginServlet" method="post">
-        <fieldset style="width: 300px">
-            <legend> Login to App </legend>
-            <table>
-                <tr>
-                    <td>User ID</td>
-                    <td><input type="text" name="username" required="required" /></td>
-                </tr>
-                <tr>
-                    <td>Password</td>
-                    <td><input type="password" name="userpass" required="required" /></td>
-                </tr>
-                <tr>
-                    <td><input type="submit" value="Login" /></td>
-                </tr>
-            </table>
-        </fieldset>
-    </form>
-</body>
-</html>
--->
