@@ -35,7 +35,7 @@ select id, name, description, thumbnail_url from droppod.podcasts
 
 
 	<c:forEach var="row" items="${rs.rows}">
-	<c:if test = "${fn:contains(row.name,'Pop')}">
+	<c:if test = "${fn:contains(row.name, myVar)}">
 
     Name ${row.name}<br />
     Description ${row.description}<br />
