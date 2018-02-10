@@ -12,7 +12,7 @@
 <title>Sign up</title>
 </head>
 <body>
-<img src="DropPod_Crop.png" height="50%"style="display: block; margin-left: auto; margin-right: auto; margin-bottom: 1%; margin-top: 2%;">
+<img src="./Assets/DropPod_Crop.png" height="50%"style="display: block; margin-left: auto; margin-right: auto; margin-bottom: 1%; margin-top: 2%;">
 	
 	<div id="sign-in">
 		<form action="signupServlet" method="post">
@@ -25,7 +25,7 @@
 				</tr>
 				<tr>
 					<td>Email Address:</td>
-					<td><input type="text" name="email" id="email"></td>
+					<td><input type="email" name="email" id="email"></td>
 				</tr>
 				<tr>
 					<td>Password:</td>
