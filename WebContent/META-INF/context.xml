@@ -23,13 +23,11 @@
 	<Resource name="jdbc/droppod" auth="Container" type="javax.sql.DataSource"
 		maxTotal="100" maxIdle="30" maxWaitMillis="10000" username="root"
 		password="cst8218" driverClassName="com.mysql.jdbc.Driver"
-		url="jdbc:mysql://localhost:3306/javatest" />
+		url="jdbc:mysql://localhost:3306/" />
 
 
 	<ResourceLink name="jdbc/mydb" global="jdbc/mydb"
 		type="javax.sql.DataSource" />
 
-<ResourceLink name="jdbc/mydb" global="jdbc/mydb"
-	type="javax.sql.DataSource" />
 
 </Context>
