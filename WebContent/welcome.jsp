@@ -38,8 +38,7 @@ select name, thumbnail_url, uuid from droppod.podcasts
 			class="form-control form-control-mint w-100" type="text"
 			placeholder="Search" aria-label="Search">
 		<ul class="navbar-nav px-3">
-			<li class="nav-item text-nowrap"><a class="nav-link" href="#">Sign
-					out</a></li>
+			<li class="nav-item text-nowrap"><a class="nav-link" href="#"><fmt:message key="welcome.signout" /></a></li>
 		</ul>
 	</nav>
 
@@ -49,16 +48,16 @@ select name, thumbnail_url, uuid from droppod.podcasts
 				<div class="sidebar-sticky">
 					<ul class="nav flex-column">
 						<li class="nav-item"><a class="nav-link" href="#">
-								<span data-feather="home"></span> Signed in as: <%=session.getAttribute("name")%> 
+								<span data-feather="home"></span><fmt:message key="welcome.signedinas" />: <%=session.getAttribute("name")%> 
 						</a></li>
 						<li class="nav-item"><a class="nav-link active" href="#">
-								<span data-feather="home"></span> Casts
+								<span data-feather="home"></span><fmt:message key="welcome.casts" />
 						</a></li>
 						<li class="nav-item"><a class="nav-link" href="#"> <span
-								data-feather="home"></span> Following
+								data-feather="home"></span><fmt:message key="welcome.following" />
 						</a></li>
 						<li class="nav-item"><a class="nav-link" href="#"> <span
-								data-feather="home"></span> Popular
+								data-feather="home"></span><fmt:message key="welcome.popular" />
 						</a></li>
 					</ul>
 				</div>
