@@ -71,27 +71,28 @@
 
 
 	<div class="container">
-
+		<div class="row">
+			<div class="image col-md-4" style="width: 130px; height: 100%;">
+					<img class="img-fluid" src="${podcast.thumbnail_url}" alt="${podcast.name}"
+					style="width: 100%; height: 100%; border-radius: 3px;">
+			</div>
+			<div class="col-md-4">
+			<h1>
+			${podcast.name}
+			</h1>
+			${podcast.description}
+			</div>
+			
+		</div>
 
 		<c:forEach items="${episodes}" var="episodes">
-			<p>
+			<div class="row">
 				<c:out value="${episodes.name}" />
 				<c:out value="${episodes.description}" />
 				<button class="episode-play-button" value="${episodes.url}">PLAY</button>
-
-			</p>
-		</c:forEach>
-
-
-		<c:forEach var="row" items="${rs.rows}">
-			<div class="image" style="width: 130px; height: 130px;">
-				<a
-					href="${pageContext.request.contextPath}/podcastServlet?uuid=${row.uuid}">
-					<img src="${row.thumbnail_url}" alt="${row.name}"
-					style="width: 100%; height: 100%; border-radius: 3px;">
-				</a>
 			</div>
 		</c:forEach>
+
 
 		<!-- Initially defaults to hidden -->
 		<div class="droppod-player" style="display: none;">
