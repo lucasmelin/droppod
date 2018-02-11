@@ -14,7 +14,7 @@ import droppod.login.LoginDroppod;
 
 public class LoginServlet extends HttpServlet{
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 213123L;
 
     public void doPost(HttpServletRequest request, HttpServletResponse response)  
             throws ServletException, IOException {  
@@ -22,8 +22,7 @@ public class LoginServlet extends HttpServlet{
         response.setContentType("text/html");  
         PrintWriter out = response.getWriter();  
         
-        String n=request.getParameter("username");   
-
+        String n=request.getParameter("username");  
         String p=request.getParameter("password"); 
         
         HttpSession session = request.getSession(false);

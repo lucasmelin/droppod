@@ -16,7 +16,7 @@ h2 {
 }
 
 p {
-	padding: 20px;
+	padding-bottom: 3%;
 }
 
 img {
@@ -158,10 +158,11 @@ img {
 	background-color: #ececec;
 	border-radius: 10px;
 	width: 400px;
-	line-height: 90px;
+	/*line-height: 90px;*/
 	text-align: center;
-	padding-top: 40px;
-	padding-bottom: 30px;
+	padding-top: 2%;
+
+	/*padding-bottom: 30px;*/
 }
 
 .brightness {
@@ -177,9 +178,9 @@ img {
 	 padding-top:10px;
 	 top: 0%;
 	 position: fixed;
-}
- input[name=search] {
- 	background-image: url('./Assets/search.png');
+	 
+	  input[type="text"] {
+ 	background-image: url('search.png');
     background-position: left;
     background-repeat: no-repeat;
  	background-position: 10px;
@@ -192,15 +193,16 @@ img {
     margin:3px 80px;
 }
 
-input[name=search]:focus {
+input[type="text"]:focus {
 	width: 55%;
 	outline: none;
     color: #484c51;
 }
 
-input[name=search] {
+input[type="text"] {
     -webkit-transition: all 0.3s ease 0s;
     -moz-transition: all 0.3s ease 0s;
     -o-transition: all 0.3s ease 0s;
     transition: all 0.3s ease 0s;
+}
 }
