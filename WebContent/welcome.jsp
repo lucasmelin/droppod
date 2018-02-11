@@ -48,16 +48,19 @@ select name, thumbnail_url, uuid from droppod.podcasts
 				<div class="sidebar-sticky">
 					<ul class="nav flex-column">
 						<li class="nav-item"><a class="nav-link" href="#">
-								<span data-feather="home"></span><fmt:message key="welcome.signedinas" />: <%=session.getAttribute("name")%> 
+								<span data-feather="user"></span><fmt:message key="welcome.signedinas" />: <%=session.getAttribute("name")%> 
 						</a></li>
 						<li class="nav-item"><a class="nav-link active" href="#">
-								<span data-feather="home"></span><fmt:message key="welcome.casts" />
+								<span data-feather="cast"></span><fmt:message key="welcome.casts" />
 						</a></li>
 						<li class="nav-item"><a class="nav-link" href="#"> <span
-								data-feather="home"></span><fmt:message key="welcome.following" />
+								data-feather="users"></span><fmt:message key="welcome.following" />
 						</a></li>
 						<li class="nav-item"><a class="nav-link" href="#"> <span
-								data-feather="home"></span><fmt:message key="welcome.popular" />
+								data-feather="globe"></span><fmt:message key="welcome.popular" />
+						</a></li>
+						<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/addPodcast.jsp"> <span
+								data-feather="plus-square"></span><fmt:message key="welcome.addapodcast" />
 						</a></li>
 					</ul>
 				</div>
