@@ -164,11 +164,13 @@ public class AddPodcastServlet extends HttpServlet{
         }
  
         /* Display the podcast info on the page */
-        out.print("<p style=\"color:blue\"> Status: "+success+"</p>");
-        out.print("<p style=\"color:blue\">"+podcastTitle+"</p>");
-        out.print("<img src=\""+podcastImageLink.toString()+"\" height=\"200\" width=\"200\">");
-        out.print("<p style=\"color:blue\">"+podcastDescription+"</p>"); 
-        out.print("<p style=\"color:blue\">"+lastPublished.toString()+"</p>"); 
+        StringBuilder message = new StringBuilder();
+        message.append("<p style=\"color:blue\"> Status: "+success+"</p>");
+        message.append("<p style=\"color:blue\">"+podcastTitle+"</p>");
+        message.append("<img src=\""+podcastImageLink.toString()+"\" height=\"200\" width=\"200\">");
+        message.append("<p style=\"color:blue\">"+podcastDescription+"</p>"); 
+        message.append("<p style=\"color:blue\">"+lastPublished.toString()+"</p>");
+        request.setAttribute("message", message.toString());
         RequestDispatcher rd=request.getRequestDispatcher("addPodcast.jsp");  
         rd.include(request,response); 
 

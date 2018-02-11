@@ -34,9 +34,10 @@ select name, thumbnail_url, uuid from droppod.podcasts
 </head>
 <body>
 	<nav class="navbar navbar-dark bg-mint sticky-top flex-md-nowrap p-0">
-		<a class="navbar-brand col-sm-3 col-md-2 mr-0">DropPod</a> <input
-			class="form-control form-control-mint w-100" type="text"
-			placeholder="Search" aria-label="Search">
+		<a class="navbar-brand col-sm-3 col-md-2 mr-0">DropPod</a>
+		<form class="form-inline w-100 my-2 my-lg-0" action="searchResult.jsp" method="get">
+		 	<input class="form-control form-control-mint w-100" type="text" name="search" placeholder="Search" aria-label="Search">
+		</form>
 		<ul class="navbar-nav px-3">
 			<li class="nav-item text-nowrap"><a class="nav-link" href="#"><fmt:message key="welcome.signout" /></a></li>
 		</ul>
