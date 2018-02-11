@@ -11,7 +11,7 @@
 	<html lang="${language}">
 
 <head>
-<link rel="stylesheet" type="text/css" href="StyleSheet.css" />
+<link rel="stylesheet" type="text/css" href="css/StyleSheet.css" />
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title><fmt:message key="index.logintodroppod" /></title>
 </head>
