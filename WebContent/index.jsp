@@ -14,7 +14,7 @@
 <title>Login Application</title>
 </head>
 <body>
-<img src="./Assets/Logo.png" height="20%" style="display: block; margin-left: auto; margin-right: auto; margin-bottom: 5%; margin-top: 10%;">
+	<div id="login-image"> <img src="DropPod_Crop.png" height="50%"> </div>
     <div id="sign-in">
 	    <form action="loginServlet" method="post">
 	        <fieldset style="width: 300px">
