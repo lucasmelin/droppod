@@ -14,6 +14,7 @@ import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 import droppod.models.EpisodeModel;
+import droppod.models.PodcastModel;
 
 public class ListenDroppod {
     public static List<EpisodeModel> getEpisodes(String uuid) {        
@@ -86,4 +87,83 @@ public class ListenDroppod {
         }
         return rows;
     }
+    
+    
+    
+    
+    public static PodcastModel getPodcast(String uuid) {        
+
+        Connection conn = null;
+        PreparedStatement pst = null;
+        ResultSet rs = null;
+        PodcastModel podcast = null;
+
+
+        try {
+
+        	Context envContext = new InitialContext();
+            Context initContext  = (Context)envContext.lookup("java:/comp/env");
+            DataSource ds = (DataSource)initContext.lookup("jdbc/droppod");
+            //DataSource ds = (DataSource)envContext.lookup("java:/comp/env/jdbc/droppod");
+            Connection con = ds.getConnection();
+                         
+            pst = con
+            		.prepareStatement("SELECT * FROM droppod.podcasts WHERE uuid=?");
+            pst.setString(1, uuid);
+            rs = pst.executeQuery();
+            
+            /* Get all the rows from the result set and put them in an ArrayList so
+             * that we can close the DB connection. */
+            while(rs.next()) {
+            	podcast = new PodcastModel();
+            	podcast.setName(rs.getString("name"));
+            	podcast.setDescription(rs.getString("description"));
+            	podcast.setUrl(rs.getURL("url"));
+            	podcast.setThumbnail_url(rs.getURL("thumbnail_url"));
+            }
+            
+
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (pst != null) {
+                try {
+                    pst.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return podcast;
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }
