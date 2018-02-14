@@ -70,7 +70,7 @@ select name, thumbnail_url, uuid from droppod.podcasts
 	</div>
 
 
-	<div class="container">
+	<div class="container" style="float:right">
 		<div class="row">
 			<c:forEach var="row" items="${rs.rows}" varStatus="loopStatus">
 				<c:if test="${loopStatus.index % 4 == 0}">

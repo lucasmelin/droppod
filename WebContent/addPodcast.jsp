@@ -68,7 +68,7 @@
 	</div>
 
 
-	<div class="container">
+	<div class="container" style="float:right">
 		<form action="addPodcastServlet" method="post">
 			<fieldset style="width: 300px">
 				<legend>

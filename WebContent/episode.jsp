@@ -70,7 +70,7 @@
 
 
 
-	<div class="container">
+	<div class="container" style="float:right">
 		<div class="row">
 			<div class="image col-md-4" style="width: 130px; height: 100%;">
 					<img class="img-fluid" src="${podcast.thumbnail_url}" alt="${podcast.name}"
