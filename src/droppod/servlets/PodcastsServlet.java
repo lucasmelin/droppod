@@ -13,10 +13,11 @@ import javax.servlet.http.HttpSession;
 
 import droppod.listen.ListenDroppod;
 import droppod.models.EpisodeModel;
+import droppod.models.PodcastModel;
 
 public class PodcastsServlet extends HttpServlet{
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 434245632236543L;
 
     public void doGet(HttpServletRequest request, HttpServletResponse response)  
             throws ServletException, IOException {  
@@ -30,9 +31,11 @@ public class PodcastsServlet extends HttpServlet{
         if(session!=null)
         session.setAttribute("uuid", uuid);
         
+        PodcastModel podcast = ListenDroppod.getPodcast(uuid);
         List<EpisodeModel> episodes = ListenDroppod.getEpisodes(uuid);
 
         if(!episodes.isEmpty()){
+        	request.setAttribute("podcast", podcast);
         	request.setAttribute("episodes", episodes);
             RequestDispatcher rd=request.getRequestDispatcher("episode.jsp");  
             rd.forward(request,response);  
