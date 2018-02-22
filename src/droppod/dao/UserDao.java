@@ -9,15 +9,21 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.config.ConfigurationFactory;
+import org.apache.logging.log4j.core.config.xml.XmlConfigurationFactory;
+
 public class UserDao {
 	public static boolean add(String name, String pass, String email) {
+		System.setProperty("log4j.configurationFile","/configuration.xml");
+		Logger logger = LogManager.getLogger(UserDao.class);
 		Connection conn = null;
 		PreparedStatement pst = null;
 		ResultSet rs = null;
-
 		int success = 0;
 		try {
-
+			logger.trace("droppod :: UserDao :: LEVEL :: UserDao TRACE Message :: logging");
 			Context envContext = new InitialContext();
 			Context initContext = (Context) envContext.lookup("java:/comp/env");
 			DataSource ds = (DataSource) initContext.lookup("jdbc/droppod");
