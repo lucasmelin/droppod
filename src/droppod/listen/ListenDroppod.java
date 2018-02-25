@@ -53,6 +53,7 @@ public class ListenDroppod {
              * that we can close the DB connection. */
             while(rs.next()) {
             	EpisodeModel episode = new EpisodeModel();
+            	episode.setId(rs.getInt("id"));
             	episode.setName(rs.getString("name"));
             	episode.setDescription(rs.getString("description"));
             	episode.setUrl(rs.getURL("url"));

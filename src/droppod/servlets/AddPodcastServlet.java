@@ -142,6 +142,8 @@ public class AddPodcastServlet extends HttpServlet{
             		
             		pst2.executeUpdate();
             	}
+            	
+            	/* Get the episode_id foreign key and place it in a variable for reuse*/
             }
 
         } catch (Exception e) {

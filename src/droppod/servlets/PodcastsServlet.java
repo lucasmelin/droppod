@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import droppod.listen.ListenDroppod;
+import droppod.listen.TranslateDroppod;
 import droppod.models.EpisodeModel;
 import droppod.models.PodcastModel;
 
@@ -73,9 +74,13 @@ public class PodcastsServlet extends HttpServlet{
 					List<Translation> translatedNames = translate.translate(episodeNames,
 							TranslateOption.sourceLanguage(Locale.ENGLISH.getLanguage()),
 							TranslateOption.targetLanguage(userLocale.getLanguage()));
-					List<Translation> translatedDescriptions = translate.translate(episodeNames,
+					List<Translation> translatedDescriptions = translate.translate(episodeDescriptions,
 							TranslateOption.sourceLanguage(Locale.ENGLISH.getLanguage()),
 							TranslateOption.targetLanguage(userLocale.getLanguage()));
+					
+					// Insert new translations into the database
+					TranslateDroppod.addEpisodeTranslation(userLocale, episodes, translatedNames, translatedDescriptions);					
+					
 	
 					// Replace the descriptions and names in each podcast episode
 					for (int i = 0; i < episodes.size(); i++) {
