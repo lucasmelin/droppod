@@ -2,7 +2,9 @@ package droppod.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException; 
@@ -14,6 +16,14 @@ import javax.servlet.http.HttpSession;
 import droppod.listen.ListenDroppod;
 import droppod.models.EpisodeModel;
 import droppod.models.PodcastModel;
+
+import com.google.api.services.translate.Translate.Translations;
+//Imports the Google Cloud client library
+import com.google.cloud.translate.Translate;
+import com.google.cloud.translate.Translate.TranslateOption;
+import com.google.cloud.translate.TranslateOptions;
+import com.google.cloud.translate.Translation;
+
 
 public class PodcastsServlet extends HttpServlet{
 
@@ -33,8 +43,48 @@ public class PodcastsServlet extends HttpServlet{
         
         PodcastModel podcast = ListenDroppod.getPodcast(uuid);
         List<EpisodeModel> episodes = ListenDroppod.getEpisodes(uuid);
-
+        
+        // Make sure that we have episode information to return
         if(!episodes.isEmpty()){
+        	
+        	// If the session language is not english, we'll
+        	// need to translate the episode information before returning
+        	Locale userLocale = Locale.ENGLISH;
+        	String userLang = session.getAttribute("language").toString();
+        	if (userLang != null) {
+        		userLocale = new Locale(userLang);
+        	}
+        	// Verify that we do actually need to translate our strings
+        	if (userLocale != Locale.ENGLISH) {
+				// Make sure we're configured to access the translate API
+        		if (System.getenv("GOOGLE_APPLICATION_CREDENTIALS") != null) {
+        			// Instantiate a client
+					Translate translate = TranslateOptions.getDefaultInstance().getService();
+	
+					List<String> episodeNames = new ArrayList<String>();
+					List<String> episodeDescriptions = new ArrayList<String>();
+					// Extract the descriptions and names from each podcast episode
+					for (EpisodeModel e : episodes) {
+						episodeNames.add(e.getName());
+						episodeDescriptions.add(e.getDescription());
+					}
+	
+					// Translate the text into the session language
+					List<Translation> translatedNames = translate.translate(episodeNames,
+							TranslateOption.sourceLanguage(Locale.ENGLISH.getLanguage()),
+							TranslateOption.targetLanguage(userLocale.getLanguage()));
+					List<Translation> translatedDescriptions = translate.translate(episodeNames,
+							TranslateOption.sourceLanguage(Locale.ENGLISH.getLanguage()),
+							TranslateOption.targetLanguage(userLocale.getLanguage()));
+	
+					// Replace the descriptions and names in each podcast episode
+					for (int i = 0; i < episodes.size(); i++) {
+						episodes.get(i).setName(translatedNames.get(i).getTranslatedText());
+						episodes.get(i).setDescription(translatedDescriptions.get(i).getTranslatedText());
+					}
+        		}
+
+        	}
         	request.setAttribute("podcast", podcast);
         	request.setAttribute("episodes", episodes);
             RequestDispatcher rd=request.getRequestDispatcher("episode.jsp");  
