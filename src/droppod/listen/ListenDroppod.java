@@ -43,9 +43,14 @@ public class ListenDroppod {
             //DataSource ds = (DataSource)envContext.lookup("java:/comp/env/jdbc/droppod");
             Connection con = ds.getConnection();
                          
-            pst = con
-            		.prepareStatement("SELECT * FROM droppod.episodes WHERE podcast_id IN "
-            				+ "(SELECT id FROM droppod.podcasts WHERE uuid=?)");
+            //pst = con
+            //		.prepareStatement("SELECT * FROM droppod.episodes WHERE podcast_id IN "
+            //				+ "(SELECT id FROM droppod.podcasts WHERE uuid=?)");
+            pst = con.prepareStatement("SELECT e.*, et.episode_name as name, et.episode_description as description "
+            		+ "FROM droppod.episodes e "
+            		+ "INNER JOIN droppod.episodes_translations et ON e.id = et.episode_id "
+            		+ "WHERE e.podcast_id IN (SELECT id FROM droppod.podcasts WHERE uuid=?)");
+            
             pst.setString(1, uuid);
             rs = pst.executeQuery();
             

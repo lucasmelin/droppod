@@ -56,7 +56,8 @@ public class PodcastsServlet extends HttpServlet{
         		userLocale = new Locale(userLang);
         	}
         	// Verify that we do actually need to translate our strings
-        	if (userLocale != Locale.ENGLISH) {
+        	userLang = userLocale.getLanguage();
+        	if (!(userLang.startsWith(Locale.ENGLISH.getLanguage()))) {
 				// Make sure we're configured to access the translate API
         		if (System.getenv("GOOGLE_APPLICATION_CREDENTIALS") != null) {
         			// Instantiate a client

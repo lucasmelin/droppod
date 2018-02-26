@@ -97,6 +97,7 @@ public class AddPodcastServlet extends HttpServlet{
         PreparedStatement pst = null;
         PreparedStatement pst2 = null;
         PreparedStatement pst3 = null;
+        PreparedStatement pst4 = null;
         ResultSet rs = null;
         int success = 0;
 
@@ -130,17 +131,23 @@ public class AddPodcastServlet extends HttpServlet{
             	
             	/* Loop through each episode and add them to the db */
             	pst2 = con
-            			.prepareStatement("INSERT INTO droppod.episodes (name, url, podcast_id, description, release_date)" + 
-            					"VALUES	(?, ?, ?, ?, ?)");
+            			.prepareStatement("INSERT INTO droppod.episodes (url, podcast_id, release_date)" + 
+            					"VALUES	(?, ?, ?)");
+            	
+            	pst4 = con.prepareStatement("INSERT INTO droppod.episodes_translations (episode_id, language_code, episode_name, episode_description) VALUES (LAST_INSERT_ID(), ?, ?, ?)");
             	
             	for (SyndEntry ep : episodes) {
-            		pst2.setString(1, ep.getTitle());
-            		pst2.setString(2, ep.getEnclosures().get(0).getUrl());
-            		pst2.setInt(3, podcast_id);
-            		pst2.setString(4, ep.getDescription().getValue());
-            		pst2.setTimestamp(5, new java.sql.Timestamp(ep.getPublishedDate().getTime()));
-            		
+            		pst2.setString(1, ep.getEnclosures().get(0).getUrl());
+            		pst2.setInt(2, podcast_id);
+            		pst2.setTimestamp(3, new java.sql.Timestamp(ep.getPublishedDate().getTime()));
+
             		pst2.executeUpdate();
+            		
+            		pst4.setString(1, "en");
+            		pst4.setString(2, ep.getTitle());
+            		pst4.setString(3, ep.getDescription().getValue());
+            		
+            		pst4.executeUpdate();
             	}
             	
             	/* Get the episode_id foreign key and place it in a variable for reuse*/
