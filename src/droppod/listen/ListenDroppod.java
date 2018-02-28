@@ -46,7 +46,7 @@ public class ListenDroppod {
             		+ "FROM droppod.episodes e "
             		+ "INNER JOIN droppod.episodes_translations et ON e.id = et.episode_id "
             		+ "WHERE e.podcast_id IN (SELECT id FROM droppod.podcasts WHERE uuid=?) "
-            		+ "AND et.language_code=?"); // and et.language_code=?
+            		+ "AND et.language_code=?;"); // and et.language_code=?
             
             pst.setString(1, uuid);
             pst.setString(2, returnLanguage);
@@ -59,7 +59,7 @@ public class ListenDroppod {
                 		+ "FROM droppod.episodes e "
                 		+ "INNER JOIN droppod.episodes_translations et ON e.id = et.episode_id "
                 		+ "WHERE e.podcast_id IN (SELECT id FROM droppod.podcasts WHERE uuid=?) "
-                		+ "AND et.language_code='en'");
+                		+ "AND et.language_code='en';");
                 
             	pst2.setString(1, uuid);
                 rs2 = pst2.executeQuery();
@@ -68,13 +68,13 @@ public class ListenDroppod {
     			List<String> episodeDescriptions = new ArrayList<String>();
     			/* Get all the rows from the result set and put them in an ArrayList so
                  * that we can close the DB connection. */
-                while(rs.next()) {
+                while(rs2.next()) {
                 	EpisodeModel episode = new EpisodeModel();
-                	episode.setId(rs.getInt("id"));
+                	episode.setId(rs2.getInt("id"));
                 	// Extract the descriptions and names from each podcast episode
-                	episodeNames.add(rs.getString("name"));
-                	episodeDescriptions.add(rs.getString("description"));
-                	episode.setUrl(rs.getURL("url"));
+                	episodeNames.add(rs2.getString("name"));
+                	episodeDescriptions.add(rs2.getString("description"));
+                	episode.setUrl(rs2.getURL("url"));
                 	rows.add(episode);
                 }
                 
