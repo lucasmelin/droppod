@@ -16,18 +16,16 @@ import org.apache.logging.log4j.core.config.xml.XmlConfigurationFactory;
 
 public class UserDao {
 	public static boolean add(String name, String pass, String email) {
-		System.setProperty("log4j.configurationFile","/configuration.xml");
-		Logger logger = LogManager.getLogger(UserDao.class);
 		Connection conn = null;
 		PreparedStatement pst = null;
+		PreparedStatement pst2 = null;
 		ResultSet rs = null;
 		int success = 0;
+		String uuid = null;
 		try {
-			logger.trace("droppod :: UserDao :: LEVEL :: UserDao TRACE Message :: logging");
 			Context envContext = new InitialContext();
 			Context initContext = (Context) envContext.lookup("java:/comp/env");
 			DataSource ds = (DataSource) initContext.lookup("jdbc/droppod");
-			// DataSource ds = (DataSource)envContext.lookup("java:/comp/env/jdbc/droppod");
 			conn = ds.getConnection();
 
 			pst = conn.prepareStatement(
@@ -56,6 +54,13 @@ public class UserDao {
 					e.printStackTrace();
 				}
 			}
+			if (pst2 != null) {
+				try {
+					pst2.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
 			if (rs != null) {
 				try {
 					rs.close();
@@ -64,10 +69,58 @@ public class UserDao {
 				}
 			}
 		}
-		if (success == 1) {
+		if (success != 0) {
 			return true;
 		} else {
 			return false;
 		}
 	}
+	
+    public static String validate(String name) {        
+        boolean status = false;
+        Connection conn = null;
+        PreparedStatement pst = null;
+        ResultSet rs = null;
+        String uuid = null;
+        try {
+
+        	Context envContext = new InitialContext();
+            Context initContext  = (Context)envContext.lookup("java:/comp/env");
+            DataSource ds = (DataSource)initContext.lookup("jdbc/droppod");
+            conn = ds.getConnection();
+                         
+            pst = conn
+            		.prepareStatement("select * from droppod.users where username=?");
+            pst.setString(1, name);
+            rs = pst.executeQuery();
+            status = rs.next();
+            uuid = rs.getString("uuid");
+
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (pst != null) {
+                try {
+                    pst.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return uuid;
+    }
 }

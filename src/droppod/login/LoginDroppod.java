@@ -22,7 +22,6 @@ public class LoginDroppod {
         	Context envContext = new InitialContext();
             Context initContext  = (Context)envContext.lookup("java:/comp/env");
             DataSource ds = (DataSource)initContext.lookup("jdbc/droppod");
-            //DataSource ds = (DataSource)envContext.lookup("java:/comp/env/jdbc/droppod");
             conn = ds.getConnection();
                          
             pst = conn
