@@ -42,20 +42,21 @@ public class PodcastsServlet extends HttpServlet{
         if(session!=null)
         session.setAttribute("uuid", uuid);
         
+    	// If the session language is not english, we'll
+    	// need to translate the episode information before returning
+    	Locale userLocale = Locale.ENGLISH;
+    	String userLang = session.getAttribute("language").toString();
+    	if (userLang != null) {
+    		userLocale = new Locale(userLang);
+    	}
+        
         PodcastModel podcast = ListenDroppod.getPodcast(uuid);
-        List<EpisodeModel> episodes = ListenDroppod.getEpisodes(uuid);
+        List<EpisodeModel> episodes = ListenDroppod.getEpisodes(uuid, userLocale);
         
         // Make sure that we have episode information to return
         if(!episodes.isEmpty()){
         	
-        	// If the session language is not english, we'll
-        	// need to translate the episode information before returning
-        	Locale userLocale = Locale.ENGLISH;
-        	String userLang = session.getAttribute("language").toString();
-        	if (userLang != null) {
-        		userLocale = new Locale(userLang);
-        	}
-        	// Verify that we do actually need to translate our strings
+/*        	// Verify that we do actually need to translate our strings
         	userLang = userLocale.getLanguage();
         	if (!(userLang.startsWith(Locale.ENGLISH.getLanguage()))) {
 				// Make sure we're configured to access the translate API
@@ -90,7 +91,7 @@ public class PodcastsServlet extends HttpServlet{
 					}
         		}
 
-        	}
+        	}*/
         	request.setAttribute("podcast", podcast);
         	request.setAttribute("episodes", episodes);
             RequestDispatcher rd=request.getRequestDispatcher("episode.jsp");  
