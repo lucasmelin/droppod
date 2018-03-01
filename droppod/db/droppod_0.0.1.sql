@@ -267,7 +267,7 @@ DEFAULT CHARACTER SET = utf8;
 -- Table `droppod`.`user_follows`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `droppod`.`user_follows` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `podcast_id` INT NOT NULL,
   `user_id` INT NOT NULL,
   INDEX `fk_user_follows_podcasts_idx` (`podcast_id` ASC),

@@ -52,6 +52,7 @@ public class FollowPodcastServlet extends HttpServlet{
         
         String uuid = session.getAttribute("uuid").toString();
         String username = session.getAttribute("name").toString();
+        System.out.println("ID: " + session.getAttribute("id"));
              
         int userID = 0;
         

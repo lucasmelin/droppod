@@ -152,7 +152,7 @@ public class ListenDroppod {
     }
     
     
-    public static int getUserID(String username) {        
+    /*public static int getUserID(String username) {        
 
         Connection conn = null;
         PreparedStatement pst = null;
@@ -172,7 +172,7 @@ public class ListenDroppod {
             rs = pst.executeQuery();
             
             /* Get all the rows from the result set and put them in an ArrayList so
-             * that we can close the DB connection. */
+             * that we can close the DB connection. 
             while(rs.next()) {
             	userID = rs.getInt(0);
             }
@@ -205,7 +205,7 @@ public class ListenDroppod {
         }
         System.out.println("UserID: " + userID);
         return userID;
-    }
+    }*/
     
     
     
