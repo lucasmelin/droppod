@@ -6,7 +6,6 @@ import java.io.PrintWriter;
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -15,8 +14,6 @@ import javax.servlet.http.HttpSession;
 
 import droppod.mail.MailDroppod;
 import droppod.dao.UserDao;
-import droppod.dao.UuidDao;
-import droppod.login.LoginDroppod;
 
 public class SignUpServlet extends HttpServlet{
 
@@ -36,7 +33,7 @@ public class SignUpServlet extends HttpServlet{
         session.setAttribute("name", n);
         }
         if(UserDao.add(n,p,e)) {
-        uuid = UserDao.validate(n);
+        uuid = UserDao.getUuid(n);
         }
        if(uuid != null){ 
     	   try {
@@ -49,8 +46,7 @@ public class SignUpServlet extends HttpServlet{
     	   RequestDispatcher rd=request.getRequestDispatcher("index.jsp");	//Return the user to the sign in page  
            rd.forward(request,response); 			//forward the request and response 
 		}else{  										//If there was an error performing the sql statement
-            out.print("<p style=\"color:red\">Sorry there was an error processing your current request."+uuid+"</p>");  //Let the user know there was a problem processing the request
-            out.print("<p>uuid="+uuid+"</p>");
+            out.print("<p style=\"color:red\">Sorry there was an error processing your current request.</p>");  //Let the user know there was a problem processing the request
             RequestDispatcher rd=request.getRequestDispatcher("index.jsp");  //Return the user to the sign in page
             rd.include(request,response);
         }
