@@ -27,6 +27,10 @@
         <servlet-name>follow</servlet-name>
         <servlet-class>droppod.servlets.FollowPodcastServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>unfollow</servlet-name>
+        <servlet-class>droppod.servlets.UnfollowPodcastServlet</servlet-class>
+    </servlet>
 
     <servlet-mapping>
         <servlet-name>login</servlet-name>
@@ -53,6 +57,10 @@
     <servlet-mapping>
     	<servlet-name>follow</servlet-name>
         <url-pattern>/Follow</url-pattern>
+    </servlet-mapping>
+	<servlet-mapping>
+    	<servlet-name>unfollow</servlet-name>
+        <url-pattern>/Unfollow</url-pattern>
     </servlet-mapping>
 
     <welcome-file-list>

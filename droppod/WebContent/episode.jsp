@@ -85,6 +85,9 @@
 			${podcast.description}
 			
 			<a href="${pageContext.request.contextPath}/Follow">Follow</a>
+			
+			<a href="${pageContext.request.contextPath}/Unfollow">Unfollow</a>
+			
 			</div>
 			
 			

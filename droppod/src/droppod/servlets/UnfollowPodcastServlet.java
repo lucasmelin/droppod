@@ -39,7 +39,7 @@ import droppod.models.PodcastModel;
  * @author Lucas
  *
  */
-public class FollowPodcastServlet extends HttpServlet{
+public class UnfollowPodcastServlet extends HttpServlet{
 
 	private static final long serialVersionUID = 434245632236543L;
 
@@ -86,7 +86,7 @@ public class FollowPodcastServlet extends HttpServlet{
             
             
             /* Query 2 for inserting userID and podcastID into user_follows table */
-            pst2 = con.prepareStatement("INSERT IGNORE INTO droppod.user_follows (podcast_id, user_id) VALUES (?, ?)");  
+            pst2 = con.prepareStatement("DELETE FROM droppod.user_follows WHERE podcast_id =? AND user_id = ?");  
             pst2.setInt(1, podcastID);
             pst2.setInt(2, userID);
         	
