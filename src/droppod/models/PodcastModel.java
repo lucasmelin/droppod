@@ -7,20 +7,23 @@ public class PodcastModel {
 	private URL url;
 	private String description;
 	private URL thumbnail_url;
+	private int id;
 	
 	public PodcastModel() {
 		this.name = "";
 		this.url = null;
 		this.description = "";
 		this.thumbnail_url = null;
+		this.id = -1;
 	}
 	
-	public PodcastModel(String name, URL url, String description, URL thumbnail_url) {
+	public PodcastModel(String name, URL url, String description, URL thumbnail_url, int id) {
 		super();
 		this.name = name;
 		this.url = url;
 		this.description = description;
 		this.thumbnail_url = thumbnail_url;
+		this.id = id;
 	}
 	
 	public String getName() {
@@ -53,5 +56,12 @@ public class PodcastModel {
 		this.thumbnail_url = thumbnail_url;
 	}
 	
+	public int getId() {
+		return id;
+	}	
+	
+	public void setId(int id) {
+		this.id = id;
+	}
 
 }

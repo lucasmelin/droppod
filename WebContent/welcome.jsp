@@ -5,7 +5,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <sql:query var="rs" dataSource="jdbc/droppod">
-select name, thumbnail_url, uuid from droppod.podcasts
+select thumbnail_url, uuid from droppod.podcasts
 </sql:query>
 
 <c:set var="language"
