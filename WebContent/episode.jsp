@@ -88,7 +88,7 @@
 		<c:forEach items="${episodes}" var="episodes">
 			<div class="row">
 				<c:out value="${episodes.name}" />
-				<c:out value="${episodes.description}" />
+				<c:out value="${episodes.description}" escapeXml="false"/>
 				<button class="episode-play-button" value="${episodes.url}">PLAY</button>
 			</div>
 		</c:forEach>

@@ -80,8 +80,6 @@ public class AddPodcastServlet extends HttpServlet {
     }
 
     String podcastDescription = feed.getDescription();
-    /* Basic HTML sanitation */
-    podcastDescription.replaceAll("\\<[^>]*>", "");
     List<SyndEntry> episodes = feed.getEntries();
     Date lastPublished = episodes.get(0).getPublishedDate();
     String podcastUri = feed.getUri();
