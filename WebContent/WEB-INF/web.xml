@@ -23,6 +23,10 @@
         <servlet-name>podcasts</servlet-name>
         <servlet-class>droppod.servlets.PodcastsServlet</servlet-class>
     </servlet>
+     <servlet>
+        <servlet-name>search</servlet-name>
+        <servlet-class>droppod.servlets.SearchResult</servlet-class>
+    </servlet>
 
     <servlet-mapping>
         <servlet-name>login</servlet-name>
@@ -44,6 +48,10 @@
     <servlet-mapping>
     	<servlet-name>podcasts</servlet-name>
         <url-pattern>/podcastServlet</url-pattern>
+    </servlet-mapping>
+      <servlet-mapping>
+        <servlet-name>search</servlet-name>
+        <url-pattern>/searchResult</url-pattern>
     </servlet-mapping>
 
     <welcome-file-list>
