@@ -14,7 +14,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 -- -----------------------------------------------------
 -- Schema droppod
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `droppod` DEFAULT CHARACTER SET utf8mb4;
+CREATE SCHEMA IF NOT EXISTS `droppod` DEFAULT CHARACTER SET utf8mb4 ;
 USE `droppod` ;
 
 -- -----------------------------------------------------
@@ -55,8 +55,6 @@ DEFAULT CHARACTER SET = utf8mb4;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `droppod`.`podcasts` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(255) NOT NULL,
-  `description` MEDIUMTEXT NULL DEFAULT NULL,
   `thumbnail` MEDIUMBLOB NULL DEFAULT NULL,
   `url` VARCHAR(255) NOT NULL,
   `rating` INT(11) NULL DEFAULT NULL,
@@ -66,7 +64,6 @@ CREATE TABLE IF NOT EXISTS `droppod`.`podcasts` (
   PRIMARY KEY (`id`),
   UNIQUE INDEX `uri_UNIQUE` (`uri` ASC))
 ENGINE = InnoDB
-AUTO_INCREMENT = 46
 DEFAULT CHARACTER SET = utf8mb4;
 
 
@@ -75,7 +72,7 @@ DEFAULT CHARACTER SET = utf8mb4;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `droppod`.`episodes` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `url` VARCHAR(255) CHARACTER SET 'utf8mb4' NOT NULL,
+  `url` VARCHAR(255) NOT NULL,
   `podcast_id` INT(11) NOT NULL,
   `thumbnail` BLOB NULL DEFAULT NULL,
   `release_date` DATETIME NULL DEFAULT NULL,
@@ -89,7 +86,19 @@ CREATE TABLE IF NOT EXISTS `droppod`.`episodes` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-AUTO_INCREMENT = 2399
+DEFAULT CHARACTER SET = utf8mb4;
+
+
+-- -----------------------------------------------------
+-- Table `droppod`.`languages`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `droppod`.`languages` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NOT NULL,
+  `code` VARCHAR(5) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `code_UNIQUE` (`code` ASC))
+ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
 
 
@@ -102,19 +111,19 @@ CREATE TABLE IF NOT EXISTS `droppod`.`episodes_translations` (
   `language_code` VARCHAR(5) NOT NULL,
   `episode_name` VARCHAR(255) NULL DEFAULT NULL,
   `episode_description` MEDIUMTEXT NULL DEFAULT NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 79
-DEFAULT CHARACTER SET = utf8mb4;
-
-
--- -----------------------------------------------------
--- Table `droppod`.`languages`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `droppod`.`languages` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`id`))
+  PRIMARY KEY (`id`),
+  INDEX `fk_episodes_translations_languages_language_code_idx` (`language_code` ASC),
+  INDEX `fk_episodes_translations_episodes_episode_id_idx` (`episode_id` ASC),
+  CONSTRAINT `fk_episodes_translations_languages_language_code`
+    FOREIGN KEY (`language_code`)
+    REFERENCES `droppod`.`languages` (`code`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_episodes_translations_episodes_episode_id`
+    FOREIGN KEY (`episode_id`)
+    REFERENCES `droppod`.`episodes` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
 
@@ -156,7 +165,6 @@ CREATE TABLE IF NOT EXISTS `droppod`.`users` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-AUTO_INCREMENT = 6
 DEFAULT CHARACTER SET = utf8mb4;
 
 
@@ -244,6 +252,32 @@ CREATE TABLE IF NOT EXISTS `droppod`.`podcast_categories` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_podcast_categories_podcasts_podcast_id`
+    FOREIGN KEY (`podcast_id`)
+    REFERENCES `droppod`.`podcasts` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4;
+
+
+-- -----------------------------------------------------
+-- Table `droppod`.`podcasts_translations`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `droppod`.`podcasts_translations` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `podcast_id` INT(11) NOT NULL,
+  `language_code` VARCHAR(5) NOT NULL,
+  `podcast_name` VARCHAR(255) NULL DEFAULT NULL,
+  `podcast_description` MEDIUMTEXT NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_podcasts_translations_languages_language_code_idx` (`language_code` ASC),
+  INDEX `fk_podcasts_translations_podcasts_podcast_id_idx` (`podcast_id` ASC),
+  CONSTRAINT `fk_podcasts_translations_languages_language_code`
+    FOREIGN KEY (`language_code`)
+    REFERENCES `droppod`.`languages` (`code`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_podcasts_translations_podcasts_podcast_id`
     FOREIGN KEY (`podcast_id`)
     REFERENCES `droppod`.`podcasts` (`id`)
     ON DELETE NO ACTION
