@@ -21,6 +21,7 @@ public class SignUpServlet extends HttpServlet{
 	public void doPost(HttpServletRequest request, HttpServletResponse response) 
 	throws ServletException, IOException{
 		response.setContentType("text/html");
+		response.setCharacterEncoding("UTF-8");
 		PrintWriter out = response.getWriter();
 		
 		String n=request.getParameter("username");  

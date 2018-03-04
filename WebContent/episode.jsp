@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
@@ -70,7 +69,7 @@
 
 
 
-	<div class="container">
+	<div class="container" style="float:right">
 		<div class="row">
 			<div class="image col-md-4" style="width: 130px; height: 100%;">
 					<img class="img-fluid" src="${podcast.thumbnail_url}" alt="${podcast.name}"
@@ -88,7 +87,7 @@
 		<c:forEach items="${episodes}" var="episodes">
 			<div class="row">
 				<c:out value="${episodes.name}" />
-				<c:out value="${episodes.description}" />
+				<c:out value="${episodes.description}" escapeXml="false"/>
 				<button class="episode-play-button" value="${episodes.url}">PLAY</button>
 			</div>
 		</c:forEach>

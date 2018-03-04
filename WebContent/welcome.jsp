@@ -1,11 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <sql:query var="rs" dataSource="jdbc/droppod">
-select name, thumbnail_url, uuid from droppod.podcasts
+select thumbnail_url, uuid from droppod.podcasts
 </sql:query>
 
 <c:set var="language"
@@ -70,7 +69,7 @@ select name, thumbnail_url, uuid from droppod.podcasts
 	</div>
 
 
-	<div class="container">
+	<div class="container" style="float:right">
 		<div class="row">
 			<c:forEach var="row" items="${rs.rows}" varStatus="loopStatus">
 				<c:if test="${loopStatus.index % 4 == 0}">
