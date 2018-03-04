@@ -10,6 +10,8 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
+import droppod.executor.refreshFeedDroppod;
+
 public class LoginDroppod {
     public static boolean validate(String name, String pass) {        
         boolean status = false;
@@ -22,7 +24,6 @@ public class LoginDroppod {
         	Context envContext = new InitialContext();
             Context initContext  = (Context)envContext.lookup("java:/comp/env");
             DataSource ds = (DataSource)initContext.lookup("jdbc/droppod");
-            //DataSource ds = (DataSource)envContext.lookup("java:/comp/env/jdbc/droppod");
             conn = ds.getConnection();
                          
             pst = conn
@@ -31,7 +32,6 @@ public class LoginDroppod {
             pst.setString(2, pass);
             rs = pst.executeQuery();
             status = rs.next();
-            
 
         } catch (Exception e) {
             System.out.println(e);
