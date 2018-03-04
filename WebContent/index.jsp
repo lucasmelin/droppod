@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
@@ -52,7 +51,7 @@
 				style="background-color: #003399; color: #f2f2f2"
 				onchange="submit()">
 				<option value="en" ${language == 'en' ? 'selected' : ''}>English</option>
-				<option value="fr" ${language == 'fr' ? 'selected' : ''}>Français</option>
+				<option value="fr" ${language == 'fr' ? 'selected' : ''}>FranÃ§ais</option>
 			</select>
 		</form>
 	</div>
