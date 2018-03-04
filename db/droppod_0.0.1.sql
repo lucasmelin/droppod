@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS `droppod`.`categories` (
   `name` VARCHAR(45) NULL DEFAULT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `droppod`.`cities` (
   `name` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `droppod`.`countries` (
   `name` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -67,7 +67,7 @@ CREATE TABLE IF NOT EXISTS `droppod`.`podcasts` (
   UNIQUE INDEX `uri_UNIQUE` (`uri` ASC))
 ENGINE = InnoDB
 AUTO_INCREMENT = 46
-DEFAULT CHARACTER SET = utf8;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -75,7 +75,7 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `droppod`.`episodes` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `url` VARCHAR(255) CHARACTER SET 'utf8' NOT NULL,
+  `url` VARCHAR(255) CHARACTER SET 'utf8mb4' NOT NULL,
   `podcast_id` INT(11) NOT NULL,
   `thumbnail` BLOB NULL DEFAULT NULL,
   `release_date` DATETIME NULL DEFAULT NULL,
@@ -105,7 +105,7 @@ CREATE TABLE IF NOT EXISTS `droppod`.`episodes_translations` (
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 79
-DEFAULT CHARACTER SET = utf8;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -116,7 +116,7 @@ CREATE TABLE IF NOT EXISTS `droppod`.`languages` (
   `name` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -157,7 +157,7 @@ CREATE TABLE IF NOT EXISTS `droppod`.`users` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 AUTO_INCREMENT = 6
-DEFAULT CHARACTER SET = utf8;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -183,7 +183,7 @@ CREATE TABLE IF NOT EXISTS `droppod`.`friends` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -201,7 +201,7 @@ CREATE TABLE IF NOT EXISTS `droppod`.`playlists` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -225,7 +225,7 @@ CREATE TABLE IF NOT EXISTS `droppod`.`playlist_episodes` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -249,7 +249,7 @@ CREATE TABLE IF NOT EXISTS `droppod`.`podcast_categories` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -273,7 +273,7 @@ CREATE TABLE IF NOT EXISTS `droppod`.`subscriptions` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
+DEFAULT CHARACTER SET = utf8mb4;
 
 USE `droppod`;
 
