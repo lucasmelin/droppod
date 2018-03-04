@@ -8,6 +8,10 @@
 		<servlet-class>droppod.servlets.LoginServlet</servlet-class>
 	</servlet>
 	<servlet>
+		<servlet-name>logout</servlet-name>
+		<servlet-class>droppod.servlets.LogoutServlet</servlet-class>
+	</servlet>
+	<servlet>
 		<servlet-name>signup</servlet-name>
 		<servlet-class>droppod.servlets.SignUpServlet</servlet-class>
 	</servlet>
@@ -45,9 +49,14 @@
 		<servlet-name>podcasts</servlet-name>
 		<url-pattern>/podcastServlet</url-pattern>
 	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>logout</servlet-name>
+		<url-pattern>/logout</url-pattern>
+	</servlet-mapping>
 
 	<welcome-file-list>
-		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>welcome.jsp</welcome-file>
 	</welcome-file-list>
 	
 	<jsp-config>
