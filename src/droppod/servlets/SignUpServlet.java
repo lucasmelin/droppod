@@ -37,9 +37,9 @@ public class SignUpServlet extends HttpServlet{
             RequestDispatcher rd=request.getRequestDispatcher("index.jsp");  
             rd.forward(request,response);  
         }  
-        else{  
-            out.print("<p style=\"color:red\">Sorry there was an error processing your request.</p>");  
-            RequestDispatcher rd=request.getRequestDispatcher("index.jsp");  
+        else{ 
+        	request.setAttribute("success", "false");
+            RequestDispatcher rd=request.getRequestDispatcher("signUp.jsp");  
             rd.include(request,response);  
         }  
 
