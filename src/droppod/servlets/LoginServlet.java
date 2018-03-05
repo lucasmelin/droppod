@@ -20,7 +20,6 @@ public class LoginServlet extends HttpServlet{
             throws ServletException, IOException {  
 
         response.setContentType("text/html");  
-        PrintWriter out = response.getWriter();  
         
         String n=request.getParameter("username");  
         String p=request.getParameter("password"); 
@@ -33,12 +32,10 @@ public class LoginServlet extends HttpServlet{
             RequestDispatcher rd=request.getRequestDispatcher("welcome.jsp");  
             rd.forward(request,response);  
         }  
-        else{  
-            out.print("<p style=\"color:red\">Sorry username or password error</p>");  
+        else{ 
+        	request.setAttribute("success", "false");
             RequestDispatcher rd=request.getRequestDispatcher("index.jsp");  
-            rd.include(request,response);  
+            rd.forward(request,response);  
         }  
-
-        out.close();  
     }  
 } 
