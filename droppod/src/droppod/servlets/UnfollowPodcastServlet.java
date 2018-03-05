@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -92,6 +93,11 @@ public class UnfollowPodcastServlet extends HttpServlet{
         	
             if (pst2.executeUpdate() == 1) {
             	System.out.println("SUCCESS");
+            	
+            	ArrayList temp = (ArrayList) session.getAttribute("podcastIDs");
+            	temp.remove(temp.size() - 1);
+            	session.setAttribute("podcastIDs", temp);
+            	
             } else {
             	System.out.println("YOU SUCK");
             }

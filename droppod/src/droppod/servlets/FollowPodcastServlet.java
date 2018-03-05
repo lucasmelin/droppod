@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -66,7 +67,7 @@ public class FollowPodcastServlet extends HttpServlet{
             Context initContext  = (Context)envContext.lookup("java:/comp/env");
             DataSource ds = (DataSource)initContext.lookup("jdbc/droppod");          
             con = ds.getConnection();
-            
+                        
             /* Query 1 for getting userID of current user */
             pst = con.prepareStatement("SELECT id FROM droppod.users WHERE username=?");
             pst.setString(1, username);
@@ -92,6 +93,10 @@ public class FollowPodcastServlet extends HttpServlet{
         	
             if (pst2.executeUpdate() == 1) {
             	System.out.println("SUCCESS");
+            	
+            	ArrayList temp = (ArrayList) session.getAttribute("podcastIDs");
+            	temp.add(podcastID);
+            	session.setAttribute("podcastIDs", temp);
             } else {
             	System.out.println("YOU SUCK");
             }

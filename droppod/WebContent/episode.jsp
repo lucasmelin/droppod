@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>	
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
@@ -9,6 +10,14 @@
 <fmt:setLocale value="${language}" />
 <fmt:bundle basename="app">
 	<html lang="${language}">
+	
+<!-- 	
+<sql:query var="rs" dataSource="jdbc/droppod">
+	SELECT Count(*)FROM droppod.user_follows where podcast_id=(SELECT id FROM droppod.podcasts WHERE name=?) AND user_id=(SELECT id FROM droppod.users WHERE username =?)
+	<sql:param value="${podcast.name}"/>
+	<sql:param value="${name}" />
+</sql:query>
+-->
 <head>
 <!-- Bootstrap CSS -->
 <link rel="stylesheet"
@@ -84,9 +93,11 @@
 			</h1>
 			${podcast.description}
 			
-			<a href="${pageContext.request.contextPath}/Follow">Follow</a>
+			<br>
 			
 			<a href="${pageContext.request.contextPath}/Unfollow">Unfollow</a>
+			
+			<a href="${pageContext.request.contextPath}/Follow">Follow</a>
 			
 			</div>
 			
