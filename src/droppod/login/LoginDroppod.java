@@ -10,17 +10,20 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import droppod.executor.refreshFeedDroppod;
 
 public class LoginDroppod {
+	final static Logger logger = LoggerFactory.getLogger(LoginDroppod.class);
     public static boolean validate(String name, String pass) {        
         boolean status = false;
         Connection conn = null;
         PreparedStatement pst = null;
         ResultSet rs = null;
         
-        try {
-
+        try {       	
         	Context envContext = new InitialContext();
             Context initContext  = (Context)envContext.lookup("java:/comp/env");
             DataSource ds = (DataSource)initContext.lookup("jdbc/droppod");
