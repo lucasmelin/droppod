@@ -120,6 +120,7 @@ public class ListenDroppod {
             	podcast.setDescription(rs.getString("description"));
             	podcast.setUrl(rs.getURL("url"));
             	podcast.setThumbnail_url(rs.getURL("thumbnail_url"));
+            	podcast.setUuid(uuid);
             }
             
 

@@ -49,15 +49,16 @@
 							href="${pageContext.request.contextPath}/welcome.jsp"> <span
 								data-feather="cast"></span> <fmt:message key="welcome.casts" />
 						</a></li>
-						<li class="nav-item"><a class="nav-link" href="#"> <span
+						<li class="nav-item"><a class="nav-link" 
+						href="${pageContext.request.contextPath}/following.jsp"> <span
 								data-feather="users"></span> <fmt:message
 									key="welcome.following" />
 						</a></li>
 						<li class="nav-item"><a class="nav-link" href="#"> <span
 								data-feather="globe"></span> <fmt:message key="welcome.popular" />
 						</a></li>
-						<li class="nav-item"><a class="nav-link active"
-							href="${pageContext.request.contextPath}/addPodcast.jsp"> <span
+						<li class="nav-item"><a class="nav-link"
+							href="#"> <span
 								data-feather="plus-square"></span> <fmt:message
 									key="welcome.addapodcast" />
 						</a></li>

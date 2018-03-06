@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>	
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <c:set var="language"
 	value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}"
@@ -10,14 +11,7 @@
 <fmt:setLocale value="${language}" />
 <fmt:bundle basename="app">
 	<html lang="${language}">
-	
-<!-- 	
-<sql:query var="rs" dataSource="jdbc/droppod">
-	SELECT Count(*)FROM droppod.user_follows where podcast_id=(SELECT id FROM droppod.podcasts WHERE name=?) AND user_id=(SELECT id FROM droppod.users WHERE username =?)
-	<sql:param value="${podcast.name}"/>
-	<sql:param value="${name}" />
-</sql:query>
--->
+
 <head>
 <!-- Bootstrap CSS -->
 <link rel="stylesheet"
@@ -61,7 +55,8 @@
 							href="${pageContext.request.contextPath}/welcome.jsp"> <span
 								data-feather="cast"></span> <fmt:message key="welcome.casts" />
 						</a></li>
-						<li class="nav-item"><a class="nav-link" href="#"> <span
+						<li class="nav-item"><a class="nav-link" 
+						href="${pageContext.request.contextPath}/following.jsp"> <span
 								data-feather="users"></span> <fmt:message
 									key="welcome.following" />
 						</a></li>
@@ -95,10 +90,28 @@
 			
 			<br>
 			
+	      	<c:set var = "breakFlag" value = "0"/>	
+	      	
+			<c:forEach items = "${podcastIDs}" var="item" varStatus="loop">
+				<c:choose>
+					<c:when test = "${podcast.uuid == item}">
+						<a href="${pageContext.request.contextPath}/Unfollow">Unfollow</a>
+						<c:set var = "breakFlag" value = "${1}"/>
+					</c:when>
+					
+					<c:otherwise>
+						<c:if test = "${(loop.index == (fn:length(podcastIDs) - 1)) && (podcast.uuid != item) && (breakFlag == 0)}">
+							<a href="${pageContext.request.contextPath}/Follow">Follow</a>
+						</c:if> 
+					</c:otherwise>
+				</c:choose>
+			</c:forEach>
+			
+			<!-- 
 			<a href="${pageContext.request.contextPath}/Unfollow">Unfollow</a>
 			
 			<a href="${pageContext.request.contextPath}/Follow">Follow</a>
-			
+			-->
 			</div>
 			
 			

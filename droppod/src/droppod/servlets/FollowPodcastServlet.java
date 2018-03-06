@@ -94,9 +94,21 @@ public class FollowPodcastServlet extends HttpServlet{
             if (pst2.executeUpdate() == 1) {
             	System.out.println("SUCCESS");
             	
-            	ArrayList temp = (ArrayList) session.getAttribute("podcastIDs");
-            	temp.add(podcastID);
-            	session.setAttribute("podcastIDs", temp);
+            	String[] temp = (String[]) session.getAttribute("podcastIDs");
+            	
+            	String[] newPod = new String[temp.length];
+            	
+            	for (int i = 0; i < temp.length; i++) {
+            		newPod[i] = temp[i];
+            	}
+            	
+            	newPod[temp.length - 1] = uuid;
+            	
+            	for (int i = 0; i < newPod.length; i++) {
+            		System.out.println(newPod[i]);
+            	}
+            	            	
+            	session.setAttribute("podcastIDs", newPod);
             } else {
             	System.out.println("YOU SUCK");
             }

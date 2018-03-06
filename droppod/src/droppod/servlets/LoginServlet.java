@@ -34,7 +34,7 @@ public class LoginServlet extends HttpServlet{
         String p=request.getParameter("password"); 
         int userID = 0;
         //int [] podcastIDs = null;
-        ArrayList podcastIDs = new ArrayList();
+        String[] podcastIDs;
         
         HttpSession session = request.getSession(false);
         if(session!=null)
@@ -63,19 +63,19 @@ public class LoginServlet extends HttpServlet{
             con = ds.getConnection();
             
            /* Get podcast_ids by using the username */
-            pst = con.prepareStatement("SELECT podcast_id FROM droppod.user_follows WHERE user_id IN (SELECT id FROM droppod.users WHERE username=?)");
+            pst = con.prepareStatement("SELECT uuid FROM droppod.podcasts WHERE id IN (SELECT podcast_id FROM droppod.user_follows WHERE user_id IN (SELECT id FROM droppod.users WHERE username=?))");
             pst.setString(1, n);
             
             rs = pst.executeQuery();
             //rs.next();
             rs.last();
             int rowCount = rs.getRow();
-            //podcastIDs = new int[100];
+            podcastIDs = new String[rowCount];
             rs.first();
             //rs.next();
             for (int i = 0; i < rowCount; i++) {
-            	System.out.println(rs.getInt(1));
-            	podcastIDs.add(rs.getInt(1));
+            	System.out.println(rs.getString(1));
+            	podcastIDs[i] = rs.getString(1);
             	rs.next();
             }
             

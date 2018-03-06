@@ -85,18 +85,30 @@ public class UnfollowPodcastServlet extends HttpServlet{
             rs.next();
             int podcastID = rs.getInt(1);
             
+           
+            
             
             /* Query 2 for inserting userID and podcastID into user_follows table */
-            pst2 = con.prepareStatement("DELETE FROM droppod.user_follows WHERE podcast_id =? AND user_id = ?");  
-            pst2.setInt(1, podcastID);
+            pst2 = con.prepareStatement("DELETE FROM droppod.user_follows WHERE podcast_id IN (SELECT id FROM droppod.podcasts where uuid =?) AND user_id = ?");  
+            pst2.setString(1, uuid);
             pst2.setInt(2, userID);
         	
             if (pst2.executeUpdate() == 1) {
             	System.out.println("SUCCESS");
             	
-            	ArrayList temp = (ArrayList) session.getAttribute("podcastIDs");
-            	temp.remove(temp.size() - 1);
-            	session.setAttribute("podcastIDs", temp);
+            	String[] temp = (String[]) session.getAttribute("podcastIDs");
+            	
+            	String[] newPod = new String[temp.length - 1];
+            	
+            	for (int i = 0; i < temp.length - 1; i++) {
+            		newPod[i] = temp[i];
+            	}
+            	
+            	for (int i = 0; i < newPod.length; i++) {
+            		System.out.println(newPod[i]);
+            	}
+            	
+            	session.setAttribute("podcastIDs", newPod);
             	
             } else {
             	System.out.println("YOU SUCK");
