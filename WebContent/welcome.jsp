@@ -63,6 +63,14 @@ select name, thumbnail_url, uuid from droppod.podcasts
 						<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/addPodcast.jsp"> <span
 								data-feather="plus-square"></span><fmt:message key="welcome.addapodcast" />
 						</a></li>
+						<%
+				if((Integer)session.getAttribute("accessLevel")==1){
+	%><li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/admin.jsp"> <span
+								data-feather="plus-square"></span><fmt:message key="welcome.addapodcast" />
+						</a></li><%
+}
+
+%> 
 					</ul>
 				</div>
 			</nav>

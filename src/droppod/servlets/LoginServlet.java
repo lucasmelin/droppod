@@ -24,12 +24,15 @@ public class LoginServlet extends HttpServlet{
         
         String n=request.getParameter("username");  
         String p=request.getParameter("password"); 
-        
+        int userAccessLevel = LoginDroppod.validate(n, p);     	//return access level and set as session variable
         HttpSession session = request.getSession(false);
+        
         if(session!=null)
         session.setAttribute("name", n);
+        session.setAttribute("accessLevel", userAccessLevel);
 
-        if(LoginDroppod.validate(n, p)){  
+        
+        if(userAccessLevel>0){  
             RequestDispatcher rd=request.getRequestDispatcher("welcome.jsp");  
             rd.forward(request,response);  
         }  

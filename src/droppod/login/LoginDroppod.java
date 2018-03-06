@@ -11,8 +11,10 @@ import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 public class LoginDroppod {
-    public static boolean validate(String name, String pass) {        
-        boolean status = false;
+	/*instead of returning true/false to verify if user exists,
+	return an int specifying their access level or 0 for no records*/
+    public static int validate(String name, String pass) {        
+        int userStatus = 0;
         Connection conn = null;
         PreparedStatement pst = null;
         ResultSet rs = null;
@@ -30,9 +32,10 @@ public class LoginDroppod {
             pst.setString(1, name);
             pst.setString(2, pass);
             rs = pst.executeQuery();
-            status = rs.next();
+            if(rs.next()){
+            userStatus = rs.getInt("account_type_id"); //getInt returns 0 if value is NULL no need for additional testing
+            }
             
-
         } catch (Exception e) {
             System.out.println(e);
         } finally {
@@ -58,6 +61,6 @@ public class LoginDroppod {
                 }
             }
         }
-        return status;
+        return userStatus;
     }
 }
