@@ -1,7 +1,9 @@
 package droppod.servlets;
 
+import droppod.bcrypt.BCrypt;
 
 import java.io.IOException;
+
 import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
@@ -23,16 +25,18 @@ public class SignUpServlet extends HttpServlet{
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
 		
-		String n=request.getParameter("username");  
-        String p=request.getParameter("password");
-        String e=request.getParameter("email");
-        String p2=request.getParameter("repassword");
+		String name = request.getParameter("username");  
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
+        String repassword = request.getParameter("repassword");
+        String hashedpassword = BCrypt.hashpw(password, BCrypt.gensalt(10));
         
         HttpSession session = request.getSession(false);
+        
         if(session!=null)
-        session.setAttribute("name", n);
+        session.setAttribute("name", name);
 
-        if(p.equals(p2) && UserDao.add(n,p,e)){ 
+        if(password.equals(repassword) && UserDao.add(name, hashedpassword, email)){ 
         	out.print("<p>User was added.</p>");
             RequestDispatcher rd=request.getRequestDispatcher("index.jsp");  
             rd.forward(request,response);  
