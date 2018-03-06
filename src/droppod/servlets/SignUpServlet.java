@@ -47,9 +47,10 @@ public class SignUpServlet extends HttpServlet{
     	   RequestDispatcher rd=request.getRequestDispatcher("index.jsp");	//Return the user to the sign in page  
            rd.forward(request,response); 			//forward the request and response 
 		}else{  										//If there was an error performing the sql statement
-            out.print("<p style=\"color:red\">Sorry there was an error processing your current request.</p>");  //Let the user know there was a problem processing the request
-            RequestDispatcher rd=request.getRequestDispatcher("index.jsp");  //Return the user to the sign in page
-            rd.include(request,response);
+            //out.print("<p style=\"color:red\">Sorry there was an error processing your current request.</p>");  //Let the user know there was a problem processing the request
+            //RequestDispatcher rd=request.getRequestDispatcher("index.jsp");  //Return the user to the sign in page
+            //rd.include(request,response);
+		  response.sendRedirect(request.getHeader("referer"));
         }
 
         out.close();  //Close the printwriter

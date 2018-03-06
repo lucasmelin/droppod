@@ -46,7 +46,7 @@
 			<fmt:message key="index.noaccount" /> <a
 				href="${pageContext.request.contextPath}/signUp.jsp"><fmt:message key="index.clickhere" /></a>
 		</p>
-		<form>
+		<form action="setLanguageServlet" method="get">
 			<select id="language" name="language"
 				style="background-color: #003399; color: #f2f2f2"
 				onchange="submit()">

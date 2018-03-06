@@ -11,6 +11,7 @@
 		<servlet-name>logout</servlet-name>
 		<servlet-class>droppod.servlets.LogoutServlet</servlet-class>
 	</servlet>
+	<servlet>
     	<servlet-name>signup</servlet-name>
     	<servlet-class>droppod.servlets.SignUpServlet</servlet-class>
     </servlet>

@@ -45,7 +45,7 @@ select id, name, description, thumbnail_url from droppod.podcasts
 				name="search" placeholder="Search" aria-label="Search">
 		</form>
 		<ul class="navbar-nav px-3">
-			<li class="nav-item text-nowrap"><a class="nav-link" href="#"><fmt:message
+			<li class="nav-item text-nowrap"><a class="nav-link" href="${pageContext.request.contextPath}/logout"><fmt:message
 						key="welcome.signout" /></a></li>
 		</ul>
 	</nav>
