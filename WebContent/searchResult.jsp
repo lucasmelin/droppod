@@ -82,12 +82,9 @@ select id, name, description, thumbnail_url from droppod.podcasts
 		</div>
 	</div>
 
-
-	<div class="container">
-		<h4>Results for "${searchEntry}"</h4>
-		<br> <br> <br>
-
-		<c:forEach var="podresult" items="${requestScope.search}">
+	<div class="container" >
+	<h5 class="my-0 mr-md-auto font-weight-normal">Results for "${searchEntry}"</h5>
+		<c:forEach var="podresult" items="${search}">
 			<div class="row">
 
 				<div class="card flex-md-row mb-4 box-shadow h-md-250"
@@ -101,7 +98,7 @@ select id, name, description, thumbnail_url from droppod.podcasts
 					</div>
 					<img class="card-img-right flex-auto d-none d-md-block"
 						data-src="${podresult.thumbnail_url}" alt="Thumbnail [200x250]"
-						style="width: 200px; height: 250px; border-radius: 0px 10px 10px 0px;"
+						style="width: 200px; height: 250px; border-radius: 0px 10px 10px 0px;margins:0px"
 						src="${podresult.thumbnail_url}" data-holder-rendered="true">
 				</div>
 
