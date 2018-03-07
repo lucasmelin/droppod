@@ -27,10 +27,12 @@ public class LoginServlet extends HttpServlet{
         String p=request.getParameter("password"); 
         
         HttpSession session = request.getSession(false);
+        
         if(session!=null)
         session.setAttribute("name", n);
-
+      
         if(LoginDroppod.validate(n, p)){  
+        	session.setAttribute("accessLevel", LoginDroppod.verifyAccess(n));
             RequestDispatcher rd=request.getRequestDispatcher("/welcome.jsp");  
             rd.forward(request,response);  
         }  

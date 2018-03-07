@@ -63,6 +63,14 @@
 								data-feather="plus-square"></span> <fmt:message
 									key="welcome.addapodcast" />
 						</a></li>
+							<%
+				if((Integer)session.getAttribute("accessLevel")==1){
+				%>
+				<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/admin.jsp"> <span
+								data-feather="plus-square"></span><fmt:message key="welcome.addapodcast" />
+						</a></li>
+						<%}
+						%>
 					</ul>
 				</div>
 			</nav>
@@ -82,9 +90,11 @@
 
 				<c:forEach items="${episodes}" var="episodes">
 					<div class="row">
-						<c:out value="${episodes.name}" />
-						<c:out value="${episodes.description}" />
+						<h4><c:out value="${episodes.name}" /></h4>
 						<button class="episode-play-button" value="${episodes.url}">PLAY</button>
+						<p>
+						<c:out value="${episodes.description}" />
+						</p>
 					</div>
 				</c:forEach>
 
@@ -93,23 +103,23 @@
 				<div class="droppod-player" style="display: none;">
 					<div class="droppod-player-controls">
 						<button class="droppod-play">
-							<i class="fa fa-play"></i><span>Play</span>
+							<i data-feather="play"></i><span>Play</span>
 						</button>
 						<button class="droppod-pause">
-							<i class="fa fa-pause"></i><span>Pause</span>
+							<i data-feather="pause"></i><span>Pause</span>
 						</button>
 						<button class="droppod-rewind">
-							<i class="fa fa-fast-backward"></i><span>Rewind</span>
+							<i data-feather="rewind"></i><span>Rewind</span>
 						</button>
 						<button class="droppod-fast-forward">
-							<i class="fa fa-fast-forward"></i><span>FastForward</span>
+							<i data-feather="fast-forward"></i><span>FastForward</span>
 						</button>
 						<span class="droppod-currenttime droppod-time">00:00</span>
 						<progress class="droppod-progress" value="0"></progress>
 						<span class="droppod-duration droppod-time">00:00</span>
 						<button class="droppod-speed">1x</button>
 						<button class="droppod-mute">
-							<i class="fa fa-volume-up"></i><span>Mute/Unmute</span>
+							<i data-feather="volume"></i><i data-feather="volume-x" style="display: none"></i><span>Mute/Unmute</span>
 						</button>
 					</div>
 					<audio id="droppod-audio" src=""></audio>

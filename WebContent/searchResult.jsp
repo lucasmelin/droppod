@@ -4,9 +4,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
-<sql:query var="rs" dataSource="jdbc/droppod">
-select id, name, description, thumbnail_url from droppod.podcasts
-</sql:query>
 
 <c:set var="language"
 	value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}"
@@ -81,24 +78,29 @@ select id, name, description, thumbnail_url from droppod.podcasts
 		</div>
 	</div>
 
+<div role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+	<h5 class="my-0 mr-md-auto font-weight-normal">Results for "${searchEntry}"</h5>
+		<c:forEach var="podresult" items="${search}">
+			<div class="row">
 
-	<div class="container" style="float:right">
-		<div class="row">
-			<h4>Results for "${param.search}"</h4>
-
-
-			<c:forEach var="row" items="${rs.rows}">
-				<c:if test="${fn:contains(row.name, myVar)}">
-	
-	    Name ${row.name}<br />
-	    Description ${row.description}<br />
-					<div class="album-art">
-						<img src="${row.thumbnail_url}">
+				<div class="card flex-md-row mb-4 box-shadow h-md-250"
+					style="max-width: 70%; border-radius: 10px; margin-left: auto; margin-right: auto;">
+					<div class="card-body d-flex flex-column align-items-start">
+						<h3 class="mb-0">
+							<a class="text-dark" href="${podresult.url}">${podresult.name}</a>
+						</h3>
+						<div class="mb-1 text-muted">Nov 12</div>
+						<p class="card-text mb-auto">${podresult.description}</p>
 					</div>
-				</c:if>
+					<img class="card-img-right flex-auto d-none d-md-block"
+						data-src="${podresult.thumbnail_url}" alt="Thumbnail [200x250]"
+						style="width: 200px; height: 250px; border-radius: 0px 10px 10px 0px;margins:0px"
+						src="${podresult.thumbnail_url}" data-holder-rendered="true">
+				</div>
 
-			</c:forEach>
-		</div>
+			</div>
+		</c:forEach>
+
 		<div class="droppod-player">
 			<div class="droppod-player-controls">
 				<button class="droppod-play">
