@@ -80,7 +80,7 @@ public class UnfollowPodcastServlet extends HttpServlet{
            /* Get podcast id by using the uuid */
             pst = con.prepareStatement("SELECT id FROM droppod.podcasts WHERE uuid=?");
             pst.setString(1, uuid);
-            
+            System.out.println(uuid);
             rs = pst.executeQuery();
             rs.next();
             int podcastID = rs.getInt(1);
@@ -94,14 +94,21 @@ public class UnfollowPodcastServlet extends HttpServlet{
             pst2.setInt(2, userID);
         	
             if (pst2.executeUpdate() == 1) {
-            	System.out.println("SUCCESS");
             	
             	String[] temp = (String[]) session.getAttribute("podcastIDs");
             	
             	String[] newPod = new String[temp.length - 1];
             	
-            	for (int i = 0; i < temp.length - 1; i++) {
-            		newPod[i] = temp[i];
+            	System.out.println("temp Length: " + temp.length);
+            	System.out.println("New Length: " + newPod.length);
+
+            	
+            	
+            	for (int i = 0, j = 0; i < temp.length; i++) {
+            		if (temp[i].compareTo(uuid) != 0) {
+            			newPod[j] = temp[i];
+            			j++;
+            		}
             	}
             	
             	for (int i = 0; i < newPod.length; i++) {
