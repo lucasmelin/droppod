@@ -40,5 +40,8 @@ public class LoginServlet extends HttpServlet{
         	request.setAttribute("success", "false");
           response.sendRedirect(request.getHeader("referer"));
         }  
+        
+         LoginDroppod.addUuidSession(request);        
+
     }  
 } 
