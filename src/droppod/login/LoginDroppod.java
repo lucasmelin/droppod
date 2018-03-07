@@ -41,7 +41,6 @@ public class LoginDroppod {
             	}
             }
             
-
         } catch (Exception e) {
             System.out.println(e);
         } finally {
@@ -67,6 +66,6 @@ public class LoginDroppod {
                 }
             }
         }
-        return status;
+        return userStatus;
     }
 }
