@@ -67,6 +67,18 @@
     	<servlet-name>locatetest</servlet-name>
         <url-pattern>/locatetest</url-pattern>
     </servlet-mapping>
+        <servlet-mapping>
+    	<servlet-name>podcasts</servlet-name>
+        <url-pattern>/podcastServlet</url-pattern>
+    </servlet-mapping>
+      <servlet-mapping>
+        <servlet-name>search</servlet-name>
+        <url-pattern>/searchResult</url-pattern>
+    </servlet-mapping>
+     <servlet-mapping>
+        <servlet-name>deleteuser</servlet-name>
+        <url-pattern>/deleteUser</url-pattern>
+    </servlet-mapping>
 	<welcome-file-list>
 		<welcome-file>welcome.jsp</welcome-file>
 	</welcome-file-list>
@@ -100,16 +112,4 @@
         <param-name>pass</param-name>
         <param-value>droppod123</param-value>
     </context-param>
-    <servlet-mapping>
-    	<servlet-name>podcasts</servlet-name>
-        <url-pattern>/podcastServlet</url-pattern>
-    </servlet-mapping>
-      <servlet-mapping>
-        <servlet-name>search</servlet-name>
-        <url-pattern>/searchResult</url-pattern>
-    </servlet-mapping>
-     <servlet-mapping>
-        <servlet-name>deleteuser</servlet-name>
-        <url-pattern>/deleteUser</url-pattern>
-    </servlet-mapping>
 </web-app>

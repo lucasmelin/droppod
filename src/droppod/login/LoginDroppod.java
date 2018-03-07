@@ -14,7 +14,6 @@ import javax.sql.DataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import droppod.executor.refreshFeedDroppod;
 
 public class LoginDroppod {
 	final static Logger logger = LoggerFactory.getLogger(LoginDroppod.class);
@@ -66,6 +65,6 @@ public class LoginDroppod {
                 }
             }
         }
-        return userStatus;
+        return status;
     }
 }
