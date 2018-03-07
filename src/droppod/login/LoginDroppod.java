@@ -118,60 +118,59 @@ public class LoginDroppod {
         return userStatus;
     }
 	
-	public static boolean addUuidSession(HttpServletRequest request) {
-	 Connection con = null;
-	 PreparedStatement pst = null;
-	 ResultSet rs = null;
-	 String[] podcastIDs;
-
-	 try {
-	     String n=request.getParameter("username");  
-		 HttpSession session = request.getSession(false);
-		 Context envContext = new InitialContext();
-	     Context initContext  = (Context)envContext.lookup("java:/comp/env");
-	     DataSource ds = (DataSource)initContext.lookup("jdbc/droppod");          
-	     con = ds.getConnection();
-
-	    /* Get podcast_ids by using the username */
-	     pst = con.prepareStatement("SELECT uuid FROM droppod.podcasts WHERE id IN (SELECT podcast_id FROM droppod.subscriptions WHERE user_id IN (SELECT id FROM droppod.users WHERE username=?))");
-	     pst.setString(1, n);
-
-	     rs = pst.executeQuery();
-	     //rs.next();
-	     rs.last();
-	     int rowCount = rs.getRow();
-	     podcastIDs = new String[rowCount];
-	     rs.first();
-	     //rs.next();
-	     for (int i = 0; i < rowCount; i++) {
-		System.out.println(rs.getString(1));
-		podcastIDs[i] = rs.getString(1);
-		rs.next();
-	     }
-
-	     session.setAttribute("podcastIDs", podcastIDs);
-
-
-	 } catch (Exception e) {
-		System.out.println("Exception: " + e.getMessage());
-	 } finally {
-	     if (con != null) {
-		 try {
-		     con.close();
-		 } catch (SQLException e) {
-		     e.printStackTrace();
-		 }
-	     }
-	     if (pst != null) {
-		 try {
-		     pst.close();
-		 } catch (SQLException e) {
-		     e.printStackTrace();
-		 }
-	     }
-	 }
-
-	return true;
-	}
+	public static String[] addUuidSession(String n) {
+   	 Connection con = null;
+        PreparedStatement pst = null;
+        ResultSet rs = null;
+        String[] podcastIDs = null;
+        
+        try {
+        	//String n=request.getParameter("username");  
+       	 //HttpSession session = request.getSession(false);
+       	 Context envContext = new InitialContext();
+            Context initContext  = (Context)envContext.lookup("java:/comp/env");
+            DataSource ds = (DataSource)initContext.lookup("jdbc/droppod");          
+            con = ds.getConnection();
+            
+           /* Get podcast_ids by using the username */
+            pst = con.prepareStatement("SELECT uuid FROM droppod.podcasts WHERE id IN (SELECT podcast_id FROM droppod.subscriptions WHERE user_id IN (SELECT id FROM droppod.users WHERE username=?))");
+            pst.setString(1, n);
+            
+            rs = pst.executeQuery();
+            //rs.next();
+            rs.last();
+            int rowCount = rs.getRow();
+            podcastIDs = new String[rowCount];
+            rs.first();
+            //rs.next();
+            for (int i = 0; i < rowCount; i++) {
+            	podcastIDs[i] = rs.getString(1);
+            	rs.next();
+            }
+            
+            for (int i = 0; i < podcastIDs.length; i++) {
+            	System.out.println(podcastIDs[i]);
+            }
+            
+        } catch (Exception e) {
+        	System.out.println("Exception: " + e.getMessage());
+        } finally {
+            if (con != null) {
+                try {
+                    con.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (pst != null) {
+                try {
+                    pst.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return podcastIDs;
+   }
 
 }
