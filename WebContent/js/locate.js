@@ -18,11 +18,8 @@ function geoFindMe() {
     
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "http://localhost:8080/droppod/locatetest", true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.send(JSON.stringify({
-        lat: latitude,
-        long: longitude
-    }));
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.send("lat="+latitude+"&long="+longitude);    
   }
 
   function error() {
