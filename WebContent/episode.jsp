@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <c:set var="language"
 	value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}"
@@ -89,6 +90,23 @@
 					<div class="col-md-4">
 						<h1>${podcast.name}</h1>
 						${podcast.description}
+						
+						<br>
+						
+						<c:forEach items = "${podcastIDs}" var="item" varStatus="loop">
+							<c:choose>
+								<c:when test = "${podcast.uuid == item}">
+									<a href="${pageContext.request.contextPath}/Unfollow">Unfollow</a>
+									<c:set var = "breakFlag" value = "${1}"/>
+								</c:when>
+								
+								<c:otherwise>
+									<c:if test = "${(loop.index == (fn:length(podcastIDs) - 1)) && (breakFlag == 0)}">
+										<a href="${pageContext.request.contextPath}/Follow">Follow</a>
+									</c:if> 
+								</c:otherwise>
+							</c:choose>
+						</c:forEach>
 					</div>
 
 				</div>
