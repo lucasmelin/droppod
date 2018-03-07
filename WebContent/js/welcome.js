@@ -82,12 +82,13 @@
     mute.addEventListener('click', function() {
       if(audio.muted) {
         audio.muted = false;
-        this.querySelector('.fa').classList.remove('fa-volume-off');
-        this.querySelector('.fa').classList.add('fa-volume-up');
+        this.querySelector('.feather-volume-x').style.display = 'none';
+        this.querySelector('.feather-volume').style.display = 'block';
+        feather.replace();
       } else {
         audio.muted = true;
-        this.querySelector('.fa').classList.remove('fa-volume-up');
-        this.querySelector('.fa').classList.add('fa-volume-off');
+        this.querySelector('.feather-volume-x').style.display = 'block';
+        this.querySelector('.feather-volume').style.display = 'none';
       }
     }, false);
   }
