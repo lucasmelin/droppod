@@ -27,4 +27,5 @@ dependencies {
 	testCompile group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.25'
 	compile group: 'javax.servlet', name: 'jstl', version: '1.2'
 	compile 'com.google.cloud:google-cloud-translate:1.14.0'
+	compile 'com.google.maps:google-maps-services:0.2.6'
 }
