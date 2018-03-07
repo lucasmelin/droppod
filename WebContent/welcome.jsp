@@ -63,13 +63,16 @@ select thumbnail_url, uuid from droppod.podcasts
 								data-feather="plus-square"></span><fmt:message key="welcome.addapodcast" />
 						</a></li>
 						<%
-				if((Integer)session.getAttribute("accessLevel")==1){
-	%><li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/admin.jsp"> <span
-								data-feather="plus-square"></span><fmt:message key="welcome.addapodcast" />
-						</a></li><%
-}
-
-%> 
+						  if ((Integer) session.getAttribute("accessLevel") == 1) {
+						%>
+						<li class="nav-item"><a class="nav-link"
+							href="${pageContext.request.contextPath}/admin.jsp"> <span
+								data-feather="shield"></span>
+							<fmt:message key="welcome.admin" />
+						</a></li>
+						<%
+						  }
+						%>
 					</ul>
 				</div>
 			</nav>
