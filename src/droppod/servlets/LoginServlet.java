@@ -34,13 +34,9 @@ public class LoginServlet extends HttpServlet{
             RequestDispatcher rd=request.getRequestDispatcher("/welcome.jsp");  
             rd.forward(request,response);  
         }  
-        else{  
-            //out.print("<p style=\"color:red\">Sorry username or password error</p>");  
-            // RequestDispatcher rd=request.getRequestDispatcher("/index.jsp"); 
-            response.sendRedirect(request.getHeader("referer"));
-            //rd.forward(request,response);  
+        else{ 
+        	request.setAttribute("success", "false");
+          response.sendRedirect(request.getHeader("referer"));
         }  
-
-        out.close();  
     }  
 } 

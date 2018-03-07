@@ -1,10 +1,11 @@
 package droppod.login;
 
+import droppod.bcrypt.BCrypt;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -22,6 +23,7 @@ public class LoginDroppod {
         Connection conn = null;
         PreparedStatement pst = null;
         ResultSet rs = null;
+        int passwordColumn = 3;
         
         try {       	
         	Context envContext = new InitialContext();
@@ -30,11 +32,15 @@ public class LoginDroppod {
             conn = ds.getConnection();
                          
             pst = conn
-            		.prepareStatement("select * from droppod.users where username=? and password=?");
+            		.prepareStatement("select * from droppod.users where username=?");
             pst.setString(1, name);
-            pst.setString(2, pass);
             rs = pst.executeQuery();
-            status = rs.next();
+            if (rs.next()) { //True if username exists in database otherwise false.
+            	if (BCrypt.checkpw(pass, rs.getString(passwordColumn))) {
+            		status = true;
+            	}
+            }
+            
 
         } catch (Exception e) {
             System.out.println(e);

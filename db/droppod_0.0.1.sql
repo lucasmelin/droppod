@@ -134,7 +134,7 @@ DEFAULT CHARACTER SET = utf8mb4;
 CREATE TABLE IF NOT EXISTS `droppod`.`users` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `username` VARCHAR(45) NOT NULL,
-  `password` VARCHAR(45) NOT NULL,
+  `password` VARCHAR(60) NOT NULL,
   `email` VARCHAR(45) NOT NULL,
   `validated` TINYINT(4) NOT NULL,
   `profile_picture` BLOB NULL DEFAULT NULL,
