@@ -4,9 +4,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
-<!--<sql:query var="rs" dataSource="jdbc/droppod">
-select id, name, description, thumbnail_url from droppod.podcasts
-</sql:query>-->
 
 <c:set var="language"
 	value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}"
@@ -81,7 +78,7 @@ select id, name, description, thumbnail_url from droppod.podcasts
 		</div>
 	</div>
 
-	<div class="container" >
+<div role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
 	<h5 class="my-0 mr-md-auto font-weight-normal">Results for "${searchEntry}"</h5>
 		<c:forEach var="podresult" items="${search}">
 			<div class="row">

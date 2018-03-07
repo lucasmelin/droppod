@@ -1,12 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-
-<sql:query var="rs" dataSource="jdbc/droppod">
-select name, thumbnail_url, uuid from droppod.podcasts
-</sql:query>
 
 <c:set var="language"
 	value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}"
@@ -65,8 +60,7 @@ select name, thumbnail_url, uuid from droppod.podcasts
 			</nav>
 		</div>
 	</div>
-	<div class = "container">
-	<h4>Admin</h4>
+<div role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">	<h4>Admin</h4>
 	<br>
 	<form action="deleteUser" method="post">
 			<fieldset style="width: 300px">

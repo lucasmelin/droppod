@@ -83,7 +83,7 @@ public class LoginDroppod {
             conn = ds.getConnection();
                          
             pst = conn
-            		.prepareStatement("select * from droppod.users where username=? and password=?");
+            		.prepareStatement("select * from droppod.users where username=?");
             pst.setString(1, name);
             rs = pst.executeQuery();
             if(rs.next()){
