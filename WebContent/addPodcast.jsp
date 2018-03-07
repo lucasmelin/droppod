@@ -25,12 +25,14 @@
 </head>
 <body>
 	<nav class="navbar navbar-dark bg-mint sticky-top flex-md-nowrap p-0">
-		<a class="navbar-brand col-sm-3 col-md-2 mr-0">DropPod</a> 
-		<form class="form-inline w-100 my-2 my-lg-0" action="searchResult.jsp" method="get">
-		 	<input class="form-control form-control-mint w-100" type="text" name="search" placeholder="Search" aria-label="Search">
+		<a class="navbar-brand col-sm-3 col-md-2 mr-0">DropPod</a>
+		<form class="form-inline w-100 my-2 my-lg-0" action="searchResult.jsp"
+			method="get">
+			<input class="form-control form-control-mint w-100" type="text"
+				name="search" placeholder="Search" aria-label="Search">
 		</form>
 		<ul class="navbar-nav px-3">
-			<li class="nav-item text-nowrap"><a class="nav-link" href="#"><fmt:message
+			<li class="nav-item text-nowrap"><a class="nav-link" href="${pageContext.request.contextPath}/logout"><fmt:message
 						key="welcome.signout" /></a></li>
 		</ul>
 	</nav>
@@ -63,30 +65,20 @@
 					</ul>
 				</div>
 			</nav>
+			<div role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+				<div class="border-bottom mb-3">
+					<h3><fmt:message key="welcome.addapodcast" /></h3>
+				</div>
+				<form action="addPodcastServlet" method="post">
+					<div class="form-group">
+						<input type="text" class="form-control" name="podcasturl" id="podcasturl" required="required" placeholder="<fmt:message key="addpodcast.podcasturl" />" />
+					</div>
+					<input type="submit" class="btn btn-success" value="<fmt:message key="addpodcast.add" />" />
+				</form>
+				<!--  Will display info about the added podcast -->
+				<p>${message}</p>
+			</div>
 		</div>
-	</div>
-
-
-	<div class="container" style="float:right">
-		<form action="addPodcastServlet" method="post">
-			<fieldset style="width: 300px">
-				<legend>
-					<fmt:message key="welcome.addapodcast" />
-				</legend>
-				<table>
-					<tr>
-						<td><fmt:message key="addpodcast.podcasturl" /></td>
-						<td><input type="text" name="podcasturl" required="required" /></td>
-					</tr>
-					<tr>
-						<td><input type="submit"
-							value="<fmt:message key="addpodcast.add" />" /></td>
-					</tr>
-				</table>
-			</fieldset>
-		</form>
-		<!--  Will display info about the added podcast -->
-		<p>${message}</p>
 	</div>
 
 	<!-- Optional JavaScript -->
@@ -103,9 +95,9 @@
 		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
 		crossorigin="anonymous"></script>
 	<script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
-	<script> 
-      feather.replace() 
-    </script>
+	<script>
+		feather.replace()
+	</script>
 	<script src="js/welcome.js"></script>
 </body>
 </fmt:bundle>

@@ -38,7 +38,7 @@ select thumbnail_url, uuid from droppod.podcasts
 		 	<input class="form-control form-control-mint w-100" type="text" name="search" placeholder="Search" aria-label="Search">
 		</form>
 		<ul class="navbar-nav px-3">
-			<li class="nav-item text-nowrap"><a class="nav-link" href="#"><fmt:message key="welcome.signout" /></a></li>
+			<li class="nav-item text-nowrap"><a class="nav-link" href="${pageContext.request.contextPath}/logout"><fmt:message key="welcome.signout" /></a></li>
 		</ul>
 	</nav>
 
@@ -65,25 +65,26 @@ select thumbnail_url, uuid from droppod.podcasts
 					</ul>
 				</div>
 			</nav>
-		</div>
-	</div>
-
-
-	<div class="container" style="float:right">
-		<div class="row">
-			<c:forEach var="row" items="${rs.rows}" varStatus="loopStatus">
-				<c:if test="${loopStatus.index % 4 == 0}">
-		</div>
-		<div class="row">
-			</c:if>
-			<div class="image col" style="width: 130px; height: 100%;">
-				<a
-					href="${pageContext.request.contextPath}/podcastServlet?uuid=${row.uuid}">
-					<img src="${row.thumbnail_url}" alt="${row.name}"
-					style="width: 100%; height: 100%; border-radius: 3px;">
-				</a>
+			<div role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+				<div class="border-bottom mb-3">
+				<h3>Casts</h3>
+				</div>
+				<div class="row">
+					<c:forEach var="row" items="${rs.rows}" varStatus="loopStatus">
+						<c:if test="${loopStatus.index % 4 == 0}">
+				</div>
+				<div class="row mb-4">
+					</c:if>
+					<div class="col-sm-3">
+						<a
+							href="${pageContext.request.contextPath}/podcastServlet?uuid=${row.uuid}">
+							<img src="${row.thumbnail_url}" alt="${row.name}"
+							style="width: 100%; height=auto; border-radius: 3px;">
+						</a>
+					</div>
+					</c:forEach>
+				</div>
 			</div>
-			</c:forEach>
 		</div>
 	</div>
 
@@ -101,9 +102,9 @@ select thumbnail_url, uuid from droppod.podcasts
 		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
 		crossorigin="anonymous"></script>
 	<script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
-	<script> 
-      feather.replace() 
-    </script>
+	<script>
+		feather.replace()
+	</script>
 	<script src="js/welcome.js"></script>
 </body>
 </body>

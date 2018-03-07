@@ -114,14 +114,14 @@ CREATE TABLE IF NOT EXISTS `droppod`.`episodes_translations` (
   PRIMARY KEY (`id`),
   INDEX `fk_episodes_translations_languages_language_code_idx` (`language_code` ASC),
   INDEX `fk_episodes_translations_episodes_episode_id_idx` (`episode_id` ASC),
-  CONSTRAINT `fk_episodes_translations_languages_language_code`
-    FOREIGN KEY (`language_code`)
-    REFERENCES `droppod`.`languages` (`code`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
   CONSTRAINT `fk_episodes_translations_episodes_episode_id`
     FOREIGN KEY (`episode_id`)
     REFERENCES `droppod`.`episodes` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_episodes_translations_languages_language_code`
+    FOREIGN KEY (`language_code`)
+    REFERENCES `droppod`.`languages` (`code`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -134,7 +134,7 @@ DEFAULT CHARACTER SET = utf8mb4;
 CREATE TABLE IF NOT EXISTS `droppod`.`users` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `username` VARCHAR(45) NOT NULL,
-  `password` VARCHAR(45) NOT NULL,
+  `password` VARCHAR(60) NOT NULL,
   `email` VARCHAR(45) NOT NULL,
   `validated` TINYINT(4) NOT NULL,
   `profile_picture` BLOB NULL DEFAULT NULL,
@@ -144,6 +144,7 @@ CREATE TABLE IF NOT EXISTS `droppod`.`users` (
   `night_mode_enabled` TINYINT(4) NULL DEFAULT NULL,
   `active` TINYINT(4) NULL DEFAULT NULL,
   `account_type_id` INT(11) NULL DEFAULT NULL,
+  `uuid` VARCHAR(45) NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `username_UNIQUE` (`username` ASC),
   INDEX `country_id_idx` (`country_id` ASC),
@@ -317,6 +318,16 @@ CREATE
 DEFINER=`root`@`localhost`
 TRIGGER `droppod`.`podcasts_BEFORE_INSERT`
 BEFORE INSERT ON `droppod`.`podcasts`
+FOR EACH ROW
+BEGIN
+ SET new.uuid = uuid();
+END$$
+
+USE `droppod`$$
+CREATE
+DEFINER=`root`@`localhost`
+TRIGGER `droppod`.`users_BEFORE_INSERT`
+BEFORE INSERT ON `droppod`.`users`
 FOR EACH ROW
 BEGIN
  SET new.uuid = uuid();
