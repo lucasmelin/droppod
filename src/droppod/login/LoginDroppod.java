@@ -66,6 +66,56 @@ public class LoginDroppod {
                 }
             }
         }
+        return status;
+    }
+    
+    public static int verifyAccess(String name) {        
+        int userStatus = 0;
+        Connection conn = null;
+        PreparedStatement pst = null;
+        ResultSet rs = null;
+        
+        try {
+
+        	Context envContext = new InitialContext();
+            Context initContext  = (Context)envContext.lookup("java:/comp/env");
+            DataSource ds = (DataSource)initContext.lookup("jdbc/droppod");
+            conn = ds.getConnection();
+                         
+            pst = conn
+            		.prepareStatement("select * from droppod.users where username=? and password=?");
+            pst.setString(1, name);
+            rs = pst.executeQuery();
+            if(rs.next()){
+            userStatus = rs.getInt("account_type_id"); //getInt returns 0 if value is NULL no need for additional testing
+            }
+            
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (pst != null) {
+                try {
+                    pst.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
         return userStatus;
     }
+
 }
