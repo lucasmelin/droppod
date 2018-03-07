@@ -38,14 +38,13 @@ public class SignUpServlet extends HttpServlet{
         
         if(session!=null)
         session.setAttribute("name", name);
-        if(UserDao.add(n,p,e)) {
-
+        
         if(password.equals(repassword) && UserDao.add(name, hashedpassword, email)){
           uuid = UserDao.getUuid(name);
           if (uuid != null){
             try{
               MailDroppod.sendEmail(email, uuid);
-            } catch (AddressException | MessagingException ex){
+            } catch (MessagingException ex){
               ex.printStackTrace();
             }
           }

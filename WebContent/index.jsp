@@ -38,8 +38,8 @@
 			<div class="btn-group" role="group">
 			    <select class="btn btn-outline-dark dropdown-toggle" aria-labelledby="btnGroupDrop1" id="language" name="language"
 				onchange="submit()">
-			      <option class="dropdown-item" value="en" ${language == 'en' ? 'selected' : ''}>En</option>
-			      <option class="dropdown-item" value="fr" ${language == 'fr' ? 'selected' : ''}>Fr</option>
+			      <option class="dropdown-item" value="en" ${language == 'en' ? 'selected' : ''}>English</option>
+			      <option class="dropdown-item" value="fr" ${language == 'fr' ? 'selected' : ''}>Français</option>
 			    </select>
 			</div>
 		</div>
