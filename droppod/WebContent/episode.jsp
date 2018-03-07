@@ -92,6 +92,9 @@
 			
 	      	<c:set var = "breakFlag" value = "0"/>	
 	      	
+	      	<c:if test="${fn:length(podcastIDs) == 0}">
+	      		<a href="${pageContext.request.contextPath}/Follow">Follow</a>
+	      	</c:if>	      	
 			<c:forEach items = "${podcastIDs}" var="item" varStatus="loop">
 				<c:choose>
 					<c:when test = "${podcast.uuid == item}">
@@ -100,7 +103,7 @@
 					</c:when>
 					
 					<c:otherwise>
-						<c:if test = "${(loop.index == (fn:length(podcastIDs) - 1)) && (podcast.uuid != item) && (breakFlag == 0)}">
+						<c:if test = "${(loop.index == (fn:length(podcastIDs) - 1)) && (breakFlag == 0)}">
 							<a href="${pageContext.request.contextPath}/Follow">Follow</a>
 						</c:if> 
 					</c:otherwise>
