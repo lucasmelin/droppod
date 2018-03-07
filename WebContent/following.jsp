@@ -1,10 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <sql:query var="rs" dataSource="jdbc/droppod">
-select thumbnail_url, uuid from droppod.podcasts
+select name, thumbnail_url, uuid from droppod.podcasts WHERE id IN (select podcast_id from droppod.user_follows where user_id=(SELECT id FROM droppod.users WHERE username =?))
+<sql:param value="${name}" />
 </sql:query>
 
 <c:set var="language"
@@ -34,11 +36,11 @@ select thumbnail_url, uuid from droppod.podcasts
 <body>
 	<nav class="navbar navbar-dark bg-mint sticky-top flex-md-nowrap p-0">
 		<a class="navbar-brand col-sm-3 col-md-2 mr-0">DropPod</a>
-		<form class="form-inline w-100 my-2 my-lg-0" action="searchResult" method="get">
+		<form class="form-inline w-100 my-2 my-lg-0" action="searchResult.jsp" method="get">
 		 	<input class="form-control form-control-mint w-100" type="text" name="search" placeholder="Search" aria-label="Search">
 		</form>
 		<ul class="navbar-nav px-3">
-			<li class="nav-item text-nowrap"><a class="nav-link" href="${pageContext.request.contextPath}/logout"><fmt:message key="welcome.signout" /></a></li>
+			<li class="nav-item text-nowrap"><a class="nav-link" href="#"><fmt:message key="welcome.signout" /></a></li>
 		</ul>
 	</nav>
 
@@ -47,52 +49,48 @@ select thumbnail_url, uuid from droppod.podcasts
 			<nav class="col-md-2 sidebar">
 				<div class="sidebar-sticky">
 					<ul class="nav flex-column">
-						<li class="nav-item"><a class="nav-link" href="#">
-								<span data-feather="user"></span><fmt:message key="welcome.signedinas" />: <%=session.getAttribute("name")%> 
+						<li class="nav-item"><a class="nav-link" href="#"> <span
+								data-feather="user"></span> <fmt:message
+									key="welcome.signedinas" />: <%=session.getAttribute("name")%>
 						</a></li>
-						<li class="nav-item"><a class="nav-link active" href="#">
-								<span data-feather="cast"></span><fmt:message key="welcome.casts" />
+						<li class="nav-item"><a class="nav-link"
+							href="${pageContext.request.contextPath}/welcome.jsp"> <span
+								data-feather="cast"></span> <fmt:message key="welcome.casts" />
 						</a></li>
-						<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/following.jsp"> <span
-								data-feather="users"></span><fmt:message key="welcome.following" />
+						<li class="nav-item"><a class="nav-link" 
+						href="#"> <span
+								data-feather="users"></span> <fmt:message
+									key="welcome.following" />
 						</a></li>
 						<li class="nav-item"><a class="nav-link" href="#"> <span
-								data-feather="globe"></span><fmt:message key="welcome.popular" />
+								data-feather="globe"></span> <fmt:message key="welcome.popular" />
 						</a></li>
-						<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/addPodcast.jsp"> <span
-								data-feather="plus-square"></span><fmt:message key="welcome.addapodcast" />
+						<li class="nav-item"><a class="nav-link"
+							href="${pageContext.request.contextPath}/addPodcast.jsp"> <span
+								data-feather="plus-square"></span> <fmt:message
+									key="welcome.addapodcast" />
 						</a></li>
-						<%
-				if((Integer)session.getAttribute("accessLevel")==1){
-	%><li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/admin.jsp"> <span
-								data-feather="plus-square"></span><fmt:message key="welcome.addapodcast" />
-						</a></li><%
-}
-
-%> 
 					</ul>
 				</div>
 			</nav>
-			<div role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-				<div class="border-bottom mb-3">
-				<h3>Casts</h3>
-				</div>
-				<div class="row">
-					<c:forEach var="row" items="${rs.rows}" varStatus="loopStatus">
-						<c:if test="${loopStatus.index % 4 == 0}">
-				</div>
-				<div class="row mb-4">
-					</c:if>
-					<div class="col-sm-3">
-						<a
-							href="${pageContext.request.contextPath}/podcastServlet?uuid=${row.uuid}">
-							<img src="${row.thumbnail_url}" alt="${row.name}"
-							style="width: 100%; height=auto; border-radius: 3px;">
-						</a>
-					</div>
-					</c:forEach>
-				</div>
+		</div>
+	</div>
+
+	<div class="container">
+		<div class="row">
+			<c:forEach var="row" items="${rs.rows}" varStatus="loopStatus">
+				<c:if test="${loopStatus.index % 4 == 0}">
+		</div>
+		<div class="row">
+			</c:if>
+			<div class="image col" style="width: 130px; height: 100%;">
+				<a
+					href="${pageContext.request.contextPath}/podcastServlet?uuid=${row.uuid}">
+					<img src="${row.thumbnail_url}" alt="${row.name}"
+					style="width: 100%; height: 100%; border-radius: 3px;">
+				</a>
 			</div>
+			</c:forEach>
 		</div>
 	</div>
 
@@ -110,9 +108,9 @@ select thumbnail_url, uuid from droppod.podcasts
 		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
 		crossorigin="anonymous"></script>
 	<script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
-	<script>
-		feather.replace()
-	</script>
+	<script> 
+      feather.replace() 
+    </script>
 	<script src="js/welcome.js"></script>
 </body>
 </body>
