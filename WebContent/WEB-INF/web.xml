@@ -67,25 +67,6 @@
     	<servlet-name>locatetest</servlet-name>
         <url-pattern>/locatetest</url-pattern>
     </servlet-mapping>
-	
-	<servlet>
-        <servlet-name>follow</servlet-name>
-        <servlet-class>droppod.servlets.FollowPodcastServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>unfollow</servlet-name>
-        <servlet-class>droppod.servlets.UnfollowPodcastServlet</servlet-class>
-    </servlet>
-	<servlet-mapping>
-    	<servlet-name>follow</servlet-name>
-        <url-pattern>/Follow</url-pattern>
-    </servlet-mapping>
-	<servlet-mapping>
-    	<servlet-name>unfollow</servlet-name>
-        <url-pattern>/Unfollow</url-pattern>
-    </servlet-mapping>
-	
-	
 	<welcome-file-list>
 		<welcome-file>welcome.jsp</welcome-file>
 	</welcome-file-list>
@@ -120,5 +101,3 @@
         <param-value>droppod123</param-value>
     </context-param>
 </web-app>
-
- 
