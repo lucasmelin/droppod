@@ -36,10 +36,12 @@ public class SearchResult extends HttpServlet {
 			DataSource ds = (DataSource) initContext.lookup("jdbc/droppod");
 			Connection con = ds.getConnection();
 
-			pst = con.prepareStatement(
-					"SELECT id, name, description, thumbnail_url, url from droppod.podcasts WHERE name LIKE ?");
+			pst = con.prepareStatement("SELECT p.*, pt.podcast_name as name, pt.podcast_description as description " 
+			     +"FROM droppod.podcasts p "
+			     +"INNER JOIN droppod.podcasts_translations pt ON p.id = pt.podcast_id "
+			     +"WHERE pt.podcast_name LIKE ?");
 
-			pst.setString(1, searchEntry + "%");
+			pst.setString(1, searchEntry+'%');
 			rs = pst.executeQuery();
 
 			while (rs.next()) {

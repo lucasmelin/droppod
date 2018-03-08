@@ -24,15 +24,20 @@ public class LoginServlet extends HttpServlet{
         PrintWriter out = response.getWriter();  
         
         String n=request.getParameter("username");  
-        String p=request.getParameter("password"); 
+        String p=request.getParameter("password");
+        
+        String [] podcastIDs = null;
+        
+        HttpSession session = request.getSession(false);
         
         HttpSession session = request.getSession(false);
         if(session!=null)
         session.setAttribute("name", n);
-
+      
         if(LoginDroppod.validate(n, p)){ 
-          //
-          
+            podcastIDs = LoginDroppod.addUuidSession(n);
+            session.setAttribute("podcastIDs", podcastIDs);
+        	session.setAttribute("accessLevel", LoginDroppod.verifyAccess(n));
             RequestDispatcher rd=request.getRequestDispatcher("/welcome.jsp");  
             rd.forward(request,response);  
         }  
@@ -40,5 +45,6 @@ public class LoginServlet extends HttpServlet{
         	request.setAttribute("success", "false");
           response.sendRedirect(request.getHeader("referer"));
         }  
+        
     }  
 } 

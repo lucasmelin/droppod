@@ -34,7 +34,7 @@ select thumbnail_url, uuid from droppod.podcasts
 <body>
 	<nav class="navbar navbar-dark bg-mint sticky-top flex-md-nowrap p-0">
 		<a class="navbar-brand col-sm-3 col-md-2 mr-0">DropPod</a>
-		<form class="form-inline w-100 my-2 my-lg-0" action="searchResult.jsp" method="get">
+		<form class="form-inline w-100 my-2 my-lg-0" action="searchResult" method="get">
 		 	<input class="form-control form-control-mint w-100" type="text" name="search" placeholder="Search" aria-label="Search">
 		</form>
 		<ul class="navbar-nav px-3">
@@ -53,7 +53,7 @@ select thumbnail_url, uuid from droppod.podcasts
 						<li class="nav-item"><a class="nav-link active" href="#">
 								<span data-feather="cast"></span><fmt:message key="welcome.casts" />
 						</a></li>
-						<li class="nav-item"><a class="nav-link" href="#"> <span
+						<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/following.jsp"> <span
 								data-feather="users"></span><fmt:message key="welcome.following" />
 						</a></li>
 						<li class="nav-item"><a class="nav-link" href="#"> <span
@@ -63,13 +63,16 @@ select thumbnail_url, uuid from droppod.podcasts
 								data-feather="plus-square"></span><fmt:message key="welcome.addapodcast" />
 						</a></li>
 						<%
-				if((Integer)session.getAttribute("accessLevel")==1){
-	%><li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/admin.jsp"> <span
-								data-feather="plus-square"></span><fmt:message key="welcome.addapodcast" />
-						</a></li><%
-}
-
-%> 
+						  if ((Integer) session.getAttribute("accessLevel") == 1) {
+						%>
+						<li class="nav-item"><a class="nav-link"
+							href="${pageContext.request.contextPath}/admin.jsp"> <span
+								data-feather="shield"></span>
+							<fmt:message key="welcome.admin" />
+						</a></li>
+						<%
+						  }
+						%>
 					</ul>
 				</div>
 			</nav>

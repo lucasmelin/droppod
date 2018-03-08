@@ -35,6 +35,18 @@
         <servlet-name>deleteuser</servlet-name>
         <servlet-class>droppod.servlets.DeleteUserServlet</servlet-class>
     </servlet>
+     <servlet>
+      <servlet-name>locatetest</servlet-name>
+      <servlet-class>droppod.servlets.GeolocateServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>verify</servlet-name>
+        <servlet-class>droppod.servlets.VerifyUserServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+    	<servlet-name>verify</servlet-name>
+        <url-pattern>/verify</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>login</servlet-name>
         <url-pattern>/loginServlet</url-pattern>
@@ -59,25 +71,34 @@
 		<servlet-name>podcasts</servlet-name>
 		<url-pattern>/podcastServlet</url-pattern>
 	</servlet-mapping>
-	<servlet-mapping>
-    	<servlet-name>verify</servlet-name>
-        <url-pattern>/verify</url-pattern>
-    </servlet-mapping>
+	
     <servlet-mapping>
     	<servlet-name>locatetest</servlet-name>
         <url-pattern>/locatetest</url-pattern>
     </servlet-mapping>
-        <servlet-mapping>
-    	<servlet-name>podcasts</servlet-name>
-        <url-pattern>/podcastServlet</url-pattern>
-    </servlet-mapping>
-      <servlet-mapping>
+       <servlet-mapping>
         <servlet-name>search</servlet-name>
         <url-pattern>/searchResult</url-pattern>
     </servlet-mapping>
      <servlet-mapping>
         <servlet-name>deleteuser</servlet-name>
         <url-pattern>/deleteUser</url-pattern>
+    </servlet-mapping>
+	<servlet>
+        <servlet-name>follow</servlet-name>
+        <servlet-class>droppod.servlets.FollowPodcastServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>unfollow</servlet-name>
+        <servlet-class>droppod.servlets.UnfollowPodcastServlet</servlet-class>
+    </servlet>
+	<servlet-mapping>
+    	<servlet-name>follow</servlet-name>
+        <url-pattern>/Follow</url-pattern>
+    </servlet-mapping>
+	<servlet-mapping>
+    	<servlet-name>unfollow</servlet-name>
+        <url-pattern>/Unfollow</url-pattern>
     </servlet-mapping>
 	<welcome-file-list>
 		<welcome-file>welcome.jsp</welcome-file>
@@ -112,4 +133,7 @@
         <param-name>pass</param-name>
         <param-value>droppod123</param-value>
     </context-param>
+ 
 </web-app>
+
+ 

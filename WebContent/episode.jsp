@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <c:set var="language"
 	value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}"
@@ -33,7 +35,8 @@
 				name="search" placeholder="Search" aria-label="Search">
 		</form>
 		<ul class="navbar-nav px-3">
-			<li class="nav-item text-nowrap"><a class="nav-link" href="${pageContext.request.contextPath}/logout"><fmt:message
+			<li class="nav-item text-nowrap"><a class="nav-link"
+				href="${pageContext.request.contextPath}/logout"><fmt:message
 						key="welcome.signout" /></a></li>
 		</ul>
 	</nav>
@@ -51,7 +54,8 @@
 							href="${pageContext.request.contextPath}/welcome.jsp"> <span
 								data-feather="cast"></span> <fmt:message key="welcome.casts" />
 						</a></li>
-						<li class="nav-item"><a class="nav-link" href="#"> <span
+						<li class="nav-item"><a class="nav-link"
+							href="${pageContext.request.contextPath}/following.jsp"> <span
 								data-feather="users"></span> <fmt:message
 									key="welcome.following" />
 						</a></li>
@@ -63,6 +67,16 @@
 								data-feather="plus-square"></span> <fmt:message
 									key="welcome.addapodcast" />
 						</a></li>
+						<%
+						  if ((Integer) session.getAttribute("accessLevel") == 1) {
+						%>
+						<li class="nav-item"><a class="nav-link"
+							href="${pageContext.request.contextPath}/admin.jsp"> <span
+								data-feather="shield"></span> <fmt:message key="welcome.admin" />
+						</a></li>
+						<%
+						  }
+						%>
 					</ul>
 				</div>
 			</nav>
@@ -75,17 +89,40 @@
 					</div>
 					<div class="col-md-4">
 						<h1>${podcast.name}</h1>
-						${podcast.description}
+						${podcast.description} <br>
+
+						<c:set var="breakFlag" value="0" />
+
+						<c:if test="${fn:length(podcastIDs) == 0}">
+							<a href="${pageContext.request.contextPath}/Follow">Follow</a>
+						</c:if>
+						<c:forEach items="${podcastIDs}" var="item" varStatus="loop">
+							<c:choose>
+								<c:when test="${podcast.uuid == item}">
+									<a href="${pageContext.request.contextPath}/Unfollow">Unfollow</a>
+									<c:set var="breakFlag" value="${1}" />
+								</c:when>
+
+								<c:otherwise>
+									<c:if
+										test="${(loop.index == (fn:length(podcastIDs) - 1)) && (breakFlag == 0)}">
+										<a href="${pageContext.request.contextPath}/Follow">Follow</a>
+									</c:if>
+								</c:otherwise>
+							</c:choose>
+						</c:forEach>
 					</div>
 
 				</div>
 
 				<c:forEach items="${episodes}" var="episodes">
 					<div class="row">
-						<h4><c:out value="${episodes.name}" /></h4>
+						<h4>
+							<c:out value="${episodes.name}" />
+						</h4>
 						<button class="episode-play-button" value="${episodes.url}">PLAY</button>
 						<p>
-						<c:out value="${episodes.description}" />
+							<c:out value="${episodes.description}" escapeXml="false" />
 						</p>
 					</div>
 				</c:forEach>
@@ -111,7 +148,8 @@
 						<span class="droppod-duration droppod-time">00:00</span>
 						<button class="droppod-speed">1x</button>
 						<button class="droppod-mute">
-							<i data-feather="volume"></i><i data-feather="volume-x" style="display: none"></i><span>Mute/Unmute</span>
+							<i data-feather="volume"></i><i data-feather="volume-x"
+								style="display: none"></i><span>Mute/Unmute</span>
 						</button>
 					</div>
 					<audio id="droppod-audio" src=""></audio>

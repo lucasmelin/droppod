@@ -258,6 +258,7 @@ public class ListenDroppod {
           podcast.setDescription(rsEnglish.getString("description"));
           podcast.setUrl(rsEnglish.getURL("url"));
           podcast.setThumbnail_url(rsEnglish.getURL("thumbnail_url"));
+          podcast.setUuid(uuid);
         }
       }
 

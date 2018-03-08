@@ -1,13 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
+<sql:query var="rs" dataSource="jdbc/droppod">
+select thumbnail_url, uuid from droppod.podcasts WHERE id IN (select podcast_id from droppod.subscriptions where user_id=(SELECT id FROM droppod.users WHERE username =?))
+<sql:param value="${name}" />
+</sql:query>
 
 <c:set var="language"
 	value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}"
 	scope="session" />
+
 <fmt:setLocale value="${language}" />
 <fmt:bundle basename="app">
 	<html lang="${language}">
+	<html>
 <head>
 <!-- Bootstrap CSS -->
 <link rel="stylesheet"
@@ -19,21 +27,19 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title><fmt:message key="welcome.addapodcast" /></title>
+<title>DropPod</title>
 <link rel='stylesheet prefetch'
 	href='http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css'>
+
 </head>
 <body>
 	<nav class="navbar navbar-dark bg-mint sticky-top flex-md-nowrap p-0">
 		<a class="navbar-brand col-sm-3 col-md-2 mr-0">DropPod</a>
-		<form class="form-inline w-100 my-2 my-lg-0" action="searchResult"
-			method="get">
-			<input class="form-control form-control-mint w-100" type="text"
-				name="search" placeholder="Search" aria-label="Search">
+		<form class="form-inline w-100 my-2 my-lg-0" action="searchResult.jsp" method="get">
+		 	<input class="form-control form-control-mint w-100" type="text" name="search" placeholder="Search" aria-label="Search">
 		</form>
 		<ul class="navbar-nav px-3">
-			<li class="nav-item text-nowrap"><a class="nav-link" href="${pageContext.request.contextPath}/logout"><fmt:message
-						key="welcome.signout" /></a></li>
+			<li class="nav-item text-nowrap"><a class="nav-link" href="#"><fmt:message key="welcome.signout" /></a></li>
 		</ul>
 	</nav>
 
@@ -50,14 +56,15 @@
 							href="${pageContext.request.contextPath}/welcome.jsp"> <span
 								data-feather="cast"></span> <fmt:message key="welcome.casts" />
 						</a></li>
-						<li class="nav-item"><a class="nav-link" href="#"> <span
+						<li class="nav-item"><a class="nav-link" 
+						href="#"> <span
 								data-feather="users"></span> <fmt:message
 									key="welcome.following" />
 						</a></li>
 						<li class="nav-item"><a class="nav-link" href="#"> <span
 								data-feather="globe"></span> <fmt:message key="welcome.popular" />
 						</a></li>
-						<li class="nav-item"><a class="nav-link active"
+						<li class="nav-item"><a class="nav-link"
 							href="${pageContext.request.contextPath}/addPodcast.jsp"> <span
 								data-feather="plus-square"></span> <fmt:message
 									key="welcome.addapodcast" />
@@ -65,19 +72,24 @@
 					</ul>
 				</div>
 			</nav>
-			<div role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-				<div class="border-bottom mb-3">
-					<h3><fmt:message key="welcome.addapodcast" /></h3>
-				</div>
-				<form action="addPodcastServlet" method="post">
-					<div class="form-group">
-						<input type="text" class="form-control" name="podcasturl" id="podcasturl" required="required" placeholder="<fmt:message key="addpodcast.podcasturl" />" />
-					</div>
-					<input type="submit" class="btn btn-success" value="<fmt:message key="addpodcast.add" />" />
-				</form>
-				<!--  Will display info about the added podcast -->
-				<p>${message}</p>
+		</div>
+	</div>
+
+	<div class="container">
+		<div class="row">
+			<c:forEach var="row" items="${rs.rows}" varStatus="loopStatus">
+				<c:if test="${loopStatus.index % 4 == 0}">
+		</div>
+		<div class="row">
+			</c:if>
+			<div class="image col" style="width: 130px; height: 100%;">
+				<a
+					href="${pageContext.request.contextPath}/podcastServlet?uuid=${row.uuid}">
+					<img src="${row.thumbnail_url}"
+					style="width: 100%; height: 100%; border-radius: 3px;">
+				</a>
 			</div>
+			</c:forEach>
 		</div>
 	</div>
 
@@ -95,10 +107,11 @@
 		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
 		crossorigin="anonymous"></script>
 	<script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
-	<script>
-		feather.replace()
-	</script>
+	<script> 
+      feather.replace() 
+    </script>
 	<script src="js/welcome.js"></script>
+</body>
 </body>
 </fmt:bundle>
 </html>

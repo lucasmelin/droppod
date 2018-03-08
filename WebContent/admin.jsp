@@ -1,12 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-
-<sql:query var="rs" dataSource="jdbc/droppod">
-select name, thumbnail_url, uuid from droppod.podcasts
-</sql:query>
 
 <c:set var="language"
 	value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}"
@@ -24,7 +19,7 @@ select name, thumbnail_url, uuid from droppod.podcasts
 	crossorigin="anonymous">
 <link rel="stylesheet" href="css/navbar.css">
 
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Administrative</title>
@@ -36,7 +31,7 @@ select name, thumbnail_url, uuid from droppod.podcasts
 	<nav class="navbar navbar-dark bg-mint sticky-top flex-md-nowrap p-0">
 		<a class="navbar-brand col-sm-3 col-md-2 mr-0">DropPod</a>
 		<ul class="navbar-nav px-3">
-			<li class="nav-item text-nowrap"><a class="nav-link" href="#"><fmt:message key="welcome.signout" /></a></li>
+			<li class="nav-item text-nowrap"><a class="nav-link" href="${pageContext.request.contextPath}/logout"><fmt:message key="welcome.signout" /></a></li>
 		</ul>
 	</nav>
 
@@ -65,8 +60,7 @@ select name, thumbnail_url, uuid from droppod.podcasts
 			</nav>
 		</div>
 	</div>
-	<div class = "container">
-	<h4>Admin</h4>
+<div role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">	<h4>Admin</h4>
 	<br>
 	<form action="deleteUser" method="post">
 			<fieldset style="width: 300px">
