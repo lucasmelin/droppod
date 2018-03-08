@@ -1,11 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <sql:query var="rs" dataSource="jdbc/droppod">
-select name, thumbnail_url, uuid from droppod.podcasts WHERE id IN (select podcast_id from droppod.user_follows where user_id=(SELECT id FROM droppod.users WHERE username =?))
+select thumbnail_url, uuid from droppod.podcasts WHERE id IN (select podcast_id from droppod.subscriptions where user_id=(SELECT id FROM droppod.users WHERE username =?))
 <sql:param value="${name}" />
 </sql:query>
 
@@ -86,7 +85,7 @@ select name, thumbnail_url, uuid from droppod.podcasts WHERE id IN (select podca
 			<div class="image col" style="width: 130px; height: 100%;">
 				<a
 					href="${pageContext.request.contextPath}/podcastServlet?uuid=${row.uuid}">
-					<img src="${row.thumbnail_url}" alt="${row.name}"
+					<img src="${row.thumbnail_url}"
 					style="width: 100%; height: 100%; border-radius: 3px;">
 				</a>
 			</div>

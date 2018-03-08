@@ -26,7 +26,7 @@
 <body>
 	<nav class="navbar navbar-dark bg-mint sticky-top flex-md-nowrap p-0">
 		<a class="navbar-brand col-sm-3 col-md-2 mr-0">DropPod</a>
-		<form class="form-inline w-100 my-2 my-lg-0" action="searchResult.jsp"
+		<form class="form-inline w-100 my-2 my-lg-0" action="searchResult"
 			method="get">
 			<input class="form-control form-control-mint w-100" type="text"
 				name="search" placeholder="Search" aria-label="Search">

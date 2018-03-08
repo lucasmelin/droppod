@@ -1,4 +1,4 @@
-
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -19,7 +19,7 @@
 	crossorigin="anonymous">
 <link rel="stylesheet" href="css/navbar.css">
 
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Administrative</title>
@@ -31,7 +31,7 @@
 	<nav class="navbar navbar-dark bg-mint sticky-top flex-md-nowrap p-0">
 		<a class="navbar-brand col-sm-3 col-md-2 mr-0">DropPod</a>
 		<ul class="navbar-nav px-3">
-			<li class="nav-item text-nowrap"><a class="nav-link" href="#"><fmt:message key="welcome.signout" /></a></li>
+			<li class="nav-item text-nowrap"><a class="nav-link" href="${pageContext.request.contextPath}/logout"><fmt:message key="welcome.signout" /></a></li>
 		</ul>
 	</nav>
 

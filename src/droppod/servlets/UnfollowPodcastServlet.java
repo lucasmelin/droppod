@@ -89,7 +89,7 @@ public class UnfollowPodcastServlet extends HttpServlet{
             
             
             /* Query 2 for inserting userID and podcastID into user_follows table */
-            pst2 = con.prepareStatement("DELETE FROM droppod.user_follows WHERE podcast_id IN (SELECT id FROM droppod.podcasts where uuid =?) AND user_id = ?");  
+            pst2 = con.prepareStatement("DELETE FROM droppod.subscriptions WHERE podcast_id IN (SELECT id FROM droppod.podcasts where uuid =?) AND user_id = ?");  
             pst2.setString(1, uuid);
             pst2.setInt(2, userID);
         	

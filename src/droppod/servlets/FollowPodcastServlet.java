@@ -87,7 +87,7 @@ public class FollowPodcastServlet extends HttpServlet{
             
             
             /* Query 2 for inserting userID and podcastID into user_follows table */
-            pst2 = con.prepareStatement("INSERT IGNORE INTO droppod.user_follows (podcast_id, user_id) VALUES (?, ?)");  
+            pst2 = con.prepareStatement("INSERT IGNORE INTO droppod.subscriptions (podcast_id, user_id) VALUES (?, ?)");  
             pst2.setInt(1, podcastID);
             pst2.setInt(2, userID);
         	
@@ -96,13 +96,13 @@ public class FollowPodcastServlet extends HttpServlet{
             	
             	String[] temp = (String[]) session.getAttribute("podcastIDs");
             	
-            	String[] newPod = new String[temp.length];
+            	String[] newPod = new String[temp.length + 1];
             	
             	for (int i = 0; i < temp.length; i++) {
             		newPod[i] = temp[i];
             	}
             	
-            	newPod[temp.length - 1] = uuid;
+            	newPod[temp.length] = uuid;
             	
             	for (int i = 0; i < newPod.length; i++) {
             		System.out.println(newPod[i]);

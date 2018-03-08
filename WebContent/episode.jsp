@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <c:set var="language"
 	value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}"
@@ -71,8 +72,7 @@
 						%>
 						<li class="nav-item"><a class="nav-link"
 							href="${pageContext.request.contextPath}/admin.jsp"> <span
-								data-feather="shield"></span>
-							<fmt:message key="welcome.admin" />
+								data-feather="shield"></span> <fmt:message key="welcome.admin" />
 						</a></li>
 						<%
 						  }
@@ -89,21 +89,25 @@
 					</div>
 					<div class="col-md-4">
 						<h1>${podcast.name}</h1>
-						${podcast.description}
-						
-						<br>
-						
-						<c:forEach items = "${podcastIDs}" var="item" varStatus="loop">
+						${podcast.description} <br>
+
+						<c:set var="breakFlag" value="0" />
+
+						<c:if test="${fn:length(podcastIDs) == 0}">
+							<a href="${pageContext.request.contextPath}/Follow">Follow</a>
+						</c:if>
+						<c:forEach items="${podcastIDs}" var="item" varStatus="loop">
 							<c:choose>
-								<c:when test = "${podcast.uuid == item}">
+								<c:when test="${podcast.uuid == item}">
 									<a href="${pageContext.request.contextPath}/Unfollow">Unfollow</a>
-									<c:set var = "breakFlag" value = "${1}"/>
+									<c:set var="breakFlag" value="${1}" />
 								</c:when>
-								
+
 								<c:otherwise>
-									<c:if test = "${(loop.index == (fn:length(podcastIDs) - 1)) && (breakFlag == 0)}">
+									<c:if
+										test="${(loop.index == (fn:length(podcastIDs) - 1)) && (breakFlag == 0)}">
 										<a href="${pageContext.request.contextPath}/Follow">Follow</a>
-									</c:if> 
+									</c:if>
 								</c:otherwise>
 							</c:choose>
 						</c:forEach>
