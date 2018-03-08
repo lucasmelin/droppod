@@ -29,8 +29,7 @@ public class LoginServlet extends HttpServlet{
         String [] podcastIDs = null;
         
         HttpSession session = request.getSession(false);
-        
-        HttpSession session = request.getSession(false);
+
         if(session!=null)
         session.setAttribute("name", n);
       
