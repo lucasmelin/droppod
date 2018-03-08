@@ -31,7 +31,9 @@ public class LoginServlet extends HttpServlet{
         if(session!=null)
         session.setAttribute("name", n);
       
-        if(LoginDroppod.validate(n, p)){  
+        if(LoginDroppod.validate(n, p)){ 
+            podcastIDs = LoginDroppod.addUuidSession(n);
+            session.setAttribute("podcastIDs", podcastIDs);
         	session.setAttribute("accessLevel", LoginDroppod.verifyAccess(n));
             RequestDispatcher rd=request.getRequestDispatcher("/welcome.jsp");  
             rd.forward(request,response);  
@@ -41,7 +43,5 @@ public class LoginServlet extends HttpServlet{
           response.sendRedirect(request.getHeader("referer"));
         }  
         
-         LoginDroppod.addUuidSession(request);        
-
     }  
 } 
