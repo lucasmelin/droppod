@@ -190,32 +190,32 @@ public class ListenDroppod {
 
       String returnLanguage = userLocale.getLanguage().substring(0, 2);
 
-      pstEnglish = con.prepareStatement(
+      pstTranslate = con.prepareStatement(
           "SELECT p.*, pt.podcast_name as name, pt.podcast_description as description "
               + "FROM droppod.podcasts p "
               + "INNER JOIN droppod.podcasts_translations pt ON p.id = pt.podcast_id "
               + "WHERE p.uuid=? " + "AND pt.language_code=?;");
-      pstEnglish.setString(1, uuid);
-      pstEnglish.setString(2, returnLanguage);
-      rsEnglish = pstEnglish.executeQuery();
+      pstTranslate.setString(1, uuid);
+      pstTranslate.setString(2, returnLanguage);
+      rsTranslate = pstTranslate.executeQuery();
 
 
       // If result set is empty, this means that the descriptions and names are not available in the
       // target language. Therefore, we'll retrieve the default (english) strings, and translate
       // them instead.
-      if (!rsEnglish.isBeforeFirst()) {
-        pstTranslate = con.prepareStatement(
+      if (!rsTranslate.isBeforeFirst()) {
+        pstEnglish = con.prepareStatement(
             "SELECT p.*, pt.podcast_name as name, pt.podcast_description as description "
                 + "FROM droppod.podcasts p "
                 + "INNER JOIN droppod.podcasts_translations pt ON p.id = pt.podcast_id "
                 + "WHERE p.uuid=? " + "AND pt.language_code='en';");
 
-        pstTranslate.setString(1, uuid);
-        rsTranslate = pstTranslate.executeQuery();
+        pstEnglish.setString(1, uuid);
+        rsEnglish = pstEnglish.executeQuery();
         // Query for the english strings, then call the appropriate TranslateDroppod method.
         List<String> podcastInfo = new ArrayList<String>();
 
-        while (rsTranslate.next()) {
+        while (rsEnglish.next()) {
           podcast = new PodcastModel();
           podcast.setId(rsEnglish.getInt("id"));
           podcastInfo.add(rsEnglish.getString("name"));
@@ -252,12 +252,12 @@ public class ListenDroppod {
          * Get all the rows from the result set and put them in an ArrayList so that we can close
          * the DB connection.
          */
-        while (rsEnglish.next()) {
+        while (rsTranslate.next()) {
           podcast = new PodcastModel();
-          podcast.setName(rsEnglish.getString("name"));
-          podcast.setDescription(rsEnglish.getString("description"));
-          podcast.setUrl(rsEnglish.getURL("url"));
-          podcast.setThumbnail_url(rsEnglish.getURL("thumbnail_url"));
+          podcast.setName(rsTranslate.getString("name"));
+          podcast.setDescription(rsTranslate.getString("description"));
+          podcast.setUrl(rsTranslate.getURL("url"));
+          podcast.setThumbnail_url(rsTranslate.getURL("thumbnail_url"));
           podcast.setUuid(uuid);
         }
       }
