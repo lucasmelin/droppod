@@ -50,6 +50,7 @@ public class SearchResult extends HttpServlet {
 				pod.setName(rs.getString("name"));
 				pod.setDescription(rs.getString("description"));
 				pod.setThumbnail_url(rs.getURL("thumbnail_url"));
+				pod.setUuid(rs.getString("uuid"));
 				rows.add(pod);
 
 			}

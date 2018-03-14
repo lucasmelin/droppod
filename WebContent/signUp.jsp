@@ -34,9 +34,11 @@
 		</div>
 		<input type="submit" class="btn btn-dark btn-lg btn-block mb-3" value="<fmt:message key="signup.signup"/>" />
 	</form>
-	<form class="">
+	<form action="setLanguageServlet" method="get">
 		<div class="btn-group">
 			<a class="btn btn-small btn-outline-dark btn-block" href="${pageContext.request.contextPath}/index.jsp"><fmt:message key="signup.haveAccount" /></a>
+			
+			
 			<div class="btn-group" role="group">
 			    <select class="btn btn-outline-dark dropdown-toggle" aria-labelledby="btnGroupDrop1" id="language" name="language"
 				onchange="submit()">
@@ -44,6 +46,8 @@
 			      <option class="dropdown-item" value="fr" ${language == 'fr' ? 'selected' : ''}>Français</option>
 			    </select>
 			</div>
+			
+			
 		</div>
 	</form>
 	</div>

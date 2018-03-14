@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 public class SetLanguageServlet extends HttpServlet{
 
@@ -12,7 +13,11 @@ public class SetLanguageServlet extends HttpServlet{
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) {
 		String language = request.getParameter("language");
-		request.setAttribute("locale", language);
+		
+		 HttpSession session = request.getSession(false);
+	        
+	     if(session!=null)
+	        session.setAttribute("language", language);
 		
 		String previousURL = request.getHeader("referer");
 		try {

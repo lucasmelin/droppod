@@ -28,16 +28,26 @@
 </head>
 <body>
 	<nav class="navbar navbar-dark bg-mint sticky-top flex-md-nowrap p-0">
-		<a class="navbar-brand col-sm-3 col-md-2 mr-0">DropPod</a>
-		<form class="form-inline w-100 my-2 my-lg-0" action="searchResult.jsp"
-			method="get">
-			<input class="form-control form-control-mint w-100" type="text"
-				name="search" placeholder="Search" aria-label="Search">
+		<a class="navbar-brand col-sm-2 col-md-1 mr-0">DropPod</a>
+		
+
+	<form class="form-inline my-2 my-lg-0" action="setLanguageServlet" method="get">
+
+			<div class="nav-item dropdown" role="group">
+			    <select class="btn dropdown-toggle btn-outline-dark" aria-labelledby="btnGroupDrop1" id="language" name="language"
+				onchange="submit()">
+			      <option class="dropdown-item" value="en" ${language == 'en' ? 'selected' : ''}>English</option>
+			      <option class="dropdown-item" value="fr" ${language == 'fr' ? 'selected' : ''}>Français</option>
+			    </select>
+			</div>
+			
+		</form>
+
+		<form class="form-inline w-100 my-2 my-lg-0" action="searchResult" method="get">
+		 	<input class="form-control form-control-mint w-100" type="text" name="search" placeholder="Search" aria-label="Search">
 		</form>
 		<ul class="navbar-nav px-3">
-			<li class="nav-item text-nowrap"><a class="nav-link"
-				href="${pageContext.request.contextPath}/logout"><fmt:message
-						key="welcome.signout" /></a></li>
+			<li class="nav-item text-nowrap"><a class="nav-link" href="${pageContext.request.contextPath}/logout"><fmt:message key="welcome.signout" /></a></li>
 		</ul>
 	</nav>
 

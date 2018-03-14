@@ -33,7 +33,21 @@ select thumbnail_url, uuid from droppod.podcasts
 </head>
 <body>
 	<nav class="navbar navbar-dark bg-mint sticky-top flex-md-nowrap p-0">
-		<a class="navbar-brand col-sm-3 col-md-2 mr-0">DropPod</a>
+		<a class="navbar-brand col-sm-2 col-md-1 mr-0">DropPod</a>
+		
+
+	<form class="form-inline my-2 my-lg-0" action="setLanguageServlet" method="get">
+
+			<div class="nav-item dropdown" role="group">
+			    <select class="btn dropdown-toggle btn-outline-dark" aria-labelledby="btnGroupDrop1" id="language" name="language"
+				onchange="submit()">
+			      <option class="dropdown-item" value="en" ${language == 'en' ? 'selected' : ''}>English</option>
+			      <option class="dropdown-item" value="fr" ${language == 'fr' ? 'selected' : ''}>Français</option>
+			    </select>
+			</div>
+			
+		</form>
+
 		<form class="form-inline w-100 my-2 my-lg-0" action="searchResult" method="get">
 		 	<input class="form-control form-control-mint w-100" type="text" name="search" placeholder="Search" aria-label="Search">
 		</form>
@@ -41,7 +55,8 @@ select thumbnail_url, uuid from droppod.podcasts
 			<li class="nav-item text-nowrap"><a class="nav-link" href="${pageContext.request.contextPath}/logout"><fmt:message key="welcome.signout" /></a></li>
 		</ul>
 	</nav>
-
+	
+	
 	<div class="container-fluid">
 		<div class="row no-gutter">
 			<nav class="col-md-2 sidebar">
