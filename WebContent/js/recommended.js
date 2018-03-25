@@ -1,5 +1,5 @@
 function createRecommended(){
-var svg = d3.select("#svg"),
+	var svg = d3.select("svg"),
     width = +svg.attr("width"),
     height = +svg.attr("height");
 
@@ -12,8 +12,6 @@ var simulation = d3.forceSimulation()
 
 d3.json("http://localhost:8080/droppod/recommended", function(error, graph) {
   if (error) throw error;
-  
-  console.log("inside function");
 
   var link = svg.append("g")
       .attr("class", "links")
@@ -56,8 +54,6 @@ d3.json("http://localhost:8080/droppod/recommended", function(error, graph) {
         .attr("cy", function(d) { return d.y; });
   }
 });
-
-
 
 function dragstarted(d) {
   if (!d3.event.active) simulation.alphaTarget(0.3).restart();
