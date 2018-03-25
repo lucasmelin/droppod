@@ -30,6 +30,9 @@
 <body>
 	<nav class="navbar navbar-dark bg-mint sticky-top flex-md-nowrap p-0">
 		<a class="navbar-brand col-sm-3 col-md-2 mr-0">DropPod</a>
+		<form class="form-inline w-100 my-2 my-lg-0">
+		 	<input class="form-control form-control-mint-disabled w-100" type="text">
+		</form>
 		<ul class="navbar-nav px-3">
 			<li class="nav-item text-nowrap"><a class="nav-link" href="${pageContext.request.contextPath}/logout"><fmt:message key="welcome.signout" /></a></li>
 		</ul>
@@ -41,20 +44,25 @@
 				<div class="sidebar-sticky">
 					<ul class="nav flex-column">
 						<li class="nav-item"><a class="nav-link" href="#">
-								<span data-feather="user"></span><fmt:message key="welcome.signedinas" />: <%=session.getAttribute("name")%> 
+								<span data-feather="user"></span><fmt:message key="welcome.signedinas" />: ${sessionScope.name} 
 						</a></li>
-						<li class="nav-item"><a class="nav-link active" href="#">
+						<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/welcome.jsp">
 								<span data-feather="cast"></span><fmt:message key="welcome.casts" />
 						</a></li>
-						<li class="nav-item"><a class="nav-link" href="#"> <span
+						<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/following.jsp"> <span
 								data-feather="users"></span><fmt:message key="welcome.following" />
 						</a></li>
-						<li class="nav-item"><a class="nav-link" href="#"> <span
+						<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/popular.jsp"> <span
 								data-feather="globe"></span><fmt:message key="welcome.popular" />
 						</a></li>
 						<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/addPodcast.jsp"> <span
 								data-feather="plus-square"></span><fmt:message key="welcome.addapodcast" />
 						</a></li>
+						<c:if test="${sessionScope.accessLevel == \"1\"}" >
+						<li class="nav-item"><a class="nav-link active" href="${pageContext.request.contextPath}/admin.jsp"> <span
+								data-feather="shield"></span><fmt:message key="welcome.admin" />
+						</a></li>
+						</c:if>
 					</ul>
 				</div>
 			</nav>
