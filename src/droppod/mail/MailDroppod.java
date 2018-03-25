@@ -77,7 +77,7 @@ Message msg = new MimeMessage(session);
 msg.setFrom(new InternetAddress(userName));
 InternetAddress[] toAddresses = { new InternetAddress(toAddress) };
 msg.setRecipients(Message.RecipientType.TO, toAddresses);
-msg.setSubject("Verify your account!");
+msg.setSubject("Reset your password");
 msg.setSentDate(new Date());
 msg.setText("http://localhost:8080/droppod/setpass?uuid="+uuid);
 

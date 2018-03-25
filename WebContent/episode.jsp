@@ -11,6 +11,13 @@
 <fmt:bundle basename="app">
 	<html lang="${language}">
 <head>
+
+<style>
+#map {
+        height: 100%;
+        width: 100%;
+      }
+</style>
 <!-- Bootstrap CSS -->
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
@@ -90,7 +97,48 @@
 					<div class="col-md-4">
 						<h1>${podcast.name}</h1>
 						${podcast.description} <br>
+						
+	<div id="map"></div>
+    <script>  
 
+ function initMap() {
+	 var heatmapData = [
+		  new google.maps.LatLng(37.782, -122.447),
+		  new google.maps.LatLng(37.782, -122.445),
+		  new google.maps.LatLng(37.782, -122.443),
+		  new google.maps.LatLng(37.782, -122.441),
+		  new google.maps.LatLng(37.782, -122.439),
+		  new google.maps.LatLng(37.782, -122.437),
+		  new google.maps.LatLng(37.782, -122.435),
+		  new google.maps.LatLng(37.785, -122.447),
+		  new google.maps.LatLng(37.785, -122.445),
+		  new google.maps.LatLng(37.785, -122.443),
+		  new google.maps.LatLng(37.785, -122.441),
+		  new google.maps.LatLng(37.785, -122.439),
+		  new google.maps.LatLng(37.785, -122.437),
+		  new google.maps.LatLng(37.785, -122.435)
+		];
+
+		var sanFrancisco = new google.maps.LatLng(37.774546, -122.433523);
+
+		map = new google.maps.Map(document.getElementById('map'), {
+		  center: sanFrancisco,
+		  zoom: 13,
+		});
+
+		var heatmap = new google.maps.visualization.HeatmapLayer({
+		  data: heatmapData,
+		  dissipating: true,
+          map: map
+		});
+ }
+  
+    </script>
+    <script async defer
+    	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7NysljEQDwB01a-ASfSY7hveHIjht1ak&callback=initMap&libraries=visualization">
+    </script>
+						
+										
 						<c:set var="breakFlag" value="0" />
 
 						<c:if test="${fn:length(podcastIDs) == 0}">
