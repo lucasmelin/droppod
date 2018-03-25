@@ -66,10 +66,10 @@ select thumbnail_url, uuid from droppod.podcasts WHERE id IN (select podcast_id 
 						<li class="nav-item"><a class="nav-link" href="#">
 								<span data-feather="user"></span><fmt:message key="welcome.signedinas" />: <%=session.getAttribute("name")%> 
 						</a></li>
-						<li class="nav-item"><a class="nav-link" href="#">
+						<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/welcome.jsp">
 								<span data-feather="cast"></span><fmt:message key="welcome.casts" />
 						</a></li>
-						<li class="nav-item"><a class="nav-link active" href="${pageContext.request.contextPath}/following.jsp"> <span
+						<li class="nav-item"><a class="nav-link active" href="#"> <span
 								data-feather="users"></span><fmt:message key="welcome.following" />
 						</a></li>
 						<li class="nav-item"><a class="nav-link" href="#"> <span
