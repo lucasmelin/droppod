@@ -34,6 +34,7 @@ public class LoginServlet extends HttpServlet{
         session.setAttribute("name", n);
       
         if(LoginDroppod.validate(n, p)){ 
+            session.setAttribute("failedLogin", "false");
             podcastIDs = LoginDroppod.addUuidSession(n);
             session.setAttribute("podcastIDs", podcastIDs);
         	session.setAttribute("accessLevel", LoginDroppod.verifyAccess(n));
@@ -41,8 +42,8 @@ public class LoginServlet extends HttpServlet{
             rd.forward(request,response);  
         }  
         else{ 
-        	request.setAttribute("success", "false");
-          response.sendRedirect(request.getHeader("referer"));
+            session.setAttribute("failedLogin", "true");
+        	response.sendRedirect(request.getHeader("referer"));
         }  
         
     }  

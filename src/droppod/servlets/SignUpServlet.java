@@ -49,11 +49,12 @@ public class SignUpServlet extends HttpServlet{
             }
           }
         	out.print("<p>User was added.</p>");
+        	session.setAttribute("failedSignup", "false");
           RequestDispatcher rd=request.getRequestDispatcher("index.jsp");  
           rd.forward(request,response);  
         }  
         else{ 
-        	request.setAttribute("success", "false");
+        	session.setAttribute("failedSignup", "true");
         	response.sendRedirect(request.getHeader("referer"));
         }  
         out.close();  
