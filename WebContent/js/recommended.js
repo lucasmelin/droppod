@@ -48,6 +48,7 @@ function createRecommended() {
       .attr("id", function (d, i) { return 'edge' + i })
       .attr('marker-end', 'url(#arrowhead)')
       .style("stroke", "#ccc")
+      .attr("stroke-width", function(d) { return Math.sqrt(d.value); })
       .style("pointer-events", "none");
 
     var nodes = svg.selectAll("circle")
