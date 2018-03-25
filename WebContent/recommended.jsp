@@ -100,8 +100,8 @@
 	stroke-width: 1.5px;
 }
 </style>
-		<svg width="960" height="600"></svg>
-		<script src="https://d3js.org/d3.v4.min.js"></script>
+		<svg id="svg" width="960" height="600"></svg>
+		<script src="https://d3js.org/d3.v3.min.js"></script>
 		<script src="js/recommended.js"></script>
 		<script>window.onload = createRecommended()</script>
 	</div>

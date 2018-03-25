@@ -76,14 +76,14 @@ public class RecommendedServlet  extends HttpServlet{
           }
           for (String item : nodeSet) {
             JSONObject newNode = new JSONObject();
-            newNode.put("id", item);
+            newNode.put("name", item);
             
             nodes.put(newNode);
           }
           
           
           chartData.put("nodes", nodes);
-          chartData.put("links", links);
+          chartData.put("edges", links);
           
           PrintWriter out = response.getWriter(); 
           out.print(chartData);
