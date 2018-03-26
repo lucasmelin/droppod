@@ -66,7 +66,7 @@
 						<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/following.jsp"> <span
 								data-feather="users"></span><fmt:message key="welcome.following" />
 						</a></li>
-						<li class="nav-item"><a class="nav-link" href="#"> <span
+						<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/popularPodcasts"> <span
 								data-feather="globe"></span><fmt:message key="welcome.popular" />
 						</a></li>
 						<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/addPodcast.jsp"> <span

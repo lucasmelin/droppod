@@ -10,6 +10,7 @@ public class PodcastModel {
     private URL thumbnail_url;
     private int id;
     private String uuid;
+    private int subscriptions;
     
     
     
@@ -79,5 +80,11 @@ public class PodcastModel {
     public void setUuid(String uuid) {
       this.uuid = uuid;
     }
+    public int getSubscriptions() {
+        return subscriptions;
+      }
+      public void setSubscriptions(int subscriptions) {
+        this.subscriptions = subscriptions;
+      }
 
 }

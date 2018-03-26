@@ -72,8 +72,8 @@ select thumbnail_url, uuid from droppod.podcasts WHERE id IN (select podcast_id 
 						<li class="nav-item"><a class="nav-link active" href="#"> <span
 								data-feather="users"></span><fmt:message key="welcome.following" />
 						</a></li>
-						<li class="nav-item"><a class="nav-link" href="#"> <span
-								data-feather="globe"></span><fmt:message key="welcome.popular" />
+						<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/popularPodcasts.jsp"> <span
+								data-feather="globe"></span> <fmt:message key="welcome.popular" />
 						</a></li>
 						<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/addPodcast.jsp"> <span
 								data-feather="plus-square"></span><fmt:message key="welcome.addapodcast" />
