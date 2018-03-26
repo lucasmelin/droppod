@@ -183,4 +183,63 @@ public class UserDao {
         	return false;
         }
        }
+    
+    
+    public static boolean changePassword(String uuid, String pass) {
+		Connection conn = null;
+		PreparedStatement pst = null;
+		PreparedStatement pst2 = null;
+		ResultSet rs = null;
+		int success = 0;
+		try {
+			Context envContext = new InitialContext();
+			Context initContext = (Context) envContext.lookup("java:/comp/env");
+			DataSource ds = (DataSource) initContext.lookup("jdbc/droppod");
+			conn = ds.getConnection();
+
+			pst = conn.prepareStatement(
+					"update into droppod.users" + "(password) values" + "(?)");
+			pst.setString(1, uuid);
+			pst.setString(2, pass);
+			success = pst.executeUpdate();
+
+		} catch (Exception e) {
+			System.out.println(e);
+
+		} finally {
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (pst != null) {
+				try {
+					pst.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (pst2 != null) {
+				try {
+					pst2.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		if (success != 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
