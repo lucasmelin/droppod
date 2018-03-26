@@ -24,7 +24,7 @@ public class UserDao {
 			conn = ds.getConnection();
 
 			pst = conn.prepareStatement(
-					"insert into droppod.users" + "(username,password,email,validated) values" + "(?,?,?,?)");
+					"insert into droppod.users" + "(username,password,email,validated,active) values" + "(?,?,?,?,0)");
 			pst.setString(1, name);
 			pst.setString(2, pass);
 			pst.setString(3, email);
