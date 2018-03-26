@@ -102,33 +102,20 @@
     <script>  
 
  function initMap() {
-	 var heatmapData = [
-		  new google.maps.LatLng(37.782, -122.447),
-		  new google.maps.LatLng(37.782, -122.445),
-		  new google.maps.LatLng(37.782, -122.443),
-		  new google.maps.LatLng(37.782, -122.441),
-		  new google.maps.LatLng(37.782, -122.439),
-		  new google.maps.LatLng(37.782, -122.437),
-		  new google.maps.LatLng(37.782, -122.435),
-		  new google.maps.LatLng(37.785, -122.447),
-		  new google.maps.LatLng(37.785, -122.445),
-		  new google.maps.LatLng(37.785, -122.443),
-		  new google.maps.LatLng(37.785, -122.441),
-		  new google.maps.LatLng(37.785, -122.439),
-		  new google.maps.LatLng(37.785, -122.437),
-		  new google.maps.LatLng(37.785, -122.435)
-		];
-
-		var sanFrancisco = new google.maps.LatLng(37.774546, -122.433523);
+	 var heatmapData = [];
+	 <c:forEach items="${followers}" var="followers">
+	 	heatmapData.push(new google.maps.LatLng(${followers.latitude}, ${followers.longitude}));
+	</c:forEach>
+		var ottawa = new google.maps.LatLng(45.425, -75.692);
 
 		map = new google.maps.Map(document.getElementById('map'), {
-		  center: sanFrancisco,
+		  center: ottawa,
 		  zoom: 13,
 		});
 
 		var heatmap = new google.maps.visualization.HeatmapLayer({
 		  data: heatmapData,
-		  dissipating: true,
+		  dissipating: false,
           map: map
 		});
  }

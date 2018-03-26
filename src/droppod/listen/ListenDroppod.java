@@ -14,7 +14,10 @@ import com.google.cloud.translate.Translate;
 import com.google.cloud.translate.TranslateOptions;
 import com.google.cloud.translate.Translation;
 import com.google.cloud.translate.Translate.TranslateOption;
+
+import droppod.bcrypt.BCrypt;
 import droppod.models.EpisodeModel;
+import droppod.models.GeolocationModel;
 import droppod.models.PodcastModel;
 
 public class ListenDroppod {
@@ -305,5 +308,57 @@ public class ListenDroppod {
     return podcast;
   }
 
-
+  public static ArrayList<GeolocationModel> getFollowers(String uuid){
+	  boolean status = false;
+      Connection conn = null;
+      PreparedStatement pst = null;
+      ResultSet rs = null;
+      ArrayList<GeolocationModel> geoList = new ArrayList<GeolocationModel>();
+      try {       	
+      	Context envContext = new InitialContext();
+          Context initContext  = (Context)envContext.lookup("java:/comp/env");
+          DataSource ds = (DataSource)initContext.lookup("jdbc/droppod");
+          conn = ds.getConnection();
+                       
+          pst = conn
+          		.prepareStatement("SELECT * FROM droppod.cities \r\n" + 
+          				"LEFT JOIN droppod.users ON droppod.users.city_id = cities.id \r\n" + 
+          				"LEFT JOIN droppod.SUBSCRIPTIONS ON droppod.SUBSCRIPTIONS.USER_ID = droppod.USERS.ID \r\n" + 
+          				"LEFT JOIN droppod.PODCASTS ON droppod.PODCASTS.ID = droppod.SUBSCRIPTIONS.PODCAST_ID \r\n" + 
+          				"WHERE droppod.PODCASTS.UUID = ?");
+          pst.setString(1, uuid);
+          rs = pst.executeQuery();
+          while(rs.next()) { 
+        	  float geolat = rs.getFloat("latitude");
+        	  float geolong = rs.getFloat("longitude");
+        	  geoList.add(new GeolocationModel(geolat,geolong));
+          }
+          
+      } catch (Exception e) {
+          System.out.println(e);
+      } finally {
+          if (conn != null) {
+              try {
+                  conn.close();
+              } catch (SQLException e) {
+                  e.printStackTrace();
+              }
+          }
+          if (pst != null) {
+              try {
+                  pst.close();
+              } catch (SQLException e) {
+                  e.printStackTrace();
+              }
+          }
+          if (rs != null) {
+              try {
+                  rs.close();
+              } catch (SQLException e) {
+                  e.printStackTrace();
+              }
+          }
+      }
+	  return geoList;
+  }
 }

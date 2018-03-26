@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import droppod.listen.ListenDroppod;
 import droppod.models.EpisodeModel;
+import droppod.models.GeolocationModel;
 import droppod.models.PodcastModel;
 
 
@@ -44,12 +45,13 @@ public class PodcastsServlet extends HttpServlet{
         
         PodcastModel podcast = ListenDroppod.getPodcast(uuid, userLocale);
         List<EpisodeModel> episodes = ListenDroppod.getEpisodes(uuid, userLocale);
-        
+        List<GeolocationModel> followers = ListenDroppod.getFollowers(uuid);
         // Make sure that we have episode information to return
         if(!episodes.isEmpty()){
         	
         	request.setAttribute("podcast", podcast);
         	request.setAttribute("episodes", episodes);
+        	request.setAttribute("followers", followers);
             RequestDispatcher rd=request.getRequestDispatcher("episode.jsp");  
             rd.forward(request,response);  
         }  
