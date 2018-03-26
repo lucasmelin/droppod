@@ -32,8 +32,12 @@
         <servlet-class>droppod.servlets.SearchResult</servlet-class>
     </servlet>
       <servlet>
-        <servlet-name>deleteuser</servlet-name>
-        <servlet-class>droppod.servlets.DeleteUserServlet</servlet-class>
+        <servlet-name>usersearch</servlet-name>
+        <servlet-class>droppod.servlets.UserSearchServlet</servlet-class>
+    </servlet>
+      <servlet>
+        <servlet-name>useredit</servlet-name>
+        <servlet-class>droppod.servlets.UserEditServlet</servlet-class>
     </servlet>
      <servlet>
       <servlet-name>locatetest</servlet-name>
@@ -81,8 +85,12 @@
         <url-pattern>/searchResult</url-pattern>
     </servlet-mapping>
      <servlet-mapping>
-        <servlet-name>deleteuser</servlet-name>
-        <url-pattern>/deleteUser</url-pattern>
+        <servlet-name>usersearch</servlet-name>
+        <url-pattern>/userSearch</url-pattern>
+    </servlet-mapping>
+     <servlet-mapping>
+        <servlet-name>useredit</servlet-name>
+        <url-pattern>/userEdit</url-pattern>
     </servlet-mapping>
 	<servlet>
         <servlet-name>follow</servlet-name>
