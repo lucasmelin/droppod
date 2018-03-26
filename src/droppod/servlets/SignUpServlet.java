@@ -32,6 +32,8 @@ public class SignUpServlet extends HttpServlet{
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String repassword = request.getParameter("repassword");
+        String city = request.getParameter("city");
+        String country = request.getParameter("country");
         String hashedpassword = BCrypt.hashpw(password, BCrypt.gensalt(10));
         
         HttpSession session = request.getSession(false);
@@ -39,7 +41,7 @@ public class SignUpServlet extends HttpServlet{
         if(session!=null)
         session.setAttribute("name", name);
         
-        if(password.equals(repassword) && UserDao.add(name, hashedpassword, email)){
+        if(password.equals(repassword) && UserDao.add(name, hashedpassword, email, city, country)){
           uuid = UserDao.getUuid(name);
           if (uuid != null){
             try{
