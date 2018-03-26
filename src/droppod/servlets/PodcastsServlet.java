@@ -47,8 +47,7 @@ public class PodcastsServlet extends HttpServlet{
         List<EpisodeModel> episodes = ListenDroppod.getEpisodes(uuid, userLocale);
         List<GeolocationModel> followers = ListenDroppod.getFollowers(uuid);
         // Make sure that we have episode information to return
-        if(!episodes.isEmpty()){
-        	
+        if(!episodes.isEmpty()){     	
         	request.setAttribute("podcast", podcast);
         	request.setAttribute("episodes", episodes);
         	request.setAttribute("followers", followers);
