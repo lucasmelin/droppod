@@ -10,7 +10,7 @@ import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 public class UserDao {
-	public static boolean add(String name, String pass, String email) {
+	public static boolean add(String name, String pass, String email, String city, String country) {
 		Connection conn = null;
 		PreparedStatement pst = null;
 		PreparedStatement pst2 = null;
@@ -23,11 +23,18 @@ public class UserDao {
 			DataSource ds = (DataSource) initContext.lookup("jdbc/droppod");
 			conn = ds.getConnection();
 
-			pst = conn.prepareStatement(
-					"insert into droppod.users" + "(username,password,email,validated) values" + "(?,?,?,?)");
+			//the updated insert gets respective city and country ids from what the user entered on sign up. We then
+			//add those ids to the insert statement
+			pst = conn.prepareStatement("INSERT INTO droppod.users (username,password,email,city_id,country_id,validated)\r\n" + 
+					"SELECT ?, ?, ?, c.id, co.id, ? \r\n" + 
+					"from droppod.cities as c, droppod.countries as co\r\n" + 
+					"WHERE c.name=?\r\n" + 
+					"and co.name=?");
 			pst.setString(1, name);
 			pst.setString(2, pass);
 			pst.setString(3, email);
+			pst.setString(5, city);
+			pst.setString(6, country);
 			pst.setInt(4, 0);
 			success = pst.executeUpdate();
 
