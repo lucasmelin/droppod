@@ -29,8 +29,10 @@
 			</c:if>
 			<input class="form-control" type="text" name="username" id="username"  placeholder="<fmt:message key="signup.userid" />" required autofocus />
 			<input class="form-control" type="email" name="email" id="email" placeholder="<fmt:message key="signup.email" />" required />
+			<input class="form-control" type="text" name="city" id="city" placeholder="<fmt:message key="signup.city" />" required />
+			<input class="form-control" type="text" name="country" id="country" placeholder="<fmt:message key="signup.country" />" required />	
 			<input class="form-control" type="password" name="password" id="password" placeholder="<fmt:message key="signup.password" />" required />
-			<input class="form-control" type="password" name="repassword" id="repassword" placeholder="<fmt:message key="signup.password" />" required />
+			<input class="form-control" type="password" name="repassword" id="repassword" placeholder="<fmt:message key="signup.repassword" />" required />
 		</div>
 		<input type="submit" class="btn btn-dark btn-lg btn-block mb-3" value="<fmt:message key="signup.signup"/>" />
 	</form>
