@@ -3,9 +3,10 @@ function createRecommended() {
   var mySVG = document.getElementById("svg");
   var w = mySVG.parentElement.offsetWidth - 100;
   var h = mySVG.parentElement.offsetHeight - 100;
-  var linkDistance = 200;
+  var linkDistance = 400;
 
-  var colors = d3.scale.category10();
+  var colors = d3.scale.category20b();
+  var altColors = d3.scale.category20c();
 
   var svg = d3.select("svg"),
     width = +svg.attr("width"),
@@ -46,8 +47,7 @@ function createRecommended() {
       .enter()
       .append("line")
       .attr("id", function (d, i) { return 'edge' + i })
-      .attr('marker-end', 'url(#arrowhead)')
-      .style("stroke", "#ccc")
+      .style("stroke", function (d, i) { return altColors(i); })
       .attr("stroke-width", function(d) { return Math.sqrt(d.value); })
       .style("pointer-events", "none");
 
@@ -55,7 +55,7 @@ function createRecommended() {
       .data(dataset.nodes)
       .enter()
       .append("circle")
-      .attr({ "r": 15 })
+      .attr({ "r": 20 })
       .style("fill", function (d, i) { return colors(i); })
       .call(force.drag)
 
@@ -98,13 +98,13 @@ function createRecommended() {
         'dx': 80,
         'dy': 0,
         'font-size': 10,
-        'fill': '#aaa'
+        'fill': '#0a0a0a'
       });
 
     edgelabels.append('textPath')
       .attr('xlink:href', function (d, i) { return '#edgepath' + i })
       .style("pointer-events", "none")
-      .text(function (d, i) { return d.value + ' listeners' });
+      .text(function (d, i) { return d.value + ' listeners in common' });
 
 
     svg.append('defs').append('marker')
@@ -122,7 +122,7 @@ function createRecommended() {
       .append('svg:path')
       .attr('d', 'M 0,-5 L 10 ,0 L 0,5')
       .attr('fill', '#ccc')
-      .attr('stroke', '#ccc');
+      .attr('stroke', '#8e8e8e');
 
 
     force.on("tick", function () {

@@ -25,17 +25,18 @@ public class UserDao {
 
 			//the updated insert gets respective city and country ids from what the user entered on sign up. We then
 			//add those ids to the insert statement
-			pst = conn.prepareStatement("INSERT INTO droppod.users (username,password,email,city_id,country_id,validated)\r\n" + 
-					"SELECT ?, ?, ?, c.id, co.id, ? \r\n" + 
-					"from droppod.cities as c, droppod.countries as co\r\n" + 
-					"WHERE c.name=?\r\n" + 
+			pst = conn.prepareStatement("INSERT INTO droppod.users (username,password,email,city_id,country_id,validated,active) " + 
+					"SELECT ?, ?, ?, c.id, co.id, ?, ? " + 
+					"from droppod.cities as c, droppod.countries as co " + 
+					"WHERE c.name=? " + 
 					"and co.name=?");
 			pst.setString(1, name);
 			pst.setString(2, pass);
 			pst.setString(3, email);
-			pst.setString(5, city);
-			pst.setString(6, country);
-			pst.setInt(4, 0);
+			pst.setString(6, city);
+			pst.setString(7, country);
+			pst.setInt(4, 0); // Validated
+			pst.setInt(5, 1); // Active
 			success = pst.executeUpdate();
 
 		} catch (Exception e) {
