@@ -2,15 +2,13 @@ function createRecommended() {
 
   var mySVG = document.getElementById("svg");
   var w = mySVG.parentElement.offsetWidth - 100;
-  var h = mySVG.parentElement.offsetHeight - 100;
+  var h = mySVG.parentElement.offsetHeight;
   var linkDistance = 400;
 
   var colors = d3.scale.category20b();
   var altColors = d3.scale.category20c();
 
-  var svg = d3.select("svg"),
-    width = +svg.attr("width"),
-    height = +svg.attr("height");
+  var svg = d3.select("svg");
 
   d3.json("http://localhost:8080/droppod/recommended", function (error, dataset) {
     if (error) throw error;

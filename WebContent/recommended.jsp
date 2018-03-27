@@ -88,7 +88,7 @@
 	</div>
 
 
-	<div class="container" style="float: right">
+	<div class="container chart-container" style="float: right">
 		<style>
 .links line {
 	stroke: #999;
@@ -100,7 +100,10 @@
 	stroke-width: 1.5px;
 }
 </style>
-		<svg id="svg" width="960" height="600"></svg>
+		<svg id="svg"
+		  viewBox="0 0 960 600"
+		  preserveAspectRatio="xMidYMid meet">
+		</svg>
 		<script src="https://d3js.org/d3.v3.min.js"></script>
 		<script src="js/recommended.js"></script>
 		<script>window.onload = createRecommended()</script>
