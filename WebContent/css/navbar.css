@@ -123,6 +123,13 @@ body {
   box-shadow: 0 0 0 0px rgba(255, 255, 255, .25);
 }
 
+.form-control-mint-disabled, .form-control-mint-disabled:focus {
+  color: #7eae65;
+  background-color: #7eae65;
+  border-color: #7eae65;
+  box-shadow: none;
+}
+
 /*Side navigation bar*/
 .sidebar {
   position: fixed;

@@ -22,7 +22,6 @@ public class LoginDroppod {
         Connection conn = null;
         PreparedStatement pst = null;
         ResultSet rs = null;
-        int passwordColumn = 3;
         
         try {       	
         	Context envContext = new InitialContext();
@@ -35,8 +34,11 @@ public class LoginDroppod {
             pst.setString(1, name);
             rs = pst.executeQuery();
             if (rs.next()) { //True if username exists in database otherwise false.
-            	if (BCrypt.checkpw(pass, rs.getString(passwordColumn))) {
-            		status = true;
+            	System.out.println(rs.getString("active").compareTo("1"));
+            	if (rs.getString("active").compareTo("0") == 0) {
+	            	if (BCrypt.checkpw(pass, rs.getString("password"))) {
+	            		status = true;
+	            	}
             	}
             }
             

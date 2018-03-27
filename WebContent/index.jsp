@@ -24,7 +24,7 @@
 		<img class="mb-1" src="./Assets/Logo.png" height="200px" width="175px">
 		<h3 class="mb-3 font-weight-normal"><fmt:message key="index.logintodroppod" /></h3>
 		<div class="form-group">
-			<c:if test="${success == \"false\"}" >
+			<c:if test="${sessionScope.failedLogin == \"true\"}" >
 				<div class="alert alert-danger" role="alert"><strong>Invalid username or password</strong></div>
 			</c:if>
 			<input class="form-control" type="text" name="username" id="username" placeholder="<fmt:message key="index.userid" />" required autofocus />
