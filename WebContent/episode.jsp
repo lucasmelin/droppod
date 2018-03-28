@@ -118,6 +118,7 @@
 		  dissipating: false,
           map: map
 		});
+        heatmap.set('radius', heatmap.get('radius') ? null : 1);
  }
   
     </script>
