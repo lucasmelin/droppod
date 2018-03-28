@@ -97,9 +97,35 @@
 						<h1>${podcast.name}</h1>
 						${podcast.description} <br>
 						
-	<div id="map"></div>
+	
     <script>  
 
+ function initMap() {
+	 var heatmapData = [];
+	 <c:forEach items="${followers}" var="followers">
+	 	heatmapData.push(new google.maps.LatLng(${followers.latitude}, ${followers.longitude}));
+	</c:forEach>
+		var ottawa = new google.maps.LatLng(45.425, -75.692);
+
+		map = new google.maps.Map(document.getElementById('map'), {
+		  center: ottawa,
+		  zoom: 5,
+		});
+
+		var heatmap = new google.maps.visualization.HeatmapLayer({
+		  data: heatmapData,
+		  dissipating: false,
+          map: map
+		});
+        heatmap.set('radius', heatmap.get('radius') ? null : 1);
+ }
+  
+    </script>
+    <script async defer
+    	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7NysljEQDwB01a-ASfSY7hveHIjht1ak&callback=initMap&libraries=visualization">
+    </script>
+						
+										
 						<c:set var="breakFlag" value="0" />
 
 						<c:if test="${fn:length(podcastIDs) == 0}">
@@ -123,26 +149,7 @@
 					</div>
 					<div id="map" style="height:35%; width:25%;"></div>
 				</div>
-				
-				<script>  
-				 function initMap() {
-					 var heatmapData = [];
-						var ottawa = new google.maps.LatLng(45.425, -75.692);
-						map = new google.maps.Map(document.getElementById('map'), {
-						  center: ottawa,
-						  zoom: 5,
-						});
-						var heatmap = new google.maps.visualization.HeatmapLayer({
-						  data: heatmapData,
-						  dissipating: false,
-				          map: map
-						});
-				 }
-				 </script>
-    <script async defer
-    	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7NysljEQDwB01a-ASfSY7hveHIjht1ak&callback=initMap&libraries=visualization">
-    </script>
-
+<div id="map" style="height:35%; width:25%;"></div>
 				<c:forEach items="${episodes}" var="episodes">
 					<div class="row">
 						<h4>
