@@ -139,19 +139,29 @@
 							</c:choose>
 						</c:forEach>
 					</div>
-					<div id="map" class="image col-md-4" style="width: 130px; height: auto%;"></div>
+					<div id="map" class="image col-md-4"
+						style="width: 130px; height: auto%;"></div>
 				</div>
 
 				<c:forEach items="${episodes}" var="episodes">
 					<div class="row">
-						<h4>
-							<c:out value="${episodes.name}" />
-						</h4>
-						<button class="episode-play-button" value="${episodes.url}">PLAY</button>
-						<p>
-							<c:out value="${episodes.description}" escapeXml="false" />
-						</p>
+
+						<div class="card flex-md-row mb-4 box-shadow h-md-250"
+							style="max-width: 70%; border-radius: 10px; margin-left: auto; margin-right: auto;">
+							<div class="card-body d-flex flex-column align-items-start">
+								<h3 class="mb-0">
+									<c:out value="${episodes.name}" />
+								</h3>
+								<button class="episode-play-button" value="${episodes.url}">PLAY</button>
+								<p class="card-text mb-auto">
+									<c:out value="${episodes.description}" escapeXml="false" />
+								</p>
+							</div>
+						</div>
 					</div>
+
+
+
 				</c:forEach>
 
 
