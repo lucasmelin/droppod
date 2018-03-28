@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class GeolocateServlet extends HttpServlet{
+public class GeolocateServlet extends HttpServlet {
 
   /**
    * 
@@ -21,7 +21,7 @@ public class GeolocateServlet extends HttpServlet{
     response.setCharacterEncoding("UTF-8");
     Double latitude = Double.valueOf(request.getParameter("lat").toString());
     Double longitude = Double.valueOf(request.getParameter("long").toString());
-    
+
     System.out.println(latitude);
     System.out.println(longitude);
   }

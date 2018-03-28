@@ -47,7 +47,8 @@
 		<form class="form-inline w-100 my-2 my-lg-0" action="searchResult"
 			method="get">
 			<input class="form-control form-control-mint w-100" type="text"
-				name="search" placeholder="<fmt:message key="search.search" />" aria-label="Search">
+				name="search" placeholder="<fmt:message key="search.search" />"
+				aria-label="Search">
 		</form>
 		<ul class="navbar-nav px-3">
 			<li class="nav-item text-nowrap"><a class="nav-link"
@@ -69,11 +70,13 @@
 							href="${pageContext.request.contextPath}/welcome.jsp"> <span
 								data-feather="cast"></span> <fmt:message key="welcome.casts" />
 						</a></li>
-						<li class="nav-item"><a class="nav-link" href="#"> <span
+						<li class="nav-item"><a class="nav-link"
+							href="${pageContext.request.contextPath}/following.jsp"> <span
 								data-feather="users"></span> <fmt:message
 									key="welcome.following" />
 						</a></li>
-						<li class="nav-item"><a class="nav-link" href="#"> <span
+						<li class="nav-item"><a class="nav-link"
+							href="${pageContext.request.contextPath}/popularPodcasts"> <span
 								data-feather="globe"></span> <fmt:message key="welcome.popular" />
 						</a></li>
 						<li class="nav-item"><a class="nav-link"
@@ -81,8 +84,10 @@
 								data-feather="plus-square"></span> <fmt:message
 									key="welcome.addapodcast" />
 						</a></li>
-						<li class="nav-item"><a class="nav-link active" href="${pageContext.request.contextPath}/recommended.jsp"> <span
-								data-feather="user-check"></span><fmt:message key="welcome.recommended" />
+						<li class="nav-item"><a class="nav-link active"
+							href="${pageContext.request.contextPath}/recommended.jsp"> <span
+								data-feather="user-check"></span>
+							<fmt:message key="welcome.recommended" />
 						</a></li>
 					</ul>
 				</div>
@@ -92,13 +97,14 @@
 
 
 	<div class="container chart-container">
-		<svg id="svg"
-		  viewBox="0 0 960 600"
-		  preserveAspectRatio="xMidYMid meet">
+		<svg id="svg" viewBox="0 0 960 600"
+			preserveAspectRatio="xMidYMid meet">
 		</svg>
 		<script src="https://d3js.org/d3.v3.min.js"></script>
 		<script src="js/recommended.js"></script>
-		<script>window.onload = createRecommended()</script>
+		<script>
+			window.onload = createRecommended()
+		</script>
 	</div>
 
 
@@ -120,9 +126,9 @@
 		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
 		crossorigin="anonymous"></script>
 	<script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
-	<script> 
-      feather.replace() 
-    </script>
+	<script>
+		feather.replace()
+	</script>
 	<script src="js/welcome.js"></script>
 </body>
 </fmt:bundle>

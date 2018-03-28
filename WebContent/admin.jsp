@@ -29,10 +29,30 @@
 </head>
 <body>
 	<nav class="navbar navbar-dark bg-mint sticky-top flex-md-nowrap p-0">
-		<a class="navbar-brand col-sm-3 col-md-2 mr-0">DropPod</a>
-		<form class="form-inline w-100 my-2 my-lg-0">
-			<input class="form-control form-control-mint-disabled w-100"
-				type="text">
+		<a class="navbar-brand col-sm-2 col-md-1 mr-0">DropPod</a>
+
+
+		<form class="form-inline my-2 my-lg-0" action="setLanguageServlet"
+			method="get">
+
+			<div class="nav-item dropdown" role="group">
+				<select class="btn dropdown-toggle btn-outline-dark"
+					aria-labelledby="btnGroupDrop1" id="language" name="language"
+					onchange="submit()">
+					<option class="dropdown-item" value="en"
+						${language == 'en' ? 'selected' : ''}>English</option>
+					<option class="dropdown-item" value="fr"
+						${language == 'fr' ? 'selected' : ''}>Français</option>
+				</select>
+			</div>
+
+		</form>
+
+		<form class="form-inline w-100 my-2 my-lg-0" action="searchResult"
+			method="get">
+			<input class="form-control form-control-mint w-100" type="text"
+				name="search" placeholder="<fmt:message key="search.search" />"
+				aria-label="Search">
 		</form>
 		<ul class="navbar-nav px-3">
 			<li class="nav-item text-nowrap"><a class="nav-link"
@@ -60,7 +80,7 @@
 									key="welcome.following" />
 						</a></li>
 						<li class="nav-item"><a class="nav-link"
-							href="${pageContext.request.contextPath}/popular.jsp"> <span
+							href="${pageContext.request.contextPath}/popularPodcasts"> <span
 								data-feather="globe"></span> <fmt:message key="welcome.popular" />
 						</a></li>
 						<li class="nav-item"><a class="nav-link"
@@ -68,8 +88,10 @@
 								data-feather="plus-square"></span> <fmt:message
 									key="welcome.addapodcast" />
 						</a></li>
-						<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/recommended.jsp"> <span
-								data-feather="user-check"></span><fmt:message key="welcome.recommended" />
+						<li class="nav-item"><a class="nav-link"
+							href="${pageContext.request.contextPath}/recommended.jsp"> <span
+								data-feather="user-check"></span>
+							<fmt:message key="welcome.recommended" />
 						</a></li>
 						<c:if test="${sessionScope.accessLevel == \"1\"}">
 							<li class="nav-item"><a class="nav-link active"
@@ -97,63 +119,74 @@
 				value="<fmt:message key="admin.search" />" /> -->
 		</form>
 		<c:if test="${not empty user}">
-		<div class="col-sm-6">
-			<form action="userEdit" method="post">
-				<div class="form-group">
-					<label for="id">ID</label>
-					<input type="text" class="form-control" value="${user.id}" name="id" id="id" readonly>
-				</div>
-				<div class="form-group">
-					<label for="name">Username</label>
-					<input type="text" class="form-control" value="${user.name}" id="name" readonly>
-				</div>
-				<div class="form-group">
-					<label for="email">Email</label>
-					<input type="text" class="form-control" value="${user.email}" id="email" readonly>
-				</div>
-				<div class="form-group">
-					<label for="active">Active</label>
-					<input type="number" class="form-control" value="${user.activeStatus}" name="active" id="active">
-				</div>
-				<div class="form-group">
-					<label for="account_type_id">Account Type</label>
-					<input type="number" class="form-control" value="${user.accountType}" name="account_type_id" id="account_type_id">
-				</div>
-				
-				<button type="submit" class="btn btn-info"><fmt:message key="admin.save"/></button>
-			</form>
+			<div class="col-sm-6">
+				<form action="userEdit" method="post">
+					<div class="form-group">
+						<label for="id"><fmt:message key="admin.ID" /></label> <input
+							type="text" class="form-control" value="${user.id}" name="id"
+							id="id" readonly>
+					</div>
+					<div class="form-group">
+						<label for="name"><fmt:message key="admin.username" /></label> <input
+							type="text" class="form-control" value="${user.name}" id="name"
+							readonly>
+					</div>
+					<div class="form-group">
+						<label for="email"><fmt:message key="admin.email" /></label> <input
+							type="text" class="form-control" value="${user.email}" id="email"
+							readonly>
+					</div>
+					<div class="form-group">
+						<label for="active"><fmt:message key="admin.active" /></label> <input
+							type="number" min="0" max="1" class="form-control"
+							value="${user.activeStatus}" name="active" id="active">
+					</div>
+					<div class="form-group">
+						<label for="account_type_id"><fmt:message
+								key="admin.accountlevel" /></label> <input type="number" min="0" max="1"
+							class="form-control" value="${user.accountType}"
+							name="account_type_id" id="account_type_id">
+					</div>
+
+					<button type="submit" class="btn btn-info">
+						<fmt:message key="admin.save" />
+					</button>
+				</form>
 			</div>
 		</c:if>
 
 		<c:if test="${not empty users}">
-		<div class="table-responsive">
-			<table class="table">
-				<tr>
-					<th>ID</th>
-					<th>Username</th>
-					<th>Email</th>
-					<th>Active</th>
-					<th>Account Level</th>
-					<th>Action</th>
-				</tr>
-			<c:forEach var="user" items="${users}">
-				<tr>
-					<td>${user.id}</td>
-					<td>${user.name}</td>
-					<td>${user.email}</td>
-					<td>${user.activeStatus}</td>
-					<td>${user.accountType}</td>
-						<td>
-						<form action="userSearch" method="post" style="padding:0;margin:0;">
-							<input type="hidden" value="${user.id}" name="id" id="id">
-							<button type="submit" class="btn btn-info btn-sm"><fmt:message key="admin.edit"/></button>
-						</form>
-					</td>
-				</tr>
-			</c:forEach>
-			</table>
-		</div>
-			</c:if>
+			<div class="table-responsive">
+				<table class="table">
+					<tr>
+						<th><fmt:message key="admin.ID" /></th>
+						<th><fmt:message key="admin.username" /></th>
+						<th><fmt:message key="admin.email" /></th>
+						<th><fmt:message key="admin.active" /></th>
+						<th><fmt:message key="admin.accountlevel" /></th>
+						<th><fmt:message key="admin.action" /></th>
+					</tr>
+					<c:forEach var="user" items="${users}">
+						<tr>
+							<td>${user.id}</td>
+							<td>${user.name}</td>
+							<td>${user.email}</td>
+							<td>${user.activeStatus}</td>
+							<td>${user.accountType}</td>
+							<td>
+								<form action="userSearch" method="post"
+									style="padding: 0; margin: 0;">
+									<input type="hidden" value="${user.id}" name="id" id="id">
+									<button type="submit" class="btn btn-info btn-sm">
+										<fmt:message key="admin.edit" />
+									</button>
+								</form>
+							</td>
+						</tr>
+					</c:forEach>
+				</table>
+			</div>
+		</c:if>
 	</div>
 
 

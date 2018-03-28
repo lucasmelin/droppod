@@ -108,13 +108,14 @@ public class AddPodcastServlet extends HttpServlet {
       Connection con = ds.getConnection();
 
       pstAddPodcast = con.prepareStatement(
-          "INSERT INTO droppod.podcasts (url, uri, thumbnail_url) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+          "INSERT INTO droppod.podcasts (url, uri, thumbnail_url) VALUES (?, ?, ?)",
+          Statement.RETURN_GENERATED_KEYS);
 
       pstAddPodcast.setString(1, podcastUrl);
       pstAddPodcast.setString(2, podcastUri);
       pstAddPodcast.setString(3, podcastImageLink.toString());
       success = pstAddPodcast.executeUpdate();
-      
+
       rs = pstAddPodcast.getGeneratedKeys();
       /* Advance the cursor */
       int podcast_id = 0;
@@ -132,7 +133,7 @@ public class AddPodcastServlet extends HttpServlet {
         pstAddPodcastInfo.setString(2, "en");
         pstAddPodcastInfo.setString(3, podcastTitle);
         pstAddPodcastInfo.setString(4, podcastDescription);
-        
+
         pstAddPodcastInfo.executeUpdate();
 
 

@@ -36,25 +36,34 @@
 <body>
 	<nav class="navbar navbar-dark bg-mint sticky-top flex-md-nowrap p-0">
 		<a class="navbar-brand col-sm-2 col-md-1 mr-0">DropPod</a>
-		
 
-	<form class="form-inline my-2 my-lg-0" action="setLanguageServlet" method="get">
+
+		<form class="form-inline my-2 my-lg-0" action="setLanguageServlet"
+			method="get">
 
 			<div class="nav-item dropdown" role="group">
-			    <select class="btn dropdown-toggle btn-outline-dark" aria-labelledby="btnGroupDrop1" id="language" name="language"
-				onchange="submit()">
-			      <option class="dropdown-item" value="en" ${language == 'en' ? 'selected' : ''}>English</option>
-			      <option class="dropdown-item" value="fr" ${language == 'fr' ? 'selected' : ''}>Français</option>
-			    </select>
+				<select class="btn dropdown-toggle btn-outline-dark"
+					aria-labelledby="btnGroupDrop1" id="language" name="language"
+					onchange="submit()">
+					<option class="dropdown-item" value="en"
+						${language == 'en' ? 'selected' : ''}>English</option>
+					<option class="dropdown-item" value="fr"
+						${language == 'fr' ? 'selected' : ''}>Français</option>
+				</select>
 			</div>
-			
+
 		</form>
 
-		<form class="form-inline w-100 my-2 my-lg-0" action="searchResult" method="get">
-		 	<input class="form-control form-control-mint w-100" type="text" name="search" placeholder="<fmt:message key="search.search" />" aria-label="Search">
+		<form class="form-inline w-100 my-2 my-lg-0" action="searchResult"
+			method="get">
+			<input class="form-control form-control-mint w-100" type="text"
+				name="search" placeholder="<fmt:message key="search.search" />"
+				aria-label="Search">
 		</form>
 		<ul class="navbar-nav px-3">
-			<li class="nav-item text-nowrap"><a class="nav-link" href="${pageContext.request.contextPath}/logout"><fmt:message key="welcome.signout" /></a></li>
+			<li class="nav-item text-nowrap"><a class="nav-link"
+				href="${pageContext.request.contextPath}/logout"><fmt:message
+						key="welcome.signout" /></a></li>
 		</ul>
 	</nav>
 
@@ -64,28 +73,40 @@
 			<nav class="col-md-2 sidebar">
 				<div class="sidebar-sticky">
 					<ul class="nav flex-column">
-						<li class="nav-item"><a class="nav-link" href="#">
-								<span data-feather="user"></span><fmt:message key="welcome.signedinas" />: ${sessionScope.name} 
+						<li class="nav-item"><a class="nav-link" href="#"> <span
+								data-feather="user"></span>
+							<fmt:message key="welcome.signedinas" />: ${sessionScope.name}
 						</a></li>
-						<li class="nav-item"><a class="nav-link active" href="${pageContext.request.contextPath}/welcome.jsp">
-								<span data-feather="cast"></span><fmt:message key="welcome.casts" />
+						<li class="nav-item"><a class="nav-link active"
+							href="${pageContext.request.contextPath}/welcome.jsp"> <span
+								data-feather="cast"></span>
+							<fmt:message key="welcome.casts" />
 						</a></li>
-						<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/following.jsp"> <span
-								data-feather="users"></span><fmt:message key="welcome.following" />
+						<li class="nav-item"><a class="nav-link"
+							href="${pageContext.request.contextPath}/following.jsp"> <span
+								data-feather="users"></span>
+							<fmt:message key="welcome.following" />
 						</a></li>
-						<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/popularPodcasts"> <span
+						<li class="nav-item"><a class="nav-link"
+							href="${pageContext.request.contextPath}/popularPodcasts"> <span
 								data-feather="globe"></span> <fmt:message key="welcome.popular" />
 						</a></li>
-						<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/addPodcast.jsp"> <span
-								data-feather="plus-square"></span><fmt:message key="welcome.addapodcast" />
+						<li class="nav-item"><a class="nav-link"
+							href="${pageContext.request.contextPath}/addPodcast.jsp"> <span
+								data-feather="plus-square"></span>
+							<fmt:message key="welcome.addapodcast" />
 						</a></li>
-						<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/recommended.jsp"> <span
-								data-feather="user-check"></span><fmt:message key="welcome.recommended" />
+						<li class="nav-item"><a class="nav-link"
+							href="${pageContext.request.contextPath}/recommended.jsp"> <span
+								data-feather="user-check"></span>
+							<fmt:message key="welcome.recommended" />
 						</a></li>
-						<c:if test="${sessionScope.accessLevel == \"1\"}" >
-						<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/admin.jsp"> <span
-								data-feather="shield"></span><fmt:message key="welcome.admin" />
-						</a></li>
+						<c:if test="${sessionScope.accessLevel == \"1\"}">
+							<li class="nav-item"><a class="nav-link"
+								href="${pageContext.request.contextPath}/admin.jsp"> <span
+									data-feather="shield"></span>
+								<fmt:message key="welcome.admin" />
+							</a></li>
 						</c:if>
 					</ul>
 				</div>
@@ -93,8 +114,9 @@
 		</div>
 	</div>
 
-<div role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-	<h5 class="my-0 mr-md-auto font-weight-normal">Results for "${searchEntry}"</h5>
+	<div role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+		<h5 class="my-0 mr-md-auto font-weight-normal">Results for
+			"${searchEntry}"</h5>
 		<c:forEach var="podresult" items="${search}">
 			<div class="row">
 
@@ -102,47 +124,20 @@
 					style="max-width: 70%; border-radius: 10px; margin-left: auto; margin-right: auto;">
 					<div class="card-body d-flex flex-column align-items-start">
 						<h3 class="mb-0">
-							<a class="text-dark" href="${pageContext.request.contextPath}/podcastServlet?uuid=${podresult.uuid}">${podresult.name}</a>
+							<a class="text-dark"
+								href="${pageContext.request.contextPath}/podcastServlet?uuid=${podresult.uuid}">${podresult.name}</a>
 						</h3>
 						<p class="card-text mb-auto">${podresult.description}</p>
 					</div>
 					<img class="card-img-right flex-auto d-none d-md-block"
 						data-src="${podresult.thumbnail_url}" alt="Thumbnail [200x250]"
-						style="width: 200px; height: 250px; border-radius: 0px 10px 10px 0px;margins:0px"
+						style="width: 200px; height: 250px; border-radius: 0px 10px 10px 0px; margins: 0px"
 						src="${podresult.thumbnail_url}" data-holder-rendered="true">
 				</div>
 
 			</div>
 		</c:forEach>
 
-		<div class="droppod-player">
-			<div class="droppod-player-controls">
-				<button class="droppod-play">
-					<i class="fa fa-play"></i><span>Play</span>
-				</button>
-				<button class="droppod-pause">
-					<i class="fa fa-pause"></i><span>Pause</span>
-				</button>
-				<button class="droppod-rewind">
-					<i class="fa fa-fast-backward"></i><span>Rewind</span>
-				</button>
-				<button class="droppod-fast-forward">
-					<i class="fa fa-fast-forward"></i><span>FastForward</span>
-				</button>
-				<span class="droppod-currenttime droppod-time">00:00</span>
-				<progress class="droppod-progress" value="0"></progress>
-				<span class="droppod-duration droppod-time">00:00</span>
-				<button class="droppod-speed">1x</button>
-				<button class="droppod-mute">
-					<i class="fa fa-volume-up"></i><span>Mute/Unmute</span>
-				</button>
-			</div>
-			<audio id="droppod-audio"
-				src="http://traffic.megaphone.fm/GLT3407800731.mp3"></audio>
-			<a class="droppod-download"
-				href="http://traffic.megaphone.fm/GLT3407800731.mp3" download>Download
-				MP3</a>
-		</div>
 	</div>
 
 	<!-- Optional JavaScript -->
