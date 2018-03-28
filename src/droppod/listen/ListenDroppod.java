@@ -331,8 +331,10 @@ public class ListenDroppod {
           while(rs.next()) { 
         	  float geolat = rs.getFloat("latitude");
         	  float geolong = rs.getFloat("longitude");
-        	  geoList.add(new GeolocationModel(geolat,geolong));
-          }
+        	  if(geolat != 0 && geolong != 0) {
+        		  geoList.add(new GeolocationModel(geolat,geolong));
+        	  }
+        }
           
       } catch (Exception e) {
           System.out.println(e);

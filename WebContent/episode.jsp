@@ -98,7 +98,7 @@
 						<h1>${podcast.name}</h1>
 						${podcast.description} <br>
 						
-	<div id="map"></div>
+	
     <script>  
 
  function initMap() {
@@ -110,7 +110,7 @@
 
 		map = new google.maps.Map(document.getElementById('map'), {
 		  center: ottawa,
-		  zoom: 13,
+		  zoom: 5,
 		});
 
 		var heatmap = new google.maps.visualization.HeatmapLayer({
@@ -149,7 +149,7 @@
 					</div>
 
 				</div>
-
+<div id="map" style="height:35%; width:25%;"></div>
 				<c:forEach items="${episodes}" var="episodes">
 					<div class="row">
 						<h4>
