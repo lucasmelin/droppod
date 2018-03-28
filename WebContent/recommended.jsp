@@ -47,7 +47,7 @@
 		<form class="form-inline w-100 my-2 my-lg-0" action="searchResult"
 			method="get">
 			<input class="form-control form-control-mint w-100" type="text"
-				name="search" placeholder="Search" aria-label="Search">
+				name="search" placeholder="<fmt:message key="search.search" />" aria-label="Search">
 		</form>
 		<ul class="navbar-nav px-3">
 			<li class="nav-item text-nowrap"><a class="nav-link"
@@ -76,10 +76,13 @@
 						<li class="nav-item"><a class="nav-link" href="#"> <span
 								data-feather="globe"></span> <fmt:message key="welcome.popular" />
 						</a></li>
-						<li class="nav-item"><a class="nav-link active"
+						<li class="nav-item"><a class="nav-link"
 							href="${pageContext.request.contextPath}/addPodcast.jsp"> <span
 								data-feather="plus-square"></span> <fmt:message
 									key="welcome.addapodcast" />
+						</a></li>
+						<li class="nav-item"><a class="nav-link active" href="${pageContext.request.contextPath}/recommended.jsp"> <span
+								data-feather="user-check"></span><fmt:message key="welcome.recommended" />
 						</a></li>
 					</ul>
 				</div>

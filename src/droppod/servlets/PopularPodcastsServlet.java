@@ -48,6 +48,8 @@ public class PopularPodcastsServlet extends HttpServlet {
 			Connection con = ds.getConnection();
 			HttpSession session = request.getSession(false);
 			String username = (String)session.getAttribute("name");
+	         String language = (String)session.getAttribute("language");
+	         System.out.println(language);
 			
 		//pst1 gets user information for finding podcasts in their city
 			pst1 = con.prepareStatement("SELECT users.city_id, users.country_id, cities.name, languages.code\r\n" + 
@@ -84,7 +86,7 @@ public class PopularPodcastsServlet extends HttpServlet {
 					"GROUP BY p.id\r\n" +
 					"ORDER BY numusers DESC");
 
-			pst.setString(1, languageCode);
+			pst.setString(1, language);
 			pst.setInt(2, cityId);
 			pst.setInt(3, countryId);
 

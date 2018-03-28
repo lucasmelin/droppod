@@ -49,7 +49,7 @@ select thumbnail_url, uuid from droppod.podcasts
 		</form>
 
 		<form class="form-inline w-100 my-2 my-lg-0" action="searchResult" method="get">
-		 	<input class="form-control form-control-mint w-100" type="text" name="search" placeholder="Search" aria-label="Search">
+		 	<input class="form-control form-control-mint w-100" type="text" name="search" placeholder="<fmt:message key="search.search" />" aria-label="Search">
 		</form>
 		<ul class="navbar-nav px-3">
 			<li class="nav-item text-nowrap"><a class="nav-link" href="${pageContext.request.contextPath}/logout"><fmt:message key="welcome.signout" /></a></li>
@@ -71,11 +71,14 @@ select thumbnail_url, uuid from droppod.podcasts
 						<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/following.jsp"> <span
 								data-feather="users"></span><fmt:message key="welcome.following" />
 						</a></li>
-						<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/popular.jsp"> <span
+						<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/popularPodcasts"> <span
 								data-feather="globe"></span><fmt:message key="welcome.popular" />
 						</a></li>
 						<li class="nav-item"><a class="nav-link"href="${pageContext.request.contextPath}/addPodcast.jsp"> <span
 								data-feather="plus-square"></span><fmt:message key="welcome.addapodcast" />
+						</a></li>
+						<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/recommended.jsp"> <span
+								data-feather="user-check"></span><fmt:message key="welcome.recommended" />
 						</a></li>
 						<c:if test="${sessionScope.accessLevel == \"1\"}" >
 						<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/admin.jsp"> <span

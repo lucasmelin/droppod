@@ -68,6 +68,9 @@
 								data-feather="plus-square"></span> <fmt:message
 									key="welcome.addapodcast" />
 						</a></li>
+						<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/recommended.jsp"> <span
+								data-feather="user-check"></span><fmt:message key="welcome.recommended" />
+						</a></li>
 						<c:if test="${sessionScope.accessLevel == \"1\"}">
 							<li class="nav-item"><a class="nav-link active"
 								href="${pageContext.request.contextPath}/admin.jsp"> <span

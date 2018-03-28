@@ -33,7 +33,7 @@ function createRecommended() {
       .links(dataset.edges)
       .size([w, h])
       .linkDistance([linkDistance])
-      .charge([-500])
+      .charge([-200])
       .theta(0.1)
       .gravity(0.05)
       .start();
