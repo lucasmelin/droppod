@@ -35,8 +35,10 @@ public class LoginDroppod {
             rs = pst.executeQuery();
             if (rs.next()) { //True if username exists in database otherwise false.
               // TODO: Null Pointer exception if not set
-            	System.out.println(rs.getString("active").compareTo("1"));
-            	if (rs.getString("active").compareTo("0") == 0) {
+              
+              
+            	System.out.println(rs.getInt("active"));
+            	if (rs.getInt("active") == 0) {
 	            	if (BCrypt.checkpw(pass, rs.getString("password"))) {
 	            		status = true;
 	            	}

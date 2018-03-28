@@ -88,18 +88,7 @@
 	</div>
 
 
-	<div class="container chart-container" style="float: right">
-		<style>
-.links line {
-	stroke: #999;
-	stroke-opacity: 0.6;
-}
-
-.nodes circle {
-	stroke: #fff;
-	stroke-width: 1.5px;
-}
-</style>
+	<div class="container chart-container">
 		<svg id="svg"
 		  viewBox="0 0 960 600"
 		  preserveAspectRatio="xMidYMid meet">
