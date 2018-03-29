@@ -46,8 +46,8 @@ public class PopularPodcastsServlet extends HttpServlet {
       DataSource ds = (DataSource) initContext.lookup("jdbc/droppod");
       Connection con = ds.getConnection();
       HttpSession session = request.getSession(false);
-      String username = (String) session.getAttribute("name");
-      String language = (String) session.getAttribute("language");
+      String username = session.getAttribute("name").toString();
+      String language = session.getAttribute("language").toString().substring(0, 2);
 
       // pst1 gets user information for finding podcasts in their city
       pst1 = con.prepareStatement(
