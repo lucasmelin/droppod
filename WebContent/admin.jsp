@@ -137,15 +137,30 @@
 							readonly>
 					</div>
 					<div class="form-group">
-						<label for="active"><fmt:message key="admin.active" /></label> <input
-							type="number" min="0" max="1" class="form-control"
-							value="${user.activeStatus}" name="active" id="active">
+						<label for="active"><fmt:message key="admin.active" /></label> 
+						<select class="form-control" name="account_type_id" id="account_type_id">
+							<c:if test="${user.activeStatus == 0}">
+							<option value="0">Active</option>
+							<option value="1">Disabled</option>
+							</c:if>
+							<c:if test="${user.activeStatus == 1}">
+							<option value="1">Disabled</option>
+							<option value="0">Active</option>
+							</c:if>
+						</select>
 					</div>
 					<div class="form-group">
-						<label for="account_type_id"><fmt:message
-								key="admin.accountlevel" /></label> <input type="number" min="0" max="1"
-							class="form-control" value="${user.accountType}"
-							name="account_type_id" id="account_type_id">
+						<label for="account_type_id"><fmt:message key="admin.accountlevel" /></label>
+						<select class="form-control" name="account_type_id" id="account_type_id">
+							<c:if test="${user.accountType == 0}">
+							<option value="0">General User</option>
+							<option value="1">Admin User</option>
+							</c:if>
+							<c:if test="${user.accountType == 1}">
+							<option value="1">Admin User</option>
+							<option value="0">General User</option>
+							</c:if>
+						</select>
 					</div>
 
 					<button type="submit" class="btn btn-info">
@@ -171,8 +186,8 @@
 							<td>${user.id}</td>
 							<td>${user.name}</td>
 							<td>${user.email}</td>
-							<td>${user.activeStatus}</td>
-							<td>${user.accountType}</td>
+							<td><c:if test="${user.activeStatus == 0}">Active</c:if><c:if test="${user.activeStatus == 1}">Disabled</c:if></td>
+							<td><c:if test="${user.accountType == 0}">General User</c:if><c:if test="${user.accountType == 1}">Admin User</c:if></td>
 							<td>
 								<form action="userSearch" method="post"
 									style="padding: 0; margin: 0;">
