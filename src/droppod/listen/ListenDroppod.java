@@ -21,176 +21,228 @@ import droppod.models.GeolocationModel;
 import droppod.models.PodcastModel;
 
 public class ListenDroppod {
-  public static List<EpisodeModel> getEpisodes(String uuid, Locale userLocale) {
+	public static List<EpisodeModel> getEpisodes(String uuid, Locale userLocale) {
 
-    Connection conn = null;
-    PreparedStatement pstEnglish = null;
-    PreparedStatement pstTranslate = null;
-    ResultSet rsEnglish = null;
-    ResultSet rsTranslate = null;
-    List<EpisodeModel> rows = new ArrayList<EpisodeModel>();
+	    Connection conn = null;
+	    PreparedStatement pstEnglish = null;
+	    PreparedStatement pstCompare = null;
+	    PreparedStatement pstTranslate = null;
+	    PreparedStatement pstFrench = null;
+	    ResultSet rsEnglish = null;
+	    ResultSet rsCompare = null;
+	    ResultSet rsTranslate = null;
+	    ResultSet rsFrench = null;
+	    int translateEpisodes = 0;
+	    int totalEpisodes = 0;
+	    List<EpisodeModel> rows = new ArrayList<EpisodeModel>();
+	    
+
+	    try {
+
+	      Context envContext = new InitialContext();
+	      Context initContext = (Context) envContext.lookup("java:/comp/env");
+	      DataSource ds = (DataSource) initContext.lookup("jdbc/droppod");
+	      // DataSource ds = (DataSource)envContext.lookup("java:/comp/env/jdbc/droppod");
+	      Connection con = ds.getConnection();
+	      // We're treating all variants of language as the same by doing this.
+	      // Ie: Canadian English is the same as US English
+	      String returnLanguage = userLocale.getLanguage().substring(0, 2);
+
+	      pstEnglish = con.prepareStatement(
+	          "SELECT e.*, et.episode_name as name, et.episode_description as description "
+	              + "FROM droppod.episodes e "
+	              + "INNER JOIN droppod.episodes_translations et ON e.id = et.episode_id "
+	              + "WHERE e.podcast_id IN (SELECT id FROM droppod.podcasts WHERE uuid=?) "
+	              + "AND et.language_code=? order by release_date desc;");
+	      pstEnglish.setString(1, uuid);
+	      pstEnglish.setString(2, returnLanguage);
+	      rsEnglish = pstEnglish.executeQuery();
+	      
+	      pstCompare = con.prepareStatement(
+	              "SELECT e.*, count(et.episode_name) as name, et.episode_description as description "
+	                      + "FROM droppod.episodes e "
+	                      + "INNER JOIN droppod.episodes_translations et ON e.id = et.episode_id "
+	                      + "WHERE e.podcast_id IN (SELECT id FROM droppod.podcasts WHERE uuid=?) "
+	                      + "AND et.language_code=? order by release_date desc;");
+	      pstCompare.setString(1,uuid);
+	      pstCompare.setString(2,returnLanguage);
+	      rsCompare = pstCompare.executeQuery();
+	      
+	      if(rsCompare.next()) {
+	    	  translateEpisodes = rsCompare.getInt("name");
+	      }
+	      pstCompare.setString(1,uuid);
+	      pstCompare.setString(2,"en");
+	      rsCompare = pstCompare.executeQuery();
+	      if(rsCompare.next()) {
+	    	  totalEpisodes = rsCompare.getInt("name");
+	      }
+	      // If result set is empty, this means that the descriptions and names are not available in the
+	      // target language. Therefore, we'll retrieve the default (english) strings, and translate
+	      // them instead.
+	      if (!rsEnglish.isBeforeFirst() || totalEpisodes>translateEpisodes) {
+	    	  
+	        pstTranslate = con.prepareStatement(
+	            "SELECT e.*, et.episode_name as name, et.episode_description as description "
+	                + "FROM droppod.episodes e "
+	                + "INNER JOIN droppod.episodes_translations et ON e.id = et.episode_id "
+	                + "WHERE e.podcast_id IN (SELECT id FROM droppod.podcasts WHERE uuid=?) "
+	                + "AND et.language_code='en' order by release_date desc;");
+
+	        pstTranslate.setString(1, uuid);
+	        rsTranslate = pstTranslate.executeQuery();
+	        // TODO: Query for the english strings, then call the appropriate TranslateDroppod method.
+	        List<String> episodeNames = new ArrayList<String>();
+	        List<String> episodeDescriptions = new ArrayList<String>();
+	        /*
+	         * Get all the rows from the result set and put them in an ArrayList so that we can close
+	         * the DB connection.
+	         */
+	        while (rsTranslate.next()) {
+	          EpisodeModel episode = new EpisodeModel();
+	          episode.setId(rsTranslate.getInt("id"));
+	          // Extract the descriptions and names from each podcast episode
+	          episodeNames.add(rsTranslate.getString("name"));
+	          episodeDescriptions.add(rsTranslate.getString("description"));
+	          episode.setUrl(rsTranslate.getURL("url"));
+	          rows.add(episode);
+	        }
+	        if(rsEnglish.isBeforeFirst()) {
+	          int updateEpisodes = totalEpisodes-translateEpisodes;
+	  		  rows = rows.subList(0,updateEpisodes);
+	  	  	}
+	        // Translate the names and descriptions into the session language
+	        // Make sure we're configured to access the translate API
+
+	        if (System.getenv("GOOGLE_APPLICATION_CREDENTIALS") != null) {
+	            pstFrench = con.prepareStatement(
+	                    "SELECT e.*, et.episode_name as name, et.episode_description as description "
+	                            + "FROM droppod.episodes e "
+	                            + "INNER JOIN droppod.episodes_translations et ON e.id = et.episode_id "
+	                            + "WHERE e.podcast_id IN (SELECT id FROM droppod.podcasts WHERE uuid=?) "
+	                            + "AND et.language_code=? order by release_date desc;");
+	            pstFrench.setString(1,uuid);
+	            pstFrench.setString(2,returnLanguage);
+	            rsFrench = pstFrench.executeQuery();
+	        	// Instantiate a client
+	          Translate translate = TranslateOptions.getDefaultInstance().getService();
+	          
+	          // Translate all the episode names
+	          List<Translation> translatedNames = translate.translate(episodeNames,
+	              TranslateOption.sourceLanguage(Locale.ENGLISH.getLanguage()),
+	              TranslateOption.targetLanguage(userLocale.getLanguage()));
+	          
+	          // Translate all the episode descriptions
+	          List<Translation> translatedDescriptions = translate.translate(episodeDescriptions,
+	              TranslateOption.sourceLanguage(Locale.ENGLISH.getLanguage()),
+	              TranslateOption.targetLanguage(userLocale.getLanguage()));
+
+	          // Insert new translations into the database
+	          TranslateDroppod.addEpisodeTranslation(userLocale, rows, translatedNames,
+	              translatedDescriptions);
+
+	          // Replace the descriptions and names in each podcast episode
+	          for (int i = 0; i < rows.size(); i++) {
+	            rows.get(i).setName(translatedNames.get(i).getTranslatedText());
+	            rows.get(i).setDescription(translatedDescriptions.get(i).getTranslatedText());
+	          }
+
+	          while (rsFrench.next()) {
+	              EpisodeModel episode = new EpisodeModel();
+	              episode.setId(rsFrench.getInt("id"));
+	              episode.setName(rsFrench.getString("name"));
+	              episode.setDescription(rsFrench.getString("description"));
+	              episode.setUrl(rsFrench.getURL("url"));
+	              rows.add(episode);
+	            }
+	          
+	        }
+
+	      } else {
+	        /*
+	         * Get all the rows from the result set and put them in an ArrayList so that we can close
+	         * the DB connection.
+	         */
+	        while (rsEnglish.next()) {
+	          EpisodeModel episode = new EpisodeModel();
+	          episode.setId(rsEnglish.getInt("id"));
+	          episode.setName(rsEnglish.getString("name"));
+	          episode.setDescription(rsEnglish.getString("description"));
+	          episode.setUrl(rsEnglish.getURL("url"));
+	          rows.add(episode);
+	        }
+	      }
 
 
-    try {
-
-      Context envContext = new InitialContext();
-      Context initContext = (Context) envContext.lookup("java:/comp/env");
-      DataSource ds = (DataSource) initContext.lookup("jdbc/droppod");
-      // DataSource ds = (DataSource)envContext.lookup("java:/comp/env/jdbc/droppod");
-      Connection con = ds.getConnection();
-      // We're treating all variants of language as the same by doing this.
-      // Ie: Canadian English is the same as US English
-      String returnLanguage = userLocale.getLanguage().substring(0, 2);
-
-      pstEnglish = con.prepareStatement(
-          "SELECT e.*, et.episode_name as name, et.episode_description as description "
-              + "FROM droppod.episodes e "
-              + "INNER JOIN droppod.episodes_translations et ON e.id = et.episode_id "
-              + "WHERE e.podcast_id IN (SELECT id FROM droppod.podcasts WHERE uuid=?) "
-              + "AND et.language_code=?;");
-
-      pstEnglish.setString(1, uuid);
-      pstEnglish.setString(2, returnLanguage);
-      rsEnglish = pstEnglish.executeQuery();
-
-      // If result set is empty, this means that the descriptions and names are not available in the
-      // target language. Therefore, we'll retrieve the default (english) strings, and translate
-      // them instead.
-      if (!rsEnglish.isBeforeFirst()) {
-        pstTranslate = con.prepareStatement(
-            "SELECT e.*, et.episode_name as name, et.episode_description as description "
-                + "FROM droppod.episodes e "
-                + "INNER JOIN droppod.episodes_translations et ON e.id = et.episode_id "
-                + "WHERE e.podcast_id IN (SELECT id FROM droppod.podcasts WHERE uuid=?) "
-                + "AND et.language_code='en';");
-
-        pstTranslate.setString(1, uuid);
-        rsTranslate = pstTranslate.executeQuery();
-        // TODO: Query for the english strings, then call the appropriate TranslateDroppod method.
-        List<String> episodeNames = new ArrayList<String>();
-        List<String> episodeDescriptions = new ArrayList<String>();
-        /*
-         * Get all the rows from the result set and put them in an ArrayList so that we can close
-         * the DB connection.
-         */
-        while (rsTranslate.next()) {
-          EpisodeModel episode = new EpisodeModel();
-          episode.setId(rsTranslate.getInt("id"));
-          // Extract the descriptions and names from each podcast episode
-          episodeNames.add(rsTranslate.getString("name"));
-          episodeDescriptions.add(rsTranslate.getString("description"));
-          episode.setUrl(rsTranslate.getURL("url"));
-          rows.add(episode);
-        }
-
-        // Translate the names and descriptions into the session language
-        // Make sure we're configured to access the translate API
-
-        if (System.getenv("GOOGLE_APPLICATION_CREDENTIALS") != null) {
-          // Instantiate a client
-          Translate translate = TranslateOptions.getDefaultInstance().getService();
-          
-          
-          List<Translation> translatedNames = new ArrayList<>();
-          List<Translation> translatedDescriptions = new ArrayList<>();
-          // Translate all the episode names
-          
-          int partitionSize = 100;
-          List<List<String>> namePartitions = new ArrayList<>();
-          List<List<String>> descriptionPartitions = new ArrayList<>();
-
-          // Translate the episodeNames
-          for (int i=0; i<episodeNames.size(); i += partitionSize) {
-              namePartitions.add(episodeNames.subList(i, Math.min(i + partitionSize, episodeNames.size())));
-          }
-          for (List<String> list : namePartitions) {
-            translatedNames.addAll(translate.translate(list,
-                TranslateOption.sourceLanguage(Locale.ENGLISH.getLanguage()),
-                TranslateOption.targetLanguage(userLocale.getLanguage())));
-          }
-          
-          // Translate the episodeDescriptions
-          for (int i=0; i<episodeDescriptions.size(); i += partitionSize) {
-              descriptionPartitions.add(episodeDescriptions.subList(i, Math.min(i + partitionSize, episodeDescriptions.size())));
-          }
-          for (List<String> list : descriptionPartitions) {
-            translatedNames.addAll(translate.translate(list,
-                TranslateOption.sourceLanguage(Locale.ENGLISH.getLanguage()),
-                TranslateOption.targetLanguage(userLocale.getLanguage())));
-          }
-          
-          
-          // Insert new translations into the database
-          TranslateDroppod.addEpisodeTranslation(userLocale, rows, translatedNames,
-              translatedDescriptions);
-
-
-          // Replace the descriptions and names in each podcast episode
-          for (int i = 0; i < rows.size(); i++) {
-            rows.get(i).setName(translatedNames.get(i).getTranslatedText());
-            rows.get(i).setDescription(translatedDescriptions.get(i).getTranslatedText());
-          }
-        }
-
-
-      } else {
-        /*
-         * Get all the rows from the result set and put them in an ArrayList so that we can close
-         * the DB connection.
-         */
-        while (rsEnglish.next()) {
-          EpisodeModel episode = new EpisodeModel();
-          episode.setId(rsEnglish.getInt("id"));
-          episode.setName(rsEnglish.getString("name"));
-          episode.setDescription(rsEnglish.getString("description"));
-          episode.setUrl(rsEnglish.getURL("url"));
-          rows.add(episode);
-        }
-      }
-
-
-    } catch (Exception e) {
-      System.out.println(e);
-    } finally {
-      if (conn != null) {
-        try {
-          conn.close();
-        } catch (SQLException e) {
-          e.printStackTrace();
-        }
-      }
-      if (pstEnglish != null) {
-        try {
-          pstEnglish.close();
-        } catch (SQLException e) {
-          e.printStackTrace();
-        }
-      }
-      if (pstTranslate != null) {
-        try {
-          pstTranslate.close();
-        } catch (SQLException e) {
-          e.printStackTrace();
-        }
-      }
-      if (rsEnglish != null) {
-        try {
-          rsEnglish.close();
-        } catch (SQLException e) {
-          e.printStackTrace();
-        }
-      }
-      if (rsTranslate != null) {
-        try {
-          rsTranslate.close();
-        } catch (SQLException e) {
-          e.printStackTrace();
-        }
-      }
-    }
-    return rows;
-  }
-
+	    } catch (Exception e) {
+	      System.out.println(e);
+	    } finally {
+	      if (conn != null) {
+	        try {
+	          conn.close();
+	        } catch (SQLException e) {
+	          e.printStackTrace();
+	        }
+	      }
+	      if (pstEnglish != null) {
+	        try {
+	          pstEnglish.close();
+	        } catch (SQLException e) {
+	          e.printStackTrace();
+	        }
+	      }
+	      if (pstTranslate != null) {
+	        try {
+	          pstTranslate.close();
+	        } catch (SQLException e) {
+	          e.printStackTrace();
+	        }
+	      }
+	      if (pstCompare != null) {
+	          try {
+	            pstCompare.close();
+	          } catch (SQLException e) {
+	            e.printStackTrace();
+	          }
+	        }
+	      if (pstFrench != null) {
+	          try {
+	            pstFrench.close();
+	          } catch (SQLException e) {
+	            e.printStackTrace();
+	          }
+	        }
+	      if (rsEnglish != null) {
+	        try {
+	          rsEnglish.close();
+	        } catch (SQLException e) {
+	          e.printStackTrace();
+	        }
+	      }
+	      if (rsTranslate != null) {
+	        try {
+	          rsTranslate.close();
+	        } catch (SQLException e) {
+	          e.printStackTrace();
+	        }
+	      }
+	      if (rsCompare != null) {
+	          try {
+	            rsCompare.close();
+	          } catch (SQLException e) {
+	            e.printStackTrace();
+	          }
+	        }
+	      if (rsFrench != null) {
+	          try {
+	            rsFrench.close();
+	          } catch (SQLException e) {
+	            e.printStackTrace();
+	          }
+	        }
+	    }
+	    return rows;
+	  }
 
 
   public static PodcastModel getPodcast(String uuid, Locale userLocale) {
