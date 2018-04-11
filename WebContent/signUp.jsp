@@ -27,9 +27,14 @@
 				<fmt:message key="signup.registeraccount" />
 			</h3>
 			<div class="form-group">
-				<c:if test="${sessionScope.failedSignup == \"true\"}">
+				<c:if test="${sessionScope.passwordMismatch == \"true\"}">
 					<div class="alert alert-danger" role="alert">
 						<strong>Passwords do not match</strong>
+					</div>
+				</c:if>
+				<c:if test="${sessionScope.databaseInsertFailure == \"true\"}">
+					<div class="alert alert-danger" role="alert">
+						<strong>Failure inserting user into database</strong>
 					</div>
 				</c:if>
 				<input class="form-control" type="text" name="username"
