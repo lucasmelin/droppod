@@ -10,6 +10,7 @@ import com.google.maps.model.GeocodingResult;
 import com.google.maps.model.LatLng;
 
 public class Geolocate {
+    
   
   public GeocodingResult geolocateAddress(String address) {
     GeoApiContext context = new GeoApiContext.Builder().apiKey("AIzaSyC7NysljEQDwB01a-ASfSY7hveHIjht1ak").build();

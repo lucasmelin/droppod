@@ -39,18 +39,18 @@
 					placeholder="<fmt:message key="signup.email" />" required /> <br>
 				<br>
 				<div id="locationField">
-					<input id="autocomplete" class="form-control" type="text" 
+					<input id="autocomplete" class="form-control" type="text"
 						placeholder="Enter your address" onFocus="geolocate()" type="text"></input>
 				</div>
 				<input class="form-control" type="text" name="city" id="locality"
-					placeholder="<fmt:message key="signup.city" />" required="required" readonly ></input>
-					
-				<input class="form-control" name="country" id="country"
-					placeholder="<fmt:message key="signup.country" />" required="required" readonly ></input>
-				<input class="form-control" type="password" name="password"
-					id="password" placeholder="<fmt:message key="signup.password" />"
-					required /> <input class="form-control" type="password"
-					name="repassword" id="repassword"
+					placeholder="<fmt:message key="signup.city" />" required="required"
+					readonly></input> <input class="form-control" name="country"
+					id="country" placeholder="<fmt:message key="signup.country" />"
+					required="required" readonly></input> <input class="form-control"
+					type="password" name="password" id="password"
+					placeholder="<fmt:message key="signup.password" />" required /> <input
+					class="form-control" type="password" name="repassword"
+					id="repassword"
 					placeholder="<fmt:message key="signup.repassword" />" required />
 			</div>
 			<input type="submit" class="btn btn-dark btn-lg btn-block mb-3"

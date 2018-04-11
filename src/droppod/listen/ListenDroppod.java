@@ -90,16 +90,36 @@ public class ListenDroppod {
           // Instantiate a client
           Translate translate = TranslateOptions.getDefaultInstance().getService();
           
-          // Translate all the episode names
-          List<Translation> translatedNames = translate.translate(episodeNames,
-              TranslateOption.sourceLanguage(Locale.ENGLISH.getLanguage()),
-              TranslateOption.targetLanguage(userLocale.getLanguage()));
           
-          // Translate all the episode descriptions
-          List<Translation> translatedDescriptions = translate.translate(episodeDescriptions,
-              TranslateOption.sourceLanguage(Locale.ENGLISH.getLanguage()),
-              TranslateOption.targetLanguage(userLocale.getLanguage()));
+          List<Translation> translatedNames = new ArrayList<>();
+          List<Translation> translatedDescriptions = new ArrayList<>();
+          // Translate all the episode names
+          
+          int partitionSize = 100;
+          List<List<String>> namePartitions = new ArrayList<>();
+          List<List<String>> descriptionPartitions = new ArrayList<>();
 
+          // Translate the episodeNames
+          for (int i=0; i<episodeNames.size(); i += partitionSize) {
+              namePartitions.add(episodeNames.subList(i, Math.min(i + partitionSize, episodeNames.size())));
+          }
+          for (List<String> list : namePartitions) {
+            translatedNames.addAll(translate.translate(list,
+                TranslateOption.sourceLanguage(Locale.ENGLISH.getLanguage()),
+                TranslateOption.targetLanguage(userLocale.getLanguage())));
+          }
+          
+          // Translate the episodeDescriptions
+          for (int i=0; i<episodeDescriptions.size(); i += partitionSize) {
+              descriptionPartitions.add(episodeDescriptions.subList(i, Math.min(i + partitionSize, episodeDescriptions.size())));
+          }
+          for (List<String> list : descriptionPartitions) {
+            translatedNames.addAll(translate.translate(list,
+                TranslateOption.sourceLanguage(Locale.ENGLISH.getLanguage()),
+                TranslateOption.targetLanguage(userLocale.getLanguage())));
+          }
+          
+          
           // Insert new translations into the database
           TranslateDroppod.addEpisodeTranslation(userLocale, rows, translatedNames,
               translatedDescriptions);
