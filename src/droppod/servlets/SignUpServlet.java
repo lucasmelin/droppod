@@ -41,14 +41,14 @@ public class SignUpServlet extends HttpServlet {
 			session.setAttribute("passwordMismatch", "false");
 			if (UserDao.add(name, hashedpassword, email, city, country)) {
 				session.setAttribute("databaseInsertFailure", "false");
-				uuid = UserDao.getUuid(name);
-				if (uuid != null) {
-					try {
-						MailDroppod.sendEmail(email, uuid);
-					} catch (MessagingException ex) {
-						ex.printStackTrace();
-					}
-				}
+				//uuid = UserDao.getUuid(name);
+				//if (uuid != null) {
+				//	try {
+				//		MailDroppod.sendEmail(email, uuid);
+				//	} catch (MessagingException ex) {
+				//		ex.printStackTrace();
+				//	}
+				//}
 				RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
 				rd.forward(request, response);
 			} else {

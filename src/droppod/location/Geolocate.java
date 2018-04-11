@@ -10,8 +10,9 @@ import com.google.maps.model.GeocodingResult;
 import com.google.maps.model.LatLng;
 
 public class Geolocate {
+    
   
-  public void geolocateAddress(String address) {
+  public GeocodingResult geolocateAddress(String address) {
     GeoApiContext context = new GeoApiContext.Builder().apiKey("AIzaSyC7NysljEQDwB01a-ASfSY7hveHIjht1ak").build();
     GeocodingResult[] results = null;
     try {
@@ -26,8 +27,7 @@ public class Geolocate {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
-    Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    System.out.println(gson.toJson(results[0].addressComponents));
+    return results[0];
     
   }
   

@@ -90,8 +90,8 @@
 						</a></li>
 						<li class="nav-item"><a class="nav-link"
 							href="${pageContext.request.contextPath}/recommended.jsp"> <span
-								data-feather="user-check"></span>
-							<fmt:message key="welcome.recommended" />
+								data-feather="user-check"></span> <fmt:message
+									key="welcome.recommended" />
 						</a></li>
 						<%
 						  if ((Integer) session.getAttribute("accessLevel") == 1) {
@@ -169,27 +169,45 @@
 						style="width: 130px; height: auto%;"></div>
 				</div>
 
-				<c:forEach items="${episodes}" var="episodes">
-					<div class="row">
-
-						<div class="card flex-md-row mb-4 box-shadow h-md-250"
-							style="max-width: 70%; border-radius: 10px; margin-left: auto; margin-right: auto;">
-							<div class="card-body d-flex flex-column align-items-start">
-								<h3 class="mb-0">
-									<c:out value="${episodes.name}" />
-								</h3>
-								<button class="episode-play-button" value="${episodes.url}">PLAY</button>
-								<p class="card-text mb-auto">
-									<c:out value="${episodes.description}" escapeXml="false" />
-								</p>
+				<c:forEach items="${episodes}" varStatus="loop" var="episodes">
+					<c:choose>
+						<c:when test="${loop.count >= 11}">
+							<div class="row" style="display: none">
+								<div class="card flex-md-row mb-4 box-shadow h-md-250"
+									style="max-width: 70%; border-radius: 10px; margin-left: auto; margin-right: auto;">
+									<div class="card-body d-flex flex-column align-items-start">
+										<h3 class="mb-0">
+											<c:out value="${episodes.name}" />
+										</h3>
+										<button type="button" class="btn btn-success"
+											value="${episodes.url}">PLAY</button>
+										<p class="card-text mb-auto">
+											<c:out value="${episodes.description}" escapeXml="false" />
+										</p>
+									</div>
+								</div>
 							</div>
-						</div>
-					</div>
-
-
-
+						</c:when>
+						<c:otherwise>
+							<div class="row">
+								<div class="card flex-md-row mb-4 box-shadow h-md-250"
+									style="max-width: 70%; border-radius: 10px; margin-left: auto; margin-right: auto;">
+									<div class="card-body d-flex flex-column align-items-start">
+										<h3 class="mb-0">
+											<c:out value="${episodes.name}" />
+										</h3>
+										<button class="episode-play-button" value="${episodes.url}">PLAY</button>
+										<p class="card-text mb-auto">
+											<c:out value="${episodes.description}" escapeXml="false" />
+										</p>
+									</div>
+								</div>
+							</div>
+						</c:otherwise>
+					</c:choose>
 				</c:forEach>
 
+				<button onclick="javascript:showMore()">Show More</button>
 
 				<!-- Initially defaults to hidden -->
 				<div class="droppod-player" style="display: none;">
@@ -249,5 +267,33 @@
 	</div>
 	<c:if test="${not empty error}">Error: ${error}</c:if>
 </body>
+
+<script>
+	function showMore() {
+				
+		var main = document.getElementsByClassName("row");
+		
+		var items = new Array();
+		
+		for (var i = 0; i < main.length; i++) {
+			if (main[i].style.display == "none") {
+				items.push(main[i]);
+			}
+		}
+		
+		if (items.length != 0) {
+			for (var i = 0; i < 10; i++) {
+				if (items[i] != null) {
+					items[i].style.display = "block";
+				}
+			}
+		} else {
+			var buttons = document.getElementsByTagName("button");
+			buttons[buttons.length - 7].style.display = "none";
+		}
+
+	}
+		
+</script>
 </fmt:bundle>
 </html>

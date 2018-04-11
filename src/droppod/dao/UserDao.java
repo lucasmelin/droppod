@@ -4,250 +4,287 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
+import droppod.location.Geolocate;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.maps.model.GeocodingResult;
+import droppod.location.Geolocate;
 
 public class UserDao {
-	public static boolean add(String name, String pass, String email, String city, String country) {
-		Connection conn = null;
-		PreparedStatement pst = null;
-		PreparedStatement pst2 = null;
-		ResultSet rs = null;
-		int success = 0;
-		String uuid = null;
-		try {
-			Context envContext = new InitialContext();
-			Context initContext = (Context) envContext.lookup("java:/comp/env");
-			DataSource ds = (DataSource) initContext.lookup("jdbc/droppod");
-			conn = ds.getConnection();
+  public static boolean add(String name, String pass, String email, String city, String country) {
+    Connection conn = null;
+    Connection conn3 = null;
+    PreparedStatement pst = null;
+    PreparedStatement pst2 = null;
+    PreparedStatement pst3 = null;
+    Geolocate geo = new Geolocate();
+    ResultSet rs = null;
+    ResultSet rs3 = null;
 
-			//the updated insert gets respective city and country ids from what the user entered on sign up. We then
-			//add those ids to the insert statement
-			pst = conn.prepareStatement("INSERT INTO droppod.users (username,password,email,city_id,country_id,validated,active) " + 
-					"SELECT ?, ?, ?, c.id, co.id, ?, ? " + 
-					"from droppod.cities as c, droppod.countries as co " + 
-					"WHERE c.name=? " + 
-					"and co.name=?");
-			pst.setString(1, name);
-			pst.setString(2, pass);
-			pst.setString(3, email);
-			pst.setString(6, city);
-			pst.setString(7, country);
-			pst.setInt(4, 0); // Validated
-			pst.setInt(5, 1); // Active
-			success = pst.executeUpdate();
+    int success = 0;
+    String uuid = null;
+    try {
+      Context envContext = new InitialContext();
+      Context initContext = (Context) envContext.lookup("java:/comp/env");
+      DataSource ds = (DataSource) initContext.lookup("jdbc/droppod");
+      conn3 = ds.getConnection();
+      Gson gson = new GsonBuilder().setPrettyPrinting().create();
+      GeocodingResult geoResult = geo.geolocateAddress(city + country);
+      String lat = gson.toJson(geoResult.geometry.location.lat);
+      String lng = gson.toJson(geoResult.geometry.location.lng);
 
-		} catch (Exception e) {
-			System.out.println(e);
 
-		} finally {
-			if (conn != null) {
-				try {
-					conn.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-			if (pst != null) {
-				try {
-					pst.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-			if (pst2 != null) {
-				try {
-					pst2.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		if (success != 0) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-	
-    public static String getUuid(String name) {        
-        boolean status = false;
-        Connection conn = null;
-        PreparedStatement pst = null;
-        ResultSet rs = null;
-        String uuid = null;
-        try {
 
-        	Context envContext = new InitialContext();
-            Context initContext  = (Context)envContext.lookup("java:/comp/env");
-            DataSource ds = (DataSource)initContext.lookup("jdbc/droppod");
-            conn = ds.getConnection();
-                         
-            pst = conn
-            		.prepareStatement("select * from droppod.users where username=?");
-            pst.setString(1, name);
-            rs = pst.executeQuery();
-            status = rs.next();
-            uuid = rs.getString("uuid");
+      pst3 = conn3.prepareStatement(
+          "INSERT IGNORE INTO droppod.cities(name, latitude, longitude)" + " VALUES (?,?,?)");
+      pst3.setString(1, city);
+      pst3.setString(2, lat);
+      pst3.setString(3, lng);
 
-        } catch (Exception e) {
-            System.out.println(e);
-        } finally {
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (pst != null) {
-                try {
-                    pst.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (rs != null) {
-                try {
-                    rs.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return uuid;
+      pst3.executeUpdate();
+
+
+    } catch (Exception e) {
+      System.out.println(e);
+
     }
-    public static boolean verifyUser(String uuid) {
-        boolean status = false;
-        int updateStatus = 0;
-        Connection conn = null;
-        PreparedStatement pst = null;
-        PreparedStatement pst2 = null;
-        ResultSet rs = null;
+
+    try {
+      Context envContext = new InitialContext();
+      Context initContext = (Context) envContext.lookup("java:/comp/env");
+      DataSource ds = (DataSource) initContext.lookup("jdbc/droppod");
+      conn = ds.getConnection();
+
+
+
+      // the updated insert gets respective city and country ids from what the user entered on sign
+      // up. We then
+      // add those ids to the insert statement
+      pst = conn.prepareStatement(
+          "INSERT INTO droppod.users (username,password,email,city_id,country_id,validated,active) "
+              + "SELECT ?, ?, ?, c.id, co.id, ?, ? "
+              + "from droppod.cities as c, droppod.countries as co "
+              + "WHERE c.name=? "
+              + "and co.name=?");
+      pst.setString(1, name);
+      pst.setString(2, pass);
+      pst.setString(3, email);
+      pst.setString(6, city);
+      pst.setString(7, country);
+      pst.setInt(4, 0); // Validated
+      pst.setInt(5, 0); // Active
+      success = pst.executeUpdate();
+
+    } catch (Exception e) {
+      System.out.println(e);
+
+    } finally {
+      if (conn != null) {
         try {
-
-        	Context envContext = new InitialContext();
-            Context initContext  = (Context)envContext.lookup("java:/comp/env");
-            DataSource ds = (DataSource)initContext.lookup("jdbc/droppod");
-            conn = ds.getConnection();
-                         
-            pst = conn
-            		.prepareStatement("select * from droppod.users where uuid=?");
-            pst.setString(1, uuid);
-            rs = pst.executeQuery();
-            status = rs.next();
-            int id = rs.getInt("id");
-            if(status) {
-            	pst2 = conn.prepareStatement("UPDATE droppod.users SET validated = 1 where id = ?");
-            	pst2.setInt(1, id);
-            	updateStatus = pst2.executeUpdate();
-            	
-            }
-            
-        } catch (Exception e) {
-            System.out.println(e);
-        } finally {
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (pst != null) {
-                try {
-                    pst.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (pst2 != null) {
-                try {
-                    pst2.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (rs != null) {
-                try {
-                    rs.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
+          conn.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
         }
-        if(updateStatus != 0) {
-        	return true;
-        }else {
-        	return false;
+      }
+      if (pst != null) {
+        try {
+          pst.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
         }
-       }
-    
-    
-    public static boolean changePassword(String uuid, String pass) {
-		Connection conn = null;
-		PreparedStatement pst = null;
-		PreparedStatement pst2 = null;
-		ResultSet rs = null;
-		int success = 0;
-		try {
-			Context envContext = new InitialContext();
-			Context initContext = (Context) envContext.lookup("java:/comp/env");
-			DataSource ds = (DataSource) initContext.lookup("jdbc/droppod");
-			conn = ds.getConnection();
+      }
+      if (pst2 != null) {
+        try {
+          pst2.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+      if (rs != null) {
+        try {
+          rs.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+    }
+    if (success != 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
-			pst = conn.prepareStatement(
-					"update into droppod.users" + "(password) values" + "(?)");
-			pst.setString(1, uuid);
-			pst.setString(2, pass);
-			success = pst.executeUpdate();
+  public static String getUuid(String name) {
+    boolean status = false;
+    Connection conn = null;
+    PreparedStatement pst = null;
+    ResultSet rs = null;
+    String uuid = null;
+    try {
 
-		} catch (Exception e) {
-			System.out.println(e);
+      Context envContext = new InitialContext();
+      Context initContext = (Context) envContext.lookup("java:/comp/env");
+      DataSource ds = (DataSource) initContext.lookup("jdbc/droppod");
+      conn = ds.getConnection();
 
-		} finally {
-			if (conn != null) {
-				try {
-					conn.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-			if (pst != null) {
-				try {
-					pst.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-			if (pst2 != null) {
-				try {
-					pst2.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		if (success != 0) {
-			return true;
-		} else {
-			return false;
-		}
-	}
+      pst = conn.prepareStatement("select * from droppod.users where username=?");
+      pst.setString(1, name);
+      rs = pst.executeQuery();
+      status = rs.next();
+      uuid = rs.getString("uuid");
+
+    } catch (Exception e) {
+      System.out.println(e);
+    } finally {
+      if (conn != null) {
+        try {
+          conn.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+      if (pst != null) {
+        try {
+          pst.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+      if (rs != null) {
+        try {
+          rs.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+    }
+    return uuid;
+  }
+
+  public static boolean verifyUser(String uuid) {
+    boolean status = false;
+    int updateStatus = 0;
+    Connection conn = null;
+    PreparedStatement pst = null;
+    PreparedStatement pst2 = null;
+    ResultSet rs = null;
+    try {
+
+      Context envContext = new InitialContext();
+      Context initContext = (Context) envContext.lookup("java:/comp/env");
+      DataSource ds = (DataSource) initContext.lookup("jdbc/droppod");
+      conn = ds.getConnection();
+
+      pst = conn.prepareStatement("select * from droppod.users where uuid=?");
+      pst.setString(1, uuid);
+      rs = pst.executeQuery();
+      status = rs.next();
+      int id = rs.getInt("id");
+      if (status) {
+        pst2 = conn.prepareStatement("UPDATE droppod.users SET validated = 1 where id = ?");
+        pst2.setInt(1, id);
+        updateStatus = pst2.executeUpdate();
+
+      }
+
+    } catch (Exception e) {
+      System.out.println(e);
+    } finally {
+      if (conn != null) {
+        try {
+          conn.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+      if (pst != null) {
+        try {
+          pst.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+      if (pst2 != null) {
+        try {
+          pst2.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+      if (rs != null) {
+        try {
+          rs.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+    }
+    if (updateStatus != 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+
+  public static boolean changePassword(String uuid, String pass) {
+    Connection conn = null;
+    PreparedStatement pst = null;
+    PreparedStatement pst2 = null;
+    ResultSet rs = null;
+    int success = 0;
+    try {
+      Context envContext = new InitialContext();
+      Context initContext = (Context) envContext.lookup("java:/comp/env");
+      DataSource ds = (DataSource) initContext.lookup("jdbc/droppod");
+      conn = ds.getConnection();
+
+      pst = conn.prepareStatement("update into droppod.users" + "(password) values" + "(?)");
+      pst.setString(1, uuid);
+      pst.setString(2, pass);
+      success = pst.executeUpdate();
+
+    } catch (Exception e) {
+      System.out.println(e);
+
+    } finally {
+      if (conn != null) {
+        try {
+          conn.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+      if (pst != null) {
+        try {
+          pst.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+      if (pst2 != null) {
+        try {
+          pst2.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+      if (rs != null) {
+        try {
+          rs.close();
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+      }
+    }
+    if (success != 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
