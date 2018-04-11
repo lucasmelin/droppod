@@ -25,11 +25,17 @@ public class ListenDroppod {
 
     Connection conn = null;
     PreparedStatement pstEnglish = null;
+    PreparedStatement pstCompare = null;
     PreparedStatement pstTranslate = null;
+    PreparedStatement pstFrench = null;
     ResultSet rsEnglish = null;
+    ResultSet rsCompare = null;
     ResultSet rsTranslate = null;
+    ResultSet rsFrench = null;
+    int translateEpisodes = 0;
+    int totalEpisodes = 0;
     List<EpisodeModel> rows = new ArrayList<EpisodeModel>();
-
+    
 
     try {
 
@@ -47,22 +53,41 @@ public class ListenDroppod {
               + "FROM droppod.episodes e "
               + "INNER JOIN droppod.episodes_translations et ON e.id = et.episode_id "
               + "WHERE e.podcast_id IN (SELECT id FROM droppod.podcasts WHERE uuid=?) "
-              + "AND et.language_code=?;");
-
+              + "AND et.language_code=? order by release_date desc;");
       pstEnglish.setString(1, uuid);
       pstEnglish.setString(2, returnLanguage);
       rsEnglish = pstEnglish.executeQuery();
-
+      
+      pstCompare = con.prepareStatement(
+              "SELECT e.*, count(et.episode_name) as name, et.episode_description as description "
+                      + "FROM droppod.episodes e "
+                      + "INNER JOIN droppod.episodes_translations et ON e.id = et.episode_id "
+                      + "WHERE e.podcast_id IN (SELECT id FROM droppod.podcasts WHERE uuid=?) "
+                      + "AND et.language_code=? order by release_date desc;");
+      pstCompare.setString(1,uuid);
+      pstCompare.setString(2,returnLanguage);
+      rsCompare = pstCompare.executeQuery();
+      
+      if(rsCompare.next()) {
+    	  translateEpisodes = rsCompare.getInt("name");
+      }
+      pstCompare.setString(1,uuid);
+      pstCompare.setString(2,"en");
+      rsCompare = pstCompare.executeQuery();
+      if(rsCompare.next()) {
+    	  totalEpisodes = rsCompare.getInt("name");
+      }
       // If result set is empty, this means that the descriptions and names are not available in the
       // target language. Therefore, we'll retrieve the default (english) strings, and translate
       // them instead.
-      if (!rsEnglish.isBeforeFirst()) {
+      if (!rsEnglish.isBeforeFirst() || totalEpisodes>translateEpisodes) {
+    	  
         pstTranslate = con.prepareStatement(
             "SELECT e.*, et.episode_name as name, et.episode_description as description "
                 + "FROM droppod.episodes e "
                 + "INNER JOIN droppod.episodes_translations et ON e.id = et.episode_id "
                 + "WHERE e.podcast_id IN (SELECT id FROM droppod.podcasts WHERE uuid=?) "
-                + "AND et.language_code='en';");
+                + "AND et.language_code='en' order by release_date desc;");
 
         pstTranslate.setString(1, uuid);
         rsTranslate = pstTranslate.executeQuery();
@@ -82,12 +107,24 @@ public class ListenDroppod {
           episode.setUrl(rsTranslate.getURL("url"));
           rows.add(episode);
         }
-
+        if(rsEnglish.isBeforeFirst()) {
+          int updateEpisodes = totalEpisodes-translateEpisodes;
+  		  rows = rows.subList(0,updateEpisodes);
+  	  	}
         // Translate the names and descriptions into the session language
         // Make sure we're configured to access the translate API
 
         if (System.getenv("GOOGLE_APPLICATION_CREDENTIALS") != null) {
-          // Instantiate a client
+            pstFrench = con.prepareStatement(
+                    "SELECT e.*, et.episode_name as name, et.episode_description as description "
+                            + "FROM droppod.episodes e "
+                            + "INNER JOIN droppod.episodes_translations et ON e.id = et.episode_id "
+                            + "WHERE e.podcast_id IN (SELECT id FROM droppod.podcasts WHERE uuid=?) "
+                            + "AND et.language_code=? order by release_date desc;");
+            pstFrench.setString(1,uuid);
+            pstFrench.setString(2,returnLanguage);
+            rsFrench = pstFrench.executeQuery();
+        	// Instantiate a client
           Translate translate = TranslateOptions.getDefaultInstance().getService();
           
           // Translate all the episode names
@@ -104,14 +141,22 @@ public class ListenDroppod {
           TranslateDroppod.addEpisodeTranslation(userLocale, rows, translatedNames,
               translatedDescriptions);
 
-
           // Replace the descriptions and names in each podcast episode
           for (int i = 0; i < rows.size(); i++) {
             rows.get(i).setName(translatedNames.get(i).getTranslatedText());
             rows.get(i).setDescription(translatedDescriptions.get(i).getTranslatedText());
           }
-        }
 
+          while (rsFrench.next()) {
+              EpisodeModel episode = new EpisodeModel();
+              episode.setId(rsFrench.getInt("id"));
+              episode.setName(rsFrench.getString("name"));
+              episode.setDescription(rsFrench.getString("description"));
+              episode.setUrl(rsFrench.getURL("url"));
+              rows.add(episode);
+            }
+          
+        }
 
       } else {
         /*
@@ -153,6 +198,20 @@ public class ListenDroppod {
           e.printStackTrace();
         }
       }
+      if (pstCompare != null) {
+          try {
+            pstCompare.close();
+          } catch (SQLException e) {
+            e.printStackTrace();
+          }
+        }
+      if (pstFrench != null) {
+          try {
+            pstFrench.close();
+          } catch (SQLException e) {
+            e.printStackTrace();
+          }
+        }
       if (rsEnglish != null) {
         try {
           rsEnglish.close();
@@ -167,6 +226,20 @@ public class ListenDroppod {
           e.printStackTrace();
         }
       }
+      if (rsCompare != null) {
+          try {
+            rsCompare.close();
+          } catch (SQLException e) {
+            e.printStackTrace();
+          }
+        }
+      if (rsFrench != null) {
+          try {
+            rsFrench.close();
+          } catch (SQLException e) {
+            e.printStackTrace();
+          }
+        }
     }
     return rows;
   }
@@ -178,8 +251,10 @@ public class ListenDroppod {
     Connection conn = null;
     PreparedStatement pstEnglish = null;
     PreparedStatement pstTranslate = null;
+    PreparedStatement pstEpisodeTranslate = null;
     ResultSet rsEnglish = null;
     ResultSet rsTranslate = null;
+    ResultSet rsEpisodeTranslate = null;
     PodcastModel podcast = null;
 
 
@@ -197,11 +272,12 @@ public class ListenDroppod {
           "SELECT p.*, pt.podcast_name as name, pt.podcast_description as description "
               + "FROM droppod.podcasts p "
               + "INNER JOIN droppod.podcasts_translations pt ON p.id = pt.podcast_id "
-              + "WHERE p.uuid=? " + "AND pt.language_code=?;");
+              + "WHERE p.uuid=? " + "AND pt.language_code=?;");  		  
+    		 
       pstTranslate.setString(1, uuid);
       pstTranslate.setString(2, returnLanguage);
       rsTranslate = pstTranslate.executeQuery();
-
+      //rsTranslate.
 
       // If result set is empty, this means that the descriptions and names are not available in the
       // target language. Therefore, we'll retrieve the default (english) strings, and translate
@@ -251,6 +327,18 @@ public class ListenDroppod {
 
         }
       } else {
+    	  
+//    	 pstEpisodeTranslate = con.prepareStatement(	  
+//    	    		  "select * from droppod.episodes"+
+//    	    		  "left join droppod.episodes_translations on droppod.episodes_translations.episode_id = droppod.episodes.id"+
+//    	    		  "left join droppod.podcasts on droppod.podcasts.id = droppod.episodes.podcast_id"+
+//    	    		  "where uuid=? order by release_date desc");
+//    	  pstEpisodeTranslate.setString(1,uuid);
+//    	  rsEpisodeTranslate = pstEpisodeTranslate.executeQuery();
+//    	  if(rsEpisodeTranslate.next()){
+//    		  rsEpisodeTranslate.getInt("id");
+//    		  rsEpisodeTranslate
+//    	  }
         /*
          * Get all the rows from the result set and put them in an ArrayList so that we can close
          * the DB connection.

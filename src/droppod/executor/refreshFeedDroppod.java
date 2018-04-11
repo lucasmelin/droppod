@@ -37,7 +37,7 @@ public class refreshFeedDroppod {
 	    	   }
 	     };
 	     final ScheduledFuture<?> beeperHandle =
-	    	       scheduler.scheduleAtFixedRate(updater, 10, 10, HOURS);
+	    	       scheduler.scheduleAtFixedRate(updater, 0, 10, HOURS);
 	    	     scheduler.schedule(new Runnable() {
 	    	       public void run() { beeperHandle.cancel(true); }
 	    	     }, 356 * 24, HOURS);
