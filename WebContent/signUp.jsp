@@ -32,76 +32,24 @@
 						<strong>Passwords do not match</strong>
 					</div>
 				</c:if>
-			
-    <table id="address">
-      <!--<tr>
-        <td class="label">Street address</td>
-        <td class="slimField">  
-        <input class="field" id="street_number"
-              disabled="true"></input></td>  
-        <td class="wideField" colspan="2"><input class="field" id="route"
-              disabled="true"></input></td>
-      </tr>  -->
-      <!--  <tr>
-       <td class="label">City</td>
-        Note: Selection of address components in this example is typical.
-             You may need to adjust it for the locations relevant to your app. See
-             https://developers.google.com/maps/documentation/javascript/examples/places-autocomplete-addressform
-        
-        <td class="wideField" colspan="3"><input class="field" id="locality"
-              disabled="true"></input></td>
-      </tr>--> 
-     <!--  <tr>
-        <td class="label">State</td>
-        <td class="slimField"><input class="field"
-              id="administrative_area_level_1" disabled="true"></input></td>
-        <td class="label">Zip code</td>
-        <td class="wideField"><input class="field" id="postal_code"
-              disabled="true"></input></td>
-      </tr>-->
-       <!--<tr>
-         <td class="label">Country</td>
-        <td class="wideField" colspan="3"><input class="field"
-              id="country" disabled="true"></input></td>
-      </tr>-->
-    </table>
-				<input
-					class="form-control" type="text" name="username"
+				<input class="form-control" type="text" name="username"
 					id="username" placeholder="<fmt:message key="signup.userid" />"
-					required autofocus /> 
-					
-				<input
-				 	class="form-control" type="email"
-					name="email" id="email" placeholder="<fmt:message key="signup.email" />" required /> 
-					<br>
-					<br>
-					 <div id="locationField">
-      <input id="autocomplete" class="form-control" placeholder="Enter your address"
-             onFocus="geolocate()" type="text"></input>
-    </div>
-    			<input 
-    			class="form-control" name="city" id="locality"
-    			 placeholder="<fmt:message key="signup.city" />"
-              disabled="true"></input>
-				<!-- <input 
-					class="form-control" type="text" name="city" id="city"
-					placeholder="<fmt:message key="signup.city" />" required />  -->
-					<input 
-    			class="form-control" name="country" id="country"
-    			 placeholder="<fmt:message key="signup.country" />"
-              disabled="true"></input>
-					
-				<!--  <input
-					class="form-control" type="text" name="country" id="country"
-					placeholder="<fmt:message key="signup.country" />" required /> -->
-					
-				<input
-					class="form-control" type="password" name="password" id="password"
-					placeholder="<fmt:message key="signup.password" />" required /> 
-					
-				<input
-					class="form-control" type="password" name="repassword"
-					id="repassword"
+					required autofocus /> <input class="form-control" type="email"
+					name="email" id="email"
+					placeholder="<fmt:message key="signup.email" />" required /> <br>
+				<br>
+				<div id="locationField">
+					<input id="autocomplete" class="form-control"
+						placeholder="Enter your address" onFocus="geolocate()" type="text"></input>
+				</div>
+				<input class="form-control" name="city" id="locality"
+					placeholder="<fmt:message key="signup.city" />" disabled="true"></input>
+				<input class="form-control" name="country" id="country"
+					placeholder="<fmt:message key="signup.country" />" disabled="true"></input>
+				<input class="form-control" type="password" name="password"
+					id="password" placeholder="<fmt:message key="signup.password" />"
+					required /> <input class="form-control" type="password"
+					name="repassword" id="repassword"
 					placeholder="<fmt:message key="signup.repassword" />" required />
 			</div>
 			<input type="submit" class="btn btn-dark btn-lg btn-block mb-3"
@@ -124,8 +72,6 @@
 							${language == 'fr' ? 'selected' : ''}>Français</option>
 					</select>
 				</div>
-
-
 			</div>
 		</form>
 	</div>
@@ -143,14 +89,15 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
 	integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
 	crossorigin="anonymous"></script>
-	
-	
-	 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCxVRd_gr9JqDif3V0Yl-QljBYlEsPoyaQ
+
+
+<script
+	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCxVRd_gr9JqDif3V0Yl-QljBYlEsPoyaQ
 &libraries=places&callback=initAutocomplete"
-        async defer></script>
-        
-        
-        <script>
+	async defer></script>
+
+
+<script>
       // This example displays an address form, using the autocomplete feature
       // of the Google Places API to help users fill in the information.
 
