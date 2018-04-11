@@ -32,7 +32,7 @@ public class UserDao {
 			pst3.setString(1, city);
 			rs3 = pst3.executeQuery();
 			if (!rs3.next() ) {
-				pst3 = conn3.prepareStatement("INSERT INTO droppod.cities(name)\r\n" + 
+				pst3 = conn3.prepareStatement("INSERT INTO droppod.cities(name)" + 
 						"VALUES (?);");
 				pst3.setString(1, city);
 				pst3.executeUpdate();
