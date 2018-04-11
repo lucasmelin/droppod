@@ -40,13 +40,13 @@ public class SignUpServlet extends HttpServlet {
 
     if (password.equals(repassword) && UserDao.add(name, hashedpassword, email, city, country)) {
       uuid = UserDao.getUuid(name);
-      if (uuid != null) {
+      /*if (uuid != null) {
         try {
           MailDroppod.sendEmail(email, uuid);
         } catch (MessagingException ex) {
           ex.printStackTrace();
         }
-      }
+      }*/
       out.print("<p>User was added.</p>");
       session.setAttribute("failedSignup", "false");
       RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
