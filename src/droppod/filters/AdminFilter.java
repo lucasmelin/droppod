@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 @WebFilter("/admin.jsp")
-public class AdminFilter implements Filter{
+public class AdminFilter implements Filter {
 
   @Override
   public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain)
@@ -22,24 +22,25 @@ public class AdminFilter implements Filter{
     HttpServletResponse response = (HttpServletResponse) resp;
 
     HttpSession session = request.getSession(false);
-    if (session == null || session.getAttribute("accessLevel") == null || (Integer) session.getAttribute("accessLevel") == 0) {
-        response.sendRedirect(request.getContextPath() + "/welcome.jsp");
+    if (session == null || session.getAttribute("accessLevel") == null
+        || (Integer) session.getAttribute("accessLevel") == 0) {
+      response.sendRedirect(request.getContextPath() + "/welcome.jsp");
     } else {
-        chain.doFilter(request, response);
+      chain.doFilter(request, response);
     }
-    
+
   }
 
-@Override
-public void init(FilterConfig filterConfig) throws ServletException {
+  @Override
+  public void init(FilterConfig filterConfig) throws ServletException {
     // TODO Auto-generated method stub
-    
-}
 
-@Override
-public void destroy() {
+  }
+
+  @Override
+  public void destroy() {
     // TODO Auto-generated method stub
-    
-}
+
+  }
 
 }

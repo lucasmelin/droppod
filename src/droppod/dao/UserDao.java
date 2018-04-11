@@ -8,52 +8,42 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 import droppod.location.Geolocate;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.maps.model.GeocodingResult;
-
 import droppod.location.Geolocate;
 
 public class UserDao {
-	public static boolean add(String name, String pass, String email, String city, String country) {
-		Connection conn = null;
-		Connection conn3 = null;
-		PreparedStatement pst = null;
-		PreparedStatement pst2 = null;
-		PreparedStatement pst3 = null;
-		Geolocate geo = new Geolocate();
-		ResultSet rs = null;
-		ResultSet rs3 = null;
+  public static boolean add(String name, String pass, String email, String city, String country) {
+    Connection conn = null;
+    Connection conn3 = null;
+    PreparedStatement pst = null;
+    PreparedStatement pst2 = null;
+    PreparedStatement pst3 = null;
+    Geolocate geo = new Geolocate();
+    ResultSet rs = null;
+    ResultSet rs3 = null;
 
-		int success = 0;
-		String uuid = null;
-		try {
-			Context envContext = new InitialContext();
-			Context initContext = (Context) envContext.lookup("java:/comp/env");
-			DataSource ds = (DataSource) initContext.lookup("jdbc/droppod");
-			conn3 = ds.getConnection();
-			Gson gson = new GsonBuilder().setPrettyPrinting().create();
-			GeocodingResult geoResult = geo.geolocateAddress(city + country);
-			String lat = gson.toJson(geoResult.geometry.location.lat);
-			String lng = gson.toJson(geoResult.geometry.location.lng);
-			
-			
-	
-				pst3 = conn3.prepareStatement("INSERT IGNORE INTO droppod.cities(name, latitude, longitude)" + 
-						"VALUES (?,?,?);");
-				pst3.setString(1, city);
-				pst3.setString(2, lat);
-				pst3.setString(3, lng);
+    int success = 0;
+    String uuid = null;
+    try {
+      Context envContext = new InitialContext();
+      Context initContext = (Context) envContext.lookup("java:/comp/env");
+      DataSource ds = (DataSource) initContext.lookup("jdbc/droppod");
+      conn3 = ds.getConnection();
+      Gson gson = new GsonBuilder().setPrettyPrinting().create();
+      GeocodingResult geoResult = geo.geolocateAddress(city + country);
+      String lat = gson.toJson(geoResult.geometry.location.lat);
+      String lng = gson.toJson(geoResult.geometry.location.lng);
 
-				pst3.executeUpdate();
-		
-			
-		}catch(Exception e){
-			System.out.println(e);
 
-      pst3 = conn3.prepareStatement("INSERT IGNORE INTO droppod.cities(name)\r\n" + "VALUES (?);");
+
+      pst3 = conn3.prepareStatement(
+          "INSERT IGNORE INTO droppod.cities(name, latitude, longitude)" + " VALUES (?,?,?)");
       pst3.setString(1, city);
+      pst3.setString(2, lat);
+      pst3.setString(3, lng);
+
       pst3.executeUpdate();
 
 
@@ -76,7 +66,8 @@ public class UserDao {
       pst = conn.prepareStatement(
           "INSERT INTO droppod.users (username,password,email,city_id,country_id,validated,active) "
               + "SELECT ?, ?, ?, c.id, co.id, ?, ? "
-              + "from droppod.cities as c, droppod.countries as co " + "WHERE c.name=? "
+              + "from droppod.cities as c, droppod.countries as co "
+              + "WHERE c.name=? "
               + "and co.name=?");
       pst.setString(1, name);
       pst.setString(2, pass);
