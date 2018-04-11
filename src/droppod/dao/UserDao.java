@@ -64,7 +64,7 @@ public class UserDao {
 			pst.setString(6, city);
 			pst.setString(7, country);
 			pst.setInt(4, 0); // Validated
-			pst.setInt(5, 1); // Active
+			pst.setInt(5, 0); // Active
 			success = pst.executeUpdate();
 
 		} catch (Exception e) {
