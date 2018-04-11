@@ -12,16 +12,44 @@ import javax.sql.DataSource;
 public class UserDao {
 	public static boolean add(String name, String pass, String email, String city, String country) {
 		Connection conn = null;
+		Connection conn3 = null;
 		PreparedStatement pst = null;
 		PreparedStatement pst2 = null;
+		PreparedStatement pst3 = null;
+
 		ResultSet rs = null;
+		ResultSet rs3 = null;
+
 		int success = 0;
 		String uuid = null;
 		try {
 			Context envContext = new InitialContext();
 			Context initContext = (Context) envContext.lookup("java:/comp/env");
 			DataSource ds = (DataSource) initContext.lookup("jdbc/droppod");
+			conn3 = ds.getConnection();
+			
+			pst3 = conn3.prepareStatement("SELECT * from droppod.cities where cities.name=?");
+			pst3.setString(1, city);
+			rs3 = pst3.executeQuery();
+			if (!rs3.next() ) {
+				pst3 = conn3.prepareStatement("INSERT INTO droppod.cities(name)\r\n" + 
+						"VALUES (?);");
+				pst3.setString(1, city);
+				pst3.executeUpdate();
+			}
+			
+		}catch(Exception e){
+			System.out.println(e);
+
+		}
+		
+		try {
+			Context envContext = new InitialContext();
+			Context initContext = (Context) envContext.lookup("java:/comp/env");
+			DataSource ds = (DataSource) initContext.lookup("jdbc/droppod");
 			conn = ds.getConnection();
+		 
+		
 
 			//the updated insert gets respective city and country ids from what the user entered on sign up. We then
 			//add those ids to the insert statement

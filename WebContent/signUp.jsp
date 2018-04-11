@@ -39,13 +39,14 @@
 					placeholder="<fmt:message key="signup.email" />" required /> <br>
 				<br>
 				<div id="locationField">
-					<input id="autocomplete" class="form-control"
+					<input id="autocomplete" class="form-control" type="text" 
 						placeholder="Enter your address" onFocus="geolocate()" type="text"></input>
 				</div>
-				<input class="form-control" name="city" id="locality"
-					placeholder="<fmt:message key="signup.city" />" disabled="true"></input>
+				<input class="form-control" type="text" name="city" id="locality"
+					placeholder="<fmt:message key="signup.city" />" required="required" readonly ></input>
+					
 				<input class="form-control" name="country" id="country"
-					placeholder="<fmt:message key="signup.country" />" disabled="true"></input>
+					placeholder="<fmt:message key="signup.country" />" required="required" readonly ></input>
 				<input class="form-control" type="password" name="password"
 					id="password" placeholder="<fmt:message key="signup.password" />"
 					required /> <input class="form-control" type="password"
