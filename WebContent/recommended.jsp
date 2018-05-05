@@ -89,6 +89,13 @@
 								data-feather="user-check"></span>
 							<fmt:message key="welcome.recommended" />
 						</a></li>
+						<c:if test="${sessionScope.accessLevel == \"1\"}">
+							<li class="nav-item"><a class="nav-link"
+								href="${pageContext.request.contextPath}/admin.jsp"> <span
+									data-feather="shield"></span>
+								<fmt:message key="welcome.admin" />
+							</a></li>
+						</c:if>
 					</ul>
 				</div>
 			</nav>
