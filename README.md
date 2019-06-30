@@ -1,7 +1,7 @@
 # DropPod
 A podcasting application built in JavaEE usinng Servlets/JSP, AJAX and MySQL.
 
-## Why?
+## Purpose
 
 Droppod was a 5 person team project for my CST8218 Web Enterprise Applications class at Algonquin College.
 
